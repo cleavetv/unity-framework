@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['onchangescene',['OnChangeScene',['../class_cleave_framework_1_1_application_1_1_scene_manager.html#a139f1195e551807d89ee99e43f1f6446',1,'CleaveFramework::Application::SceneManager']]],
-  ['operator_20jsonnode',['operator JSONNode',['../class_simple_j_s_o_n_1_1_j_s_o_n_node.html#aeaf495a0bd9632ceca7375934d24b541',1,'SimpleJSON::JSONNode']]],
-  ['operator_20string',['operator string',['../class_simple_j_s_o_n_1_1_j_s_o_n_node.html#a498348138d87b84eaacb795cc9727ac2',1,'SimpleJSON::JSONNode']]],
-  ['operator_21_3d',['operator!=',['../class_simple_j_s_o_n_1_1_j_s_o_n_node.html#a804be147249a3e8689fd84842708fb48',1,'SimpleJSON::JSONNode']]],
-  ['operator_3d_3d',['operator==',['../class_simple_j_s_o_n_1_1_j_s_o_n_node.html#a6103dd81602c40f06a33895b669d2195',1,'SimpleJSON::JSONNode']]],
-  ['options',['Options',['../class_cleave_framework_1_1_application_1_1_app.html#a2d796fdf20ef3852607ff497010745ea',1,'CleaveFramework::Application::App']]]
+  ['parse',['Parse',['../class_simple_j_s_o_n_1_1_j_s_o_n_node.html#af4f82de403afd2df381137972ded5981',1,'SimpleJSON::JSONNode']]],
+  ['playmusic',['PlayMusic',['../class_cleave_framework_1_1_application_1_1_engine_options.html#a92e0dc0a7c27e0f9415da2f982b60f73',1,'CleaveFramework::Application::EngineOptions']]],
+  ['playsfx',['PlaySfx',['../class_cleave_framework_1_1_application_1_1_engine_options.html#a20d84a403b16d94c5bfe8ff8ec84921f',1,'CleaveFramework::Application::EngineOptions']]],
+  ['process',['Process',['../class_cleave_framework_1_1_application_1_1_command_queue.html#a7e2daa0e3def5a7131b7bedcfa62454b',1,'CleaveFramework.Application.CommandQueue.Process()'],['../class_cleave_framework_1_1_application_1_1_command_queue.html#a157c3603a65758f5b945473457b0ac9b',1,'CleaveFramework.Application.CommandQueue.Process(int commands)']]],
+  ['push',['Push',['../class_cleave_framework_1_1_application_1_1_command_queue.html#a86f0dd40dc64b8ea3616820d76ae86f8',1,'CleaveFramework.Application.CommandQueue.Push(Command cmd)'],['../class_cleave_framework_1_1_application_1_1_command_queue.html#aa063bca71cbaa74383ef72c86e422155',1,'CleaveFramework.Application.CommandQueue.Push(Command cmd, int frameDelay)'],['../class_cleave_framework_1_1_application_1_1_command_queue.html#a3a8a8aeb876887c079dfd0c720d1e8e6',1,'CleaveFramework.Application.CommandQueue.Push(Command cmd, float timeDelay)']]],
+  ['pushcommand',['PushCommand',['../class_cleave_framework_1_1_application_1_1_app_manager.html#a6068a9c4a0dff252225a2ae31143828a',1,'CleaveFramework.Application.AppManager.PushCommand(Command cmd)'],['../class_cleave_framework_1_1_application_1_1_app_manager.html#a904d4786d6592ac621ac203e48b2259d',1,'CleaveFramework.Application.AppManager.PushCommand(Command cmd, int frameDelay)'],['../class_cleave_framework_1_1_application_1_1_app_manager.html#a07b0afb2c32eb3f8e61de18019811ae9',1,'CleaveFramework.Application.AppManager.PushCommand(Command cmd, float timeDelay)']]]
 ];
