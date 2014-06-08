@@ -99,7 +99,7 @@ namespace CleaveFramework.Application
             _q.Enqueue(new CommandContainer(cmd, timeDelay));
         }
 
-        private static int _delayedCommands;
+        private int _delayedCommands;
         /// <summary>
         /// Pops the top Command from the queue and executes it
         /// </summary>

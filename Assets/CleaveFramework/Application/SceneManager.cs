@@ -9,7 +9,7 @@ namespace CleaveFramework.Application
             Command.Register(typeof(ChangeSceneCmd), OnChangeScene);
         }
 
-        public void OnChangeScene(Command cmd)
+        void OnChangeScene(Command cmd)
         {
             var cCmd = (ChangeSceneCmd)cmd;
             // enter transition scene

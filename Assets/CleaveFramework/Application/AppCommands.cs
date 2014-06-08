@@ -18,7 +18,7 @@ namespace CleaveFramework.Application
         /// <summary>
         /// dictionary for the command callbacks
         /// </summary>
-        static protected Dictionary<Type, CommandCallback> _executeCallbacks = new Dictionary<Type, CommandCallback>();
+        static private Dictionary<Type, CommandCallback> _executeCallbacks = new Dictionary<Type, CommandCallback>();
         /// <summary>
         /// internal registration for the given command type
         /// </summary>
