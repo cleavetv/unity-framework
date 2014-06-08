@@ -1,0 +1,118 @@
+﻿using System.IO;
+using UnityEngine;
+using System.Collections;
+using SimpleJSON;
+
+namespace CleaveFramework.Application
+{
+    /// <summary>
+    /// wrapper for Unity engine configuration options
+    /// </summary>
+    public class EngineOptions
+    {
+        private const string ConfigFile = "engine.ini";
+
+        // Window options
+        public bool FullScreen { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+
+        // Audio options
+        public bool PlayMusic { get; set; }
+        public float MusicVolume { get; set; }
+        public bool PlaySfx { get; set; }
+        public float SfxVolume { get; set; }
+
+        // Rendering options
+        public enum Quality
+        {
+            Ultra,
+            High,
+            Medium,
+            Low,
+            Disabled
+        }
+        public Quality Antialias { get; set; }
+        public Quality SSAO { get; set; }
+        public Quality MotionBlur { get; set; }
+        public Quality Shadow { get; set; }
+        public Quality Vignette { get; set; }
+
+        public EngineOptions()
+        {
+            // check for configuration file
+            if (!LoadFromConfig())
+            {
+                CreateDefaultOptions();
+            }
+
+            Command.Register(typeof(ApplyOptionsCmd), OnApplyOptions);
+            AppManager.PushCommand(new ApplyOptionsCmd());
+        }
+
+        /// <summary>
+        /// Create the options properties to run an engine from the iniFile
+        /// </summary>
+        private bool LoadFromConfig()
+        {
+            if (!File.Exists(ConfigFile)) return false;
+
+            var options = JSONNode.LoadFromFile(ConfigFile);
+            FullScreen = options["FullScreen"].AsBool;
+            Width = options["Width"].AsInt;
+            Height = options["Height"].AsInt;
+            PlayMusic = options["PlayMusic"].AsBool;
+            MusicVolume = options["MusicVolume"].AsFloat;
+            PlaySfx = options["PlaySfx"].AsBool;
+            SfxVolume = options["SfxVolume"].AsFloat;
+            Antialias = (Quality)options["Antialias"].AsInt;
+            SSAO = (Quality)options["SSAO"].AsInt;
+            MotionBlur = (Quality)options["MotionBlur"].AsInt;
+            Shadow = (Quality)options["Shadow"].AsInt;
+            Vignette = (Quality)options["Vignette"].AsInt;
+
+            return true;
+        }
+
+        private void CreateDefaultOptions()
+        {
+            FullScreen = false;
+            Width = 1280;
+            Height = 720;
+            PlayMusic = true;
+            MusicVolume = 1f;
+            PlaySfx = true;
+            SfxVolume = 1f;
+            Antialias = Quality.Medium;
+            SSAO = Quality.Medium;
+            MotionBlur = Quality.Medium;
+            Shadow = Quality.Medium;
+            Vignette = Quality.Medium;
+        }
+
+        private void WriteConfig()
+        {
+            var options = new JSONClass();
+            options["FullScreen"].AsBool = FullScreen;
+            options["Width"].AsInt = Width;
+            options["Height"].AsInt = Height;
+            options["PlayMusic"].AsBool = PlayMusic;
+            options["MusicVolume"].AsFloat = MusicVolume;
+            options["PlaySfx"].AsBool = PlaySfx;
+            options["SfxVolume"].AsFloat = SfxVolume;
+            options["Antialias"].AsInt = (int) Antialias;
+            options["SSAO"].AsInt = (int)SSAO;
+            options["MotionBlur"].AsInt = (int)MotionBlur;
+            options["Shadow"].AsInt = (int)Shadow;
+            options["Vignette"].AsInt = (int)Vignette;
+            options.SaveToFile(ConfigFile);
+        }
+
+        void OnApplyOptions(Command cmd)
+        {
+//             Debug.Log("EngineOptions::OnApplyOptions()");
+            WriteConfig();
+        }
+    }
+
+}
