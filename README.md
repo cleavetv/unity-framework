@@ -1,4 +1,7 @@
-unity-framework
-===============
+##### CleaveFramework v0.0.1
 
-An application framework for C# Unity3D projects
+A Unity C# game framework.
+
+Utilizes JSON for object serialization.
+
+See generated Doxygen for source documentation.
