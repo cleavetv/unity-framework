@@ -46,12 +46,12 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\CleaveFramework\Application\AppCommands.cs" />
-     <Compile Include="Assets\CleaveFramework\Application\AppManager.cs" />
-     <Compile Include="Assets\CleaveFramework\Application\Application.cs" />
-     <Compile Include="Assets\CleaveFramework\Application\CommandQueue.cs" />
-     <Compile Include="Assets\CleaveFramework\Application\EngineOptions.cs" />
-     <Compile Include="Assets\CleaveFramework\Application\SceneManager.cs" />
+     <Compile Include="Assets\CleaveFramework\Core\AppCommands.cs" />
+     <Compile Include="Assets\CleaveFramework\Core\Application.cs" />
+     <Compile Include="Assets\CleaveFramework\Core\CommandQueue.cs" />
+     <Compile Include="Assets\CleaveFramework\Core\EngineOptions.cs" />
+     <Compile Include="Assets\CleaveFramework\Core\Framework.cs" />
+     <Compile Include="Assets\CleaveFramework\Core\SceneManager.cs" />
      <Compile Include="Assets\CleaveFramework\Game\GameCommands.cs" />
      <Compile Include="Assets\CleaveFramework\Game\GameManager.cs" />
      <Compile Include="Assets\CleaveFramework\plugins\SimpleJSON.cs" />

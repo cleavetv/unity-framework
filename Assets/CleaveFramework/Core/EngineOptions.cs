@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections;
 using SimpleJSON;
 
-namespace CleaveFramework.Application
+namespace CleaveFramework.Core
 {
     /// <summary>
     /// wrapper for Unity engine configuration options
@@ -47,7 +47,7 @@ namespace CleaveFramework.Application
             }
 
             Command.Register(typeof(ApplyOptionsCmd), OnApplyOptions);
-            AppManager.PushCommand(new ApplyOptionsCmd());
+            Framework.PushCommand(new ApplyOptionsCmd());
         }
 
         /// <summary>

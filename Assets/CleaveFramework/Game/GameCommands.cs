@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CleaveFramework.Application;
+using CleaveFramework.Core;
 
 namespace CleaveFramework.Game
 {

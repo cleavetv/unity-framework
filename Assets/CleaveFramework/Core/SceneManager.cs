@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace CleaveFramework.Application
+namespace CleaveFramework.Core
 {
     public class SceneManager
     {
@@ -13,7 +13,7 @@ namespace CleaveFramework.Application
         {
             var cCmd = (ChangeSceneCmd)cmd;
             // enter transition scene
-            UnityEngine.Application.LoadLevel(AppManager.TransitionScene);
+            UnityEngine.Application.LoadLevel(Framework.TransitionScene);
             // load the new scene
             UnityEngine.Application.LoadLevelAsync(cCmd.SceneName);
         }

@@ -1,4 +1,4 @@
-﻿using CleaveFramework.Application;
+﻿using CleaveFramework.Core;
 using UnityEngine;
 using System.Collections;
 
@@ -17,8 +17,6 @@ public class MenuBehaviour : MonoBehaviour {
     void OnMouseUp()
     {
         Debug.Log("Cube clicked.");
-        AppManager.PushCommand(new ChangeSceneCmd("Game"));
-
-//        CleaveFramework.AppManager.Instance.TransitionToScene("Game");
+        Framework.PushCommand(new ChangeSceneCmd("Game"));
     }
 }

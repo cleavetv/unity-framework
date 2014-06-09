@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace CleaveFramework.Application
+namespace CleaveFramework.Core
 {
     /// <summary>
     /// CommandQueue contains logic capable of processing the commands pushed into the application

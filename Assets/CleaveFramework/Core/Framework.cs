@@ -2,13 +2,13 @@
 using UnityEngine;
 using System.Collections;
 
-namespace CleaveFramework.Application
+namespace CleaveFramework.Core
 {
     /// <summary>
     /// AppManager is the main script that will register with a Unity GameObject
     /// the AppManager view object MUST be in every scene that will execute the framework
     /// </summary>
-    public class AppManager : MonoBehaviour
+    public class Framework : MonoBehaviour
     {
         static public App App { get; private set; }
         static public GameManager Game { get; private set; }
@@ -25,7 +25,7 @@ namespace CleaveFramework.Application
         /// <summary>
         /// singleton instance
         /// </summary>
-        public static AppManager Instance { get; private set; }
+        public static Framework Instance { get; private set; }
 
         private static CommandQueue _commands;
         private static SceneManager _scenes;

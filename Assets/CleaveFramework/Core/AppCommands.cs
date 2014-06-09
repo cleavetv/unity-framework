@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CleaveFramework.Application
+namespace CleaveFramework.Core
 {
     #region Base
     /// <summary>

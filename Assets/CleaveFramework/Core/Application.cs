@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using UnityEngine;
 
-namespace CleaveFramework.Application
+namespace CleaveFramework.Core
 {
     /// <summary>
     /// App is the Model/Controller for the Application data
