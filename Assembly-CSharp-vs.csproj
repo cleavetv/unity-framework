@@ -47,7 +47,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\CleaveFramework\Core\AppCommands.cs" />
+    <Compile Include="Assets\CleaveFramework\Core\CoreCommands.cs" />
     <Compile Include="Assets\CleaveFramework\Core\Framework.cs" />
     <Compile Include="Assets\CleaveFramework\Core\Application.cs" />
     <Compile Include="Assets\CleaveFramework\Core\CommandQueue.cs" />
