@@ -1,4 +1,5 @@
-﻿using CleaveFramework.Game;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
 
@@ -10,8 +11,7 @@ namespace CleaveFramework.Core
     /// </summary>
     public class Framework : MonoBehaviour
     {
-        static public App App { get; private set; }
-        static public GameManager Game { get; private set; }
+        public static App App { get; private set; }
 
         /// <summary>
         /// name of the scene to use while transitioning into the next scene
@@ -30,6 +30,8 @@ namespace CleaveFramework.Core
         private static CommandQueue _commands;
         private static SceneManager _scenes;
 
+        private static Dictionary<Type, object> _singletons; 
+
         void Awake()
         {
             if (Instance != this && Instance != null)
@@ -38,11 +40,12 @@ namespace CleaveFramework.Core
             }
             else
             {
+                _singletons = new Dictionary<Type, object>();
+
                 Instance = this;
                 _commands = new CommandQueue();
                 _scenes = new SceneManager();
                 App = new App();
-                Game = new GameManager();
                 StartCoroutine(ProcessCommands());
                 DontDestroyOnLoad(gameObject);
             }
@@ -64,7 +67,6 @@ namespace CleaveFramework.Core
         /// <param name="cmd">the command</param>
         public static void PushCommand(Command cmd)
         {
-//             Debug.Log("Pushing Command: " + cmd.ToString());
             _commands.Push(cmd);
         }
 
@@ -88,5 +90,33 @@ namespace CleaveFramework.Core
             _commands.Push(cmd, timeDelay);
         }
 
+        /// <summary>
+        /// Injects a new object into the framework singleton library
+        /// </summary>
+        /// <typeparam name="T">object type</typeparam>
+        /// <param name="dep">object instance</param>
+        public static void InjectAsSingleton<T>(T dep)
+        {
+            if(!_singletons.ContainsKey(typeof(T)))
+            {
+                // insert object into the library
+                _singletons.Add(typeof(T), dep);
+            }
+            else
+            {
+                // overwrite existing object with new instance
+                _singletons[typeof (T)] = dep;
+            }
+        }
+
+        /// <summary>
+        /// resolve a type into an instance
+        /// </summary>
+        /// <typeparam name="T">object type to retrieve</typeparam>
+        /// <returns>object instance if injected, otherwise null</returns>
+        public static object ResolveSingleton<T>()
+        {
+            return _singletons.ContainsKey(typeof (T)) ? _singletons[typeof (T)] : null;
+        }
     }
 }

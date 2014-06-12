@@ -46,17 +46,15 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\CleaveFramework\Core\AppCommands.cs" />
-     <Compile Include="Assets\CleaveFramework\Core\Application.cs" />
+     <Compile Include="Assets\CleaveFramework\Core\App.cs" />
      <Compile Include="Assets\CleaveFramework\Core\CommandQueue.cs" />
+     <Compile Include="Assets\CleaveFramework\Core\CoreCommands.cs" />
      <Compile Include="Assets\CleaveFramework\Core\EngineOptions.cs" />
      <Compile Include="Assets\CleaveFramework\Core\Framework.cs" />
      <Compile Include="Assets\CleaveFramework\Core\SceneManager.cs" />
-     <Compile Include="Assets\CleaveFramework\Game\GameCommands.cs" />
-     <Compile Include="Assets\CleaveFramework\Game\GameManager.cs" />
      <Compile Include="Assets\CleaveFramework\plugins\SimpleJSON.cs" />
+     <Compile Include="Assets\__GameDevTest\Foo.cs" />
      <Compile Include="Assets\__GameDevTest\MenuBehaviour.cs" />
-     <None Include="Assets\CleaveFramework\Readme.txt" />
  <Reference Include="ICSharpCode.SharpZipLib">
  <HintPath>Assets\CleaveFramework\plugins\ICSharpCode.SharpZipLib.dll</HintPath>
  </Reference>

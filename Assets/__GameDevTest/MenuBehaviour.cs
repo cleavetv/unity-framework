@@ -1,12 +1,14 @@
 ﻿using CleaveFramework.Core;
 using UnityEngine;
 using System.Collections;
+using __GameDevTest;
 
 public class MenuBehaviour : MonoBehaviour {
 
 	// Use this for initialization
-	void Start () {
-	
+	void Start ()
+	{
+	    Framework.InjectAsSingleton(new Foo());
 	}
 	
 	// Update is called once per frame
@@ -16,7 +18,9 @@ public class MenuBehaviour : MonoBehaviour {
 
     void OnMouseUp()
     {
-        Debug.Log("Cube clicked.");
-        Framework.PushCommand(new ChangeSceneCmd("Game"));
+        var foo = Framework.ResolveSingleton<Foo>() as Foo;
+        Debug.Log(foo.Value);
+        Debug.Log(foo.Word);
+       // Framework.PushCommand(new ChangeSceneCmd("Game"));
     }
 }

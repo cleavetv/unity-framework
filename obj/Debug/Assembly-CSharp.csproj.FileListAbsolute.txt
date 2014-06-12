@@ -1,0 +1,12 @@
+C:\Users\Glen\Documents\CleaveFrameworkDev\Temp\bin\Debug\Assembly-CSharp.dll
+C:\Users\Glen\Documents\CleaveFrameworkDev\Temp\bin\Debug\Assembly-CSharp.pdb
+C:\Users\Glen\Documents\CleaveFrameworkDev\Temp\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Users\Glen\Documents\CleaveFrameworkDev\Temp\bin\Debug\UnityEditor.dll
+C:\Users\Glen\Documents\CleaveFrameworkDev\Temp\bin\Debug\UnityEngine.dll
+C:\Users\Glen\Documents\CleaveFrameworkDev\Temp\bin\Debug\Mono.Cecil.dll
+C:\Users\Glen\Documents\CleaveFrameworkDev\Temp\bin\Debug\nunit.framework.dll
+C:\Users\Glen\Documents\CleaveFrameworkDev\Temp\bin\Debug\Unity.DataContract.dll
+C:\Users\Glen\Documents\CleaveFrameworkDev\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+C:\Users\Glen\Documents\CleaveFrameworkDev\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
+C:\Users\Glen\Documents\CleaveFrameworkDev\obj\Debug\Assembly-CSharp.dll
+C:\Users\Glen\Documents\CleaveFrameworkDev\obj\Debug\Assembly-CSharp.pdb

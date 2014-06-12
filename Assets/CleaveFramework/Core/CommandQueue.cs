@@ -43,7 +43,7 @@ namespace CleaveFramework.Core
             }
         }
 
-        private Queue<CommandContainer> _q; 
+        private readonly Queue<CommandContainer> _q; 
         public CommandQueue()
         {
             _q = new Queue<CommandContainer>();

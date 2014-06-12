@@ -1,6 +1,4 @@
 ﻿using System.IO;
-using UnityEngine;
-using System.Collections;
 using SimpleJSON;
 
 namespace CleaveFramework.Core
@@ -56,21 +54,9 @@ namespace CleaveFramework.Core
         private bool LoadFromConfig()
         {
             if (!File.Exists(ConfigFile)) return false;
-
             var options = JSONNode.LoadFromFile(ConfigFile);
-            FullScreen = options["FullScreen"].AsBool;
-            Width = options["Width"].AsInt;
-            Height = options["Height"].AsInt;
-            PlayMusic = options["PlayMusic"].AsBool;
-            MusicVolume = options["MusicVolume"].AsFloat;
-            PlaySfx = options["PlaySfx"].AsBool;
-            SfxVolume = options["SfxVolume"].AsFloat;
-            Antialias = (Quality)options["Antialias"].AsInt;
-            SSAO = (Quality)options["SSAO"].AsInt;
-            MotionBlur = (Quality)options["MotionBlur"].AsInt;
-            Shadow = (Quality)options["Shadow"].AsInt;
-            Vignette = (Quality)options["Vignette"].AsInt;
-
+            if (options == null) return false;
+            Load(ref options);
             return true;
         }
 
@@ -92,6 +78,17 @@ namespace CleaveFramework.Core
 
         private void WriteConfig()
         {
+            var options = Save();
+            options.SaveToFile(ConfigFile);
+        }
+
+        void OnApplyOptions(Command cmd)
+        {
+            WriteConfig();
+        }
+
+        JSONNode Save()
+        {
             var options = new JSONClass();
             options["FullScreen"].AsBool = FullScreen;
             options["Width"].AsInt = Width;
@@ -100,18 +97,28 @@ namespace CleaveFramework.Core
             options["MusicVolume"].AsFloat = MusicVolume;
             options["PlaySfx"].AsBool = PlaySfx;
             options["SfxVolume"].AsFloat = SfxVolume;
-            options["Antialias"].AsInt = (int) Antialias;
+            options["Antialias"].AsInt = (int)Antialias;
             options["SSAO"].AsInt = (int)SSAO;
             options["MotionBlur"].AsInt = (int)MotionBlur;
             options["Shadow"].AsInt = (int)Shadow;
             options["Vignette"].AsInt = (int)Vignette;
-            options.SaveToFile(ConfigFile);
+            return options;
         }
 
-        void OnApplyOptions(Command cmd)
+        void Load(ref JSONNode node)
         {
-//             Debug.Log("EngineOptions::OnApplyOptions()");
-            WriteConfig();
+            FullScreen = node["FullScreen"].AsBool;
+            Width = node["Width"].AsInt;
+            Height = node["Height"].AsInt;
+            PlayMusic = node["PlayMusic"].AsBool;
+            MusicVolume = node["MusicVolume"].AsFloat;
+            PlaySfx = node["PlaySfx"].AsBool;
+            SfxVolume = node["SfxVolume"].AsFloat;
+            Antialias = (Quality)node["Antialias"].AsInt;
+            SSAO = (Quality)node["SSAO"].AsInt;
+            MotionBlur = (Quality)node["MotionBlur"].AsInt;
+            Shadow = (Quality)node["Shadow"].AsInt;
+            Vignette = (Quality)node["Vignette"].AsInt;
         }
     }
 
