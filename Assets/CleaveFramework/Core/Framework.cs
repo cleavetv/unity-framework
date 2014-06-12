@@ -13,8 +13,6 @@ namespace CleaveFramework.Core
     /// </summary>
     public class Framework : MonoBehaviour
     {
-        public static App App { get; private set; }
-
         /// <summary>
         /// name of the scene to use while transitioning into the next scene
         /// </summary>
@@ -30,7 +28,6 @@ namespace CleaveFramework.Core
         public static Framework Instance { get; private set; }
 
         private static CommandQueue _commands;
-        private static SceneManager _scenes;
 
         /// <summary>
         /// singleton library
@@ -50,13 +47,15 @@ namespace CleaveFramework.Core
             }
             else
             {
+                Instance = this;
                 _singletons = new Dictionary<Type, object>();
                 _updateables = new Dictionary<Type, List<IUpdateable>>();
 
-                Instance = this;
                 _commands = new CommandQueue();
-                _scenes = new SceneManager();
-                App = new App();
+                
+                InjectAsSingleton(new SceneManager());
+                InjectAsSingleton(new App());
+
                 StartCoroutine(ProcessCommands());
                 DontDestroyOnLoad(gameObject);
             }
