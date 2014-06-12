@@ -52,6 +52,7 @@
      <Compile Include="Assets\CleaveFramework\Core\EngineOptions.cs" />
      <Compile Include="Assets\CleaveFramework\Core\Framework.cs" />
      <Compile Include="Assets\CleaveFramework\Core\SceneManager.cs" />
+     <Compile Include="Assets\CleaveFramework\Interfaces\IUpdateable.cs" />
      <Compile Include="Assets\CleaveFramework\plugins\SimpleJSON.cs" />
      <Compile Include="Assets\__GameDevTest\Foo.cs" />
      <Compile Include="Assets\__GameDevTest\MenuBehaviour.cs" />

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using CleaveFramework.Interfaces;
 using UnityEngine;
 using System.Collections;
 
@@ -30,7 +32,15 @@ namespace CleaveFramework.Core
         private static CommandQueue _commands;
         private static SceneManager _scenes;
 
-        private static Dictionary<Type, object> _singletons; 
+        /// <summary>
+        /// singleton library
+        /// </summary>
+        private static Dictionary<Type, object> _singletons;
+
+        /// <summary>
+        /// IUpdateable objects library
+        /// </summary>
+        private static Dictionary<Type, List<IUpdateable>> _updateables; 
 
         void Awake()
         {
@@ -41,6 +51,7 @@ namespace CleaveFramework.Core
             else
             {
                 _singletons = new Dictionary<Type, object>();
+                _updateables = new Dictionary<Type, List<IUpdateable>>();
 
                 Instance = this;
                 _commands = new CommandQueue();
@@ -52,7 +63,16 @@ namespace CleaveFramework.Core
             Debug.Log("Creating Level: " + UnityEngine.Application.loadedLevelName);
         }
 
-        IEnumerator ProcessCommands()
+        void Update()
+        {
+            // process IUpdateables
+            foreach (var obj in _updateables.SelectMany(updateList => updateList.Value))
+            {
+                obj.Update();
+            }
+        }
+
+        static IEnumerator ProcessCommands()
         {
             while (true)
             {
@@ -97,6 +117,22 @@ namespace CleaveFramework.Core
         /// <param name="dep">object instance</param>
         public static void InjectAsSingleton<T>(T dep)
         {
+            if (typeof(IUpdateable).IsAssignableFrom(typeof(T)))
+            {
+                if (_updateables.ContainsKey(typeof (T)))
+                {
+                    // we clear the list because we're singleton
+                    _updateables.Clear();
+                }
+                else
+                {
+                    // make a new list
+                    _updateables.Add(typeof(T), new List<IUpdateable>());
+                }
+                // store it
+                _updateables[typeof(T)].Add((IUpdateable)dep);
+            }
+
             if(!_singletons.ContainsKey(typeof(T)))
             {
                 // insert object into the library
