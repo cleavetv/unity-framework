@@ -121,7 +121,7 @@ namespace CleaveFramework.Core
                 if (_updateables.ContainsKey(typeof (T)))
                 {
                     // we clear the list because we're singleton
-                    _updateables.Clear();
+                    _updateables[typeof(T)].Clear();
                 }
                 else
                 {
