@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using CleaveFramework.Interfaces;
 using UnityEngine;
 
 namespace CleaveFramework.Core
@@ -22,6 +23,5 @@ namespace CleaveFramework.Core
             Screen.SetResolution(Options.Width, Options.Height, Options.FullScreen);
             // TODO: apply options as necessary
         }
-
     }
 }

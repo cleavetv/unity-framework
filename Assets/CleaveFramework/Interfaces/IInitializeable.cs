@@ -5,8 +5,8 @@ using System.Text;
 
 namespace CleaveFramework.Interfaces
 {
-    interface IUpdateable
+    interface IInitializeable
     {
-        void Update(float deltaTime);
+        void Initialize();
     }
 }

@@ -42,7 +42,7 @@ namespace CleaveFramework.Core
             {
                 _executeCallbacks[type] += execute;
             }
-            Debug.Log("Registering: " + type.ToString());
+            //Debug.Log("Registering: " + type.ToString());
         }
         /// <summary>
         /// remove callback registration from a command type
@@ -78,4 +78,15 @@ namespace CleaveFramework.Core
             SceneName = sceneName;
         }
     }
+
+    public class SceneLoadedCmd : Command
+    {
+        public SceneView View { get; private set; }
+        public SceneLoadedCmd(SceneView view)
+        {
+            View = view;
+        }
+    }
+
+    public class SceneInitializedCmd : Command { }
 }
