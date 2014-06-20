@@ -1,6 +1,6 @@
-﻿using CleaveFramework.Core;
+﻿using CleaveFramework.Scene;
 
-namespace Assets.CleaveFramework.SceneViews
+namespace CleaveFramework.SceneViews
 {
     class LoadingSceneView : SceneView
     {

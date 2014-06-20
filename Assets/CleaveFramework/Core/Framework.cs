@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using CleaveFramework.Scene;
+using CleaveFramework.Tools;
+using UnityEngine;
 using System.Collections;
 
 namespace CleaveFramework.Core
@@ -29,6 +31,7 @@ namespace CleaveFramework.Core
 
         void Awake()
         {
+            CDebug.DisplayMethod = CDebug.ConsoleLogMethod.Selected;
 
             if (Instance != this && Instance != null)
             {
