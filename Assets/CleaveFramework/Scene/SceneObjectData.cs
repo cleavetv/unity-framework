@@ -1,17 +1,4 @@
-﻿/* Copyright 2014 Glen/CleaveTV
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License. */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using CleaveFramework.Interfaces;
 using CleaveFramework.Tools;
@@ -159,7 +146,7 @@ namespace CleaveFramework.Scene
         /// </summary>
         /// <typeparam name="T">object type</typeparam>
         /// <param name="obj">object instance</param>
-        public void PushObjectAsSingleton<T>(T obj)
+        public object PushObjectAsSingleton<T>(T obj)
         {
             // reflect on the implemented interfaces
             ReflectInterfaces(this, obj);
@@ -175,6 +162,8 @@ namespace CleaveFramework.Scene
                 // overwrite existing object with new instance
                 _singletons[typeof(T)] = obj;
             }
+
+            return obj;
         }
 
         /// <summary>
@@ -193,7 +182,7 @@ namespace CleaveFramework.Scene
         /// <typeparam name="T">object type</typeparam>
         /// <param name="name">object instance name, required for lookup and must be unique per type</param>
         /// <param name="obj">object instance</param>
-        public void PushObjectAsTransient<T>(string name, T obj)
+        public object PushObjectAsTransient<T>(string name, T obj)
         {
             ReflectInterfaces(this, obj);
 
@@ -208,6 +197,8 @@ namespace CleaveFramework.Scene
             }
 
             _transients[typeof(T)].Add(name, obj);
+
+            return obj;
 
         }
 
