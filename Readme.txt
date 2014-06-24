@@ -27,7 +27,7 @@ The Framework executes based around several simple principals:
  SceneObjects have been completely initialized.  At this point you are now able to bind any references to any initialized
  object.  For example: in the case of a View object added to your scene hierarchy in UnityEditor mode and has it's instance
  resolved during Initialize.
- - IUpdateable : SceneObjects implementing this interface will have Update(deltaTime) invoked on them during the Framework
+ - IUpdateable : SceneObjects implementing this interface will have Update(deltaTime) invoked on them during the SceneView
  object's update cycle with Time.deltaTime as the parameter.
  - IDestroyable : SceneObjects implementing this interface will have Destroy() invoked on them at the point in which the
  OnDestroy() method on your SceneView is being called by the UnityEngine.
