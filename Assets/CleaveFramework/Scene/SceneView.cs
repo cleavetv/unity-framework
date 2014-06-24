@@ -1,15 +1,15 @@
-﻿using UnityEngine;
+﻿using CleaveFramework.Core;
+using UnityEngine;
 
 namespace CleaveFramework.Scene
 {
-    abstract public class SceneView : MonoBehaviour
+    abstract public class SceneView : View
     {
         protected SceneObjectData SceneObjects { get; private set; }
 
         virtual public void Start()
         {
             SceneObjects = new SceneObjectData();
-            gameObject.name = "SceneView";
         }
 
         /// <summary>
@@ -20,6 +20,12 @@ namespace CleaveFramework.Scene
         virtual public void Update()
         {
             SceneObjects.Update(Time.deltaTime);
+        }
+
+        void OnDestroy()
+        {
+            if(SceneObjects != null)
+                SceneObjects.Destroy();
         }
 
     }

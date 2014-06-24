@@ -31,6 +31,16 @@ namespace CleaveFramework.Scene
         /// </summary>
         private List<IInitializeable> _initializeables;
 
+        /// <summary>
+        /// IConfigureable objects library
+        /// </summary>
+        private List<IConfigureable> _configureables;
+
+        /// <summary>
+        /// IConfigureable objects library
+        /// </summary>
+        private List<IDestroyable> _destroyables; 
+
         private bool _wasSceneInitialized;
 
         public SceneObjectData()
@@ -39,7 +49,27 @@ namespace CleaveFramework.Scene
             _transients = new Dictionary<Type, Dictionary<string, object>>();
             _updateables = new List<IUpdateable>();
             _initializeables = new List<IInitializeable>();
+            _configureables = new List<IConfigureable>();
+            _destroyables = new List<IDestroyable>();
             _wasSceneInitialized = false;
+            CDebug.LogThis(typeof(SceneObjectData));
+        }
+
+        public void Destroy()
+        {
+            CDebug.Log("SceneObjectData::Destroy()");
+
+            foreach (var obj in _destroyables)
+            {
+                obj.Destroy();
+            }
+
+            _destroyables.Clear();
+            _singletons.Clear();
+            _transients.Clear();
+            _updateables.Clear();
+            _initializeables.Clear();
+            _configureables.Clear();
         }
 
         public void Update(float deltaTime)
@@ -66,6 +96,12 @@ namespace CleaveFramework.Scene
                 obj.Initialize();
             }
 
+            // configure the objects after everything has been initialized
+            foreach (var obj in _configureables)
+            {
+                obj.Configure();
+            }
+
             _wasSceneInitialized = true;
         }
 
@@ -89,6 +125,19 @@ namespace CleaveFramework.Scene
                 {
                     ((IInitializeable)obj).Initialize();
                 }
+            }
+            if (typeof (IConfigureable).IsAssignableFrom(typeof (T)))
+            {
+                instance._configureables.Add((IConfigureable)obj);
+
+                if (instance._wasSceneInitialized)
+                {
+                    ((IConfigureable)obj).Configure();
+                }
+            }
+            if (typeof (IDestroyable).IsAssignableFrom(typeof (T)))
+            {
+                instance._destroyables.Add((IDestroyable)obj);
             }
         }
 
@@ -163,6 +212,8 @@ namespace CleaveFramework.Scene
             }
             return !_transients[typeof (T)].ContainsKey(name) ? null : _transients[typeof (T)][name];
         }
+
+
 
     }
 }

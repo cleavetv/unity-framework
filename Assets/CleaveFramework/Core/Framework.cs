@@ -1,4 +1,5 @@
-﻿using CleaveFramework.Scene;
+﻿using CleaveFramework.Commands;
+using CleaveFramework.Scene;
 using CleaveFramework.Tools;
 using UnityEngine;
 using System.Collections;
@@ -53,10 +54,7 @@ namespace CleaveFramework.Core
                 DontDestroyOnLoad(gameObject);
             }
 
-            // load SceneView dynamically
-            // expects <LevelName>SceneView object for ex:
-            // a scene named "Game" would expect a SceneView component named "GameSceneView"
-            SceneManager.CreateSceneView(Application.loadedLevelName + "SceneView");
+            SceneManager.CreateSceneView();
 
         }
 
