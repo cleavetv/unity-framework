@@ -7,6 +7,10 @@ This is a fairly rudimentary implementation of hopefully what will become a more
 quite usable in it's current state.  For a more concrete working example of an app implementing the framework you can look
 in to the cleavetv/Architect repository.
 
+###### Usage:
+
+Clone or pull repository.  Copy Assets/CleaveFramework into the location of your Unity project Assets.  Load Unity.
+
 
 ###### Basic Implementation:
 
