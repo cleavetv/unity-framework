@@ -1,19 +1,10 @@
 ﻿##### CleaveFramework v0.1.0 -﻿A Unity C# game framework.
 
-The Code in this repository gets merged back from the cleavetv/Architect repository so that repository will almost always
-contain the most up to date version of the Framework code.  I will always merge back changes regularly.
+The Code in this repository gets merged back from the cleavetv/Architect repository so that repository will almost always contain the most up to date version of the Framework code.  I will always merge back changes regularly.
 
-This is a fairly rudimentary implementation of hopefully what will become a more robust framework.  It is however already
-quite usable in it's current state.  For a more concrete working example of an app implementing the framework you can look
-in to the cleavetv/Architect repository.
+This is a fairly rudimentary implementation of hopefully what will become a more robust framework.  It is however already quite usable in it's current state.  For a more concrete working example of an app implementing the framework you can look in to the cleavetv/Architect repository.
 
-The core functionality of the framework is based around an executable command and delegate callback system.  Any amount 
-of unique Objects are able to subscribe to commands and then implement callbacks upon execution of the command.  Commands
-can be utilized to pass data to another object, as event messaging, or a virtual Execute() method can be implemented to 
-directly manipulate the data within the command object itself before or after propogating to the delegates.  Commands 
-are pushed into the Framework via static methods which can perform commands on that frame, or after a given delay of frames
-or seconds.  Commands can push other Commands during their execution giving the ability to create sequences of
-events.
+The core functionality of the framework is based around an executable command and delegate callback system.  Any amount of unique Objects are able to subscribe to commands and then implement callbacks upon execution of the command.  Commands can be utilized to pass data to another object, as event messaging, or a virtual Execute() method can be implemented to  directly manipulate the data within the command object itself before or after propogating to the delegates.  Commands are pushed into the Framework via static methods which can perform commands on that frame, or after a given delay of frames or seconds.  Commands can push other Commands during their execution giving the ability to create sequences of events.
 
 ###### Usage:
 
