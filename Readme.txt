@@ -1,4 +1,4 @@
-﻿##### CleaveFramework v0.0.3 -﻿A Unity C# game framework.
+﻿##### CleaveFramework v0.1.0 -﻿A Unity C# game framework.
 
 The Code in this repository gets merged back from the cleavetv/Architect repository so that repository will almost always
 contain the most up to date version of the Framework code.  I will always merge back changes regularly.
