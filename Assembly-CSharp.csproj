@@ -46,16 +46,25 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\CleaveFramework\Commands\ApplyOptionsCmd.cs" />
+     <Compile Include="Assets\CleaveFramework\Commands\ChangeSceneCmd.cs" />
+     <Compile Include="Assets\CleaveFramework\Commands\Command.cs" />
+     <Compile Include="Assets\CleaveFramework\Commands\SceneLoadedCmd.cs" />
      <Compile Include="Assets\CleaveFramework\Core\App.cs" />
      <Compile Include="Assets\CleaveFramework\Core\CommandQueue.cs" />
-     <Compile Include="Assets\CleaveFramework\Core\CoreCommands.cs" />
      <Compile Include="Assets\CleaveFramework\Core\EngineOptions.cs" />
      <Compile Include="Assets\CleaveFramework\Core\Framework.cs" />
-     <Compile Include="Assets\CleaveFramework\Core\SceneManager.cs" />
+     <Compile Include="Assets\CleaveFramework\Core\View.cs" />
+     <Compile Include="Assets\CleaveFramework\Interfaces\IConfigureable.cs" />
+     <Compile Include="Assets\CleaveFramework\Interfaces\IDestroyable.cs" />
+     <Compile Include="Assets\CleaveFramework\Interfaces\IInitializeable.cs" />
      <Compile Include="Assets\CleaveFramework\Interfaces\IUpdateable.cs" />
+     <Compile Include="Assets\CleaveFramework\Scene\SceneManager.cs" />
+     <Compile Include="Assets\CleaveFramework\Scene\SceneObjectData.cs" />
+     <Compile Include="Assets\CleaveFramework\Scene\SceneView.cs" />
+     <Compile Include="Assets\CleaveFramework\SceneViews\LoadingSceneView.cs" />
+     <Compile Include="Assets\CleaveFramework\Tools\CDebug.cs" />
      <Compile Include="Assets\CleaveFramework\plugins\SimpleJSON.cs" />
-     <Compile Include="Assets\__GameDevTest\Foo.cs" />
-     <Compile Include="Assets\__GameDevTest\MenuBehaviour.cs" />
  <Reference Include="ICSharpCode.SharpZipLib">
  <HintPath>Assets\CleaveFramework\plugins\ICSharpCode.SharpZipLib.dll</HintPath>
  </Reference>
