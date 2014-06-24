@@ -24,6 +24,6 @@ The Framework executes based around several simple principals:
 
 ###### Tools:
 
- - CDebug object provides a wrapper for Unity's logger with added functionality. 
+ * CDebug object provides a wrapper for Unity's logger with added functionality. 
   - Enable/Disable logging globally
   - Enable/Disable logging per type
