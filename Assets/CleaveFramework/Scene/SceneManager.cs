@@ -43,9 +43,12 @@ namespace CleaveFramework.Scene
             IsSceneInitialized = false;
 
             // enter transition scene
-            UnityEngine.Application.LoadLevel(Framework.TransitionScene);
+            // UnityEngine.Application.LoadLevel(Framework.TransitionScene);
             // load the new scene
-            UnityEngine.Application.LoadLevelAsync(cCmd.SceneName);
+            if(UnityEngine.Application.HasProLicense())
+                UnityEngine.Application.LoadLevelAsync(cCmd.SceneName);
+            else
+                UnityEngine.Application.LoadLevel(cCmd.SceneName);
         }
 
         static void OnSceneLoaded(Command cmd)
