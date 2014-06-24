@@ -76,9 +76,15 @@ The Framework executes based around several simple principals:
  var myCustomData = Framework.Globals.ResolveSingleton<CustomDataModel>() as CustomDataModel;
   * As transient:
  var myCustomData = Framework.Globals.ResolveTransient<CustomDataModel>("myCustomData") as CustomDataModel;
+ - Access to SceneView can be done in the standard way you access any Unity component:
+ var sceneView = GameObject.Find("SceneView").GetComponent<SceneView>() as SceneView;
  
 ###### Tools:
 
  - CDebug object provides a wrapper for Unity's logger with added functionality. 
   * Enable/Disable logging globally
   * Enable/Disable logging per type
+  
+###### Dynamic Objects:
+ 
+ - Objects instantiated after the SceneView::Initialize() process implementing IInitializeable and IConfigureable will have their Initialize() and Configure() methods invoked on them in sequence immediately after being pushed into the SceneObjects.
