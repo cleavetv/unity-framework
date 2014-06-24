@@ -1,10 +1,10 @@
 ﻿##### CleaveFramework v0.1.0 -﻿A Unity C# game framework.
+﻿
+This framework is meant to faciliate the implementation of a better structure for Unity3D game project code.  It is by no means perfect, and I welcome any and all feedback and potential contributions in regards to improving its functionality and easing its usability.  Thanks!
 
-The Code in this repository gets merged back from the cleavetv/Architect repository so that repository will almost always contain the most up to date version of the Framework code.  I will always merge back changes regularly.
+If you've ever finished, or worse started and not finished, a project using the Unity3D engine you realize the importance of well structuring your code.  This framework was created to assist in maintaining that structure.  The framework does not limit or shoehorn you into developing into a particular pattern however I personally believe it is most useful when utilizing a MVC/DI object pattern.  You are however free from being constrained to one specific architecture pattern, be it DI, Service Location, or whatever magical Voodoo you personally have created.
 
-This is a fairly rudimentary implementation of hopefully what will become a more robust framework.  It is however already quite usable in it's current state.  For a more concrete working example of an app implementing the framework you can look in to the cleavetv/Architect repository.
-
-The core functionality of the framework is based around an executable command and delegate callback system.  Any amount of unique Objects are able to subscribe to commands and then implement callbacks upon execution of the command.  Commands can be utilized to pass data to another object, as event messaging, or a virtual Execute() method can be implemented to  directly manipulate the data within the command object itself before or after propogating to the delegates.  Commands are pushed into the Framework via static methods which can perform commands on that frame, or after a given delay of frames or seconds.  Commands can push other Commands during their execution giving the ability to create sequences of events.
+The core functionality of the framework is two-fold based around an executable command delegate callback system and a SceneObjectData container for objects, automated system updating, and global data.  Any amount of unique Objects are able to subscribe to commands and then implement callbacks upon execution of the command.  Commands can be utilized to pass data to another object, as event messaging, or a virtual Execute() method can be implemented to  directly manipulate the data within the command object itself before or after propogating to the delegates.  Commands are pushed into the Framework via static methods which can perform commands on that frame, or after a given delay of frames or seconds.  Commands can push other Commands during their execution giving the ability to create sequences of events.
 
 ###### Usage:
 
@@ -18,7 +18,7 @@ The Framework executes based around several simple principals:
  - A single object in your Unity scenes contains the "Framework" component attached to it.  This object must exist in every scene.
  - A component is implemented with the name <YourScene>SceneView.  For example:  a GameSceneView component is expected when initializing a scene named Game.
  - Your SceneView component is derived from the CleaveFramework.Scene.SceneView object.
- - Objects are instantiated in your derived SceneView::Initialize() implementation through the exposed SceneObjects instance
+ - Objects are instantiated in your derived SceneView::Initialize() implementation through the exposed SceneObjects instance of SceneObjectsData.
  
 ###### Interfaces:
 
@@ -76,9 +76,15 @@ The Framework executes based around several simple principals:
  var myCustomData = Framework.Globals.ResolveSingleton<CustomDataModel>() as CustomDataModel;
   * As transient:
  var myCustomData = Framework.Globals.ResolveTransient<CustomDataModel>("myCustomData") as CustomDataModel;
+ - Access to SceneView can be done in the standard way you access any Unity component:
+ var sceneView = GameObject.Find("SceneView").GetComponent<SceneView>() as SceneView;
  
 ###### Tools:
 
  - CDebug object provides a wrapper for Unity's logger with added functionality. 
   * Enable/Disable logging globally
   * Enable/Disable logging per type
+  
+###### Dynamic Objects:
+ 
+ - Objects instantiated after the SceneView::Initialize() process implementing IInitializeable and IConfigureable will have their Initialize() and Configure() methods invoked on them in sequence immediately after being pushed into the SceneObjects.
