@@ -32,6 +32,44 @@ The Framework executes based around several simple principals:
  - IDestroyable : SceneObjects implementing this interface will have Destroy() invoked on them at the point in which the
  OnDestroy() method on your SceneView is being called by the UnityEngine.
  
+###### Objects:
+
+ - Framework : The Framework object itself
+ - Command : abstract object implements basic event listening callbacks
+ - EngineOptions : A generic options structure containing settings for things like screen resolution, volumes, and
+ rendering qualities.
+ - App : Currently functions a container object for the EngineOptions
+ - CommandQueue : Contains and processes Command objects pushed to the Framework
+ - View : abstract object derived from MonoBehaviour
+ - SceneManager : implements basic scene switching functionality
+ - SceneObjectData : implements generic containers for objects which live inside the Unity Scene
+ - SceneView : abstract object derived from View which holds SceneObjectData
+ - CDebug : basic debugging tool (see tools)
+ 
+###### How To:
+
+ - Change a scene:
+ Framework.PushCommand(new ChangeSceneCmd(<SceneName>));
+ - Apply options and write the configuration to disk:
+ Framework.PushCommand(new ApplyOptionsCmd());
+ - Implement a custom command:
+ class MyCustomCommand<T> : Command
+ {
+    public T Data;
+    public MyCustomCommand(T data) {
+       Data = data;
+    }
+ }
+ - Push your custom command:
+ Framework.PushCommand(new MyCustomCommand<int>(42));
+ - Implement a custom command listener:
+ Command.Register(typeof(MyCustomCommand<int>), OnCustomCommand);
+ void OnCustomCommand(Command c)
+ {
+    var cmd = c as MyCustomCommand<int>;
+    // cmd.Data = 42 here and you can use it as you wish...
+ }
+ 
 ###### Tools:
 
  - CDebug object provides a wrapper for Unity's logger with added functionality. 
