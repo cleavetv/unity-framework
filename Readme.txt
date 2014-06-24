@@ -1,10 +1,12 @@
-﻿##### CleaveFramework v0.0.3
-﻿
-The Code in this repository gets merged back from the cleavetv/Architect repository so that repository will almost always 
-contain the most up to date version of the Framework code.  It is recommended to check there first although I do try to keep
-this as up to date as I can.
+﻿##### CleaveFramework v0.0.3 -﻿A Unity C# game framework.
 
-A Unity C# game framework.
+The Code in this repository gets merged back from the cleavetv/Architect repository so that repository will almost always 
+contain the most up to date version of the Framework code.  I will always merge back changes regularly.
+
+This is a fairly rudimentary implementation of hopefully what will become a more robust framework.  It is however already
+quite usable in it's current state.  For a more concrete working example of an app implementing the framework you can look
+in to the cleavetv/Architect repository.
+
 
 ###### Basic Implementation:
 
@@ -69,6 +71,11 @@ The Framework executes based around several simple principals:
     var cmd = c as MyCustomCommand<int>;
     // cmd.Data = 42 here and you can use it as you wish...
  }
+ Many objects can implement listeners for the same command so they can process the data appropriately.
+ For example: Some internal game system can listen to an incoming command and act on it appropriately while your hud system
+ can also listen to the same command and update it's view appropriately without any coupling between the systems.
+ - Unregister a command listener:
+ Command.Unregister(typeof(MyCustomCommand<int>), OnCustomCommand);
  
 ###### Tools:
 
