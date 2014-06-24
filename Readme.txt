@@ -67,14 +67,14 @@ The Framework executes based around several simple principals:
  - Unregister a command listener:
  Command.Unregister(typeof(MyCustomCommand<int>), OnCustomCommand);
  - Pass a data model from one scene to another:
-   * As singleton:
+  * As singleton:
  Framework.Globals.PushObjectAsSingleton(new CustomDataModel());
-   * As transient:
+  * As transient:
  Framework.Globals.PushObjectAsTransient("myCustomData", new CustomDataModel());
  - Resolve a data model from the globals:
-   * As singleton:
+  * As singleton:
  var myCustomData = Framework.Globals.ResolveSingleton<CustomDataModel>() as CustomDataModel;
-   * As transient:
+  * As transient:
  var myCustomData = Framework.Globals.ResolveTransient<CustomDataModel>("myCustomData") as CustomDataModel;
  
 ###### Tools:
