@@ -6,10 +6,6 @@ this as up to date as I can.
 
 A Unity C# game framework.
 
-Utilizes JSON for object serialization.
-
-See generated Doxygen for source documentation.
-
 ###### Basic Implementation:
 
 The Framework executes based around several simple principals:
@@ -19,11 +15,25 @@ The Framework executes based around several simple principals:
  - A component is implemented with the name <YourScene>SceneView.  For example:  a GameSceneView component
  is expected when initializing a scene named Game.
  - Your SceneView component is derived from the CleaveFramework.Scene.SceneView object.
+ - Objects are instantiated in your derived SceneView::Initialize() implementation through the exposed SceneObjects
+ instance
  
-###### Usage:
+###### Interfaces:
 
+ - IInitializable : SceneObjects implementing this interface will have Initialize() invoked on them at the point in which
+ you call SceneObjects.InitializeSceneObjects() -- you should call this method at the end of your SceneView::Initialize()
+ implementation
+ - IConfigureable : SceneObjects implementing this interface will have Configure() invoked on them immediately after all
+ SceneObjects have been completely initialized.  At this point you are now able to bind any references to any initialized
+ object.  For example: in the case of a View object added to your scene hierarchy in UnityEditor mode and has it's instance
+ resolved during Initialize.
+ - IUpdateable : SceneObjects implementing this interface will have Update(deltaTime) invoked on them during the Framework
+ object's update cycle with Time.deltaTime as the parameter.
+ - IDestroyable : SceneObjects implementing this interface will have Destroy() invoked on them at the point in which the
+ OnDestroy() method on your SceneView is being called by the UnityEngine.
+ 
 ###### Tools:
 
- * CDebug object provides a wrapper for Unity's logger with added functionality. 
-  - Enable/Disable logging globally
-  - Enable/Disable logging per type
+ - CDebug object provides a wrapper for Unity's logger with added functionality. 
+  * Enable/Disable logging globally
+  * Enable/Disable logging per type
