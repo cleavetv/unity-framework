@@ -66,6 +66,16 @@ The Framework executes based around several simple principals:
  Many objects can implement listeners for the same command so they can process the data appropriately.  For example: Some internal game system can listen to an incoming command and act on it appropriately while your hud system can also listen to the same command and update it's view appropriately without any coupling between the systems.
  - Unregister a command listener:
  Command.Unregister(typeof(MyCustomCommand<int>), OnCustomCommand);
+ - Pass a data model from one scene to another:
+  * As singleton:
+ Framework.Globals.PushObjectAsSingleton(new CustomDataModel());
+  * As transient:
+ Framework.Globals.PushObjectAsTransient("myCustomData", new CustomDataModel());
+ - Resolve a data model from the globals:
+  * As singleton:
+ var myCustomData = Framework.Globals.ResolveSingleton<CustomDataModel>() as CustomDataModel;
+  * As transient:
+ var myCustomData = Framework.Globals.ResolveTransient<CustomDataModel>("myCustomData") as CustomDataModel;
  
 ###### Tools:
 
