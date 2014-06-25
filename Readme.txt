@@ -44,6 +44,8 @@ The Framework executes based around several simple principals:
 
  - Change a scene:
  Framework.PushCommand(new ChangeSceneCmd(<SceneName>));
+ - Change an option value
+ Framework.App.Options.FullScreen = false;
  - Apply options and write the configuration to disk:
  Framework.PushCommand(new ApplyOptionsCmd());
  - Implement a custom command:
