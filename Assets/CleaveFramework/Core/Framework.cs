@@ -10,7 +10,7 @@ namespace CleaveFramework.Core
     /// AppManager is the main script that will register with a Unity GameObject
     /// the AppManager view object MUST be in every scene that will execute the framework
     /// </summary>
-    public sealed class Framework : MonoBehaviour
+    public sealed class Framework : View
     {
         /// <summary>
         /// name of the scene to use while transitioning into the next scene
@@ -33,7 +33,12 @@ namespace CleaveFramework.Core
         /// <summary>
         /// Globals is useful to object instances that need to stay in memory from scene to scene.
         /// </summary>
-        public static SceneObjectData Globals;
+        public static SceneObjectData Globals { get; private set; }
+
+        /// <summary>
+        /// Accessor for App Data
+        /// </summary>
+        public static App App { get; private set; }
 
         void Awake()
         {
@@ -51,15 +56,20 @@ namespace CleaveFramework.Core
                 // create framework manager objects
                 _frameworkObjects = new SceneObjectData();
                 _frameworkObjects.PushObjectAsSingleton(new SceneManager());
-                _frameworkObjects.PushObjectAsSingleton(new App());
+                // give App a getter.  Get options via:
+                // Framework.App.Options.<Option> 
+                // Remember to apply options when necessary
+                App = _frameworkObjects.PushObjectAsSingleton(new App()) as App;
 
                 Globals = new SceneObjectData();
 
+                // ProcessCommands() executes all commands in a co-routine
                 StartCoroutine(ProcessCommands());
 
                 DontDestroyOnLoad(gameObject);
             }
 
+            // when Awake() is invoked we've loaded a new scene so we create the new view
             SceneManager.CreateSceneView();
 
         }
