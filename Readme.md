@@ -1,10 +1,14 @@
 ﻿# CleaveFramework v0.1.0 
 
 A Unity3D C# application framework.
+
+## Why you use a framework
 ﻿
 This framework is meant to faciliate the implementation of a better structure for Unity3D game project code.  It is by no means perfect, and I welcome any and all feedback and potential contributions in regards to improving its functionality and easing its usability.  Thanks!
 
 If you've ever finished, or worse started and not finished, a project using the Unity3D engine you realize the importance of well structuring your code.  This framework was created to assist in maintaining that structure.  The framework does not limit or shoehorn you into developing into a particular pattern however I personally believe it is most useful when utilizing a MVC/DI object pattern.  You are however free from being constrained to one specific architecture pattern, be it DI, Service Location, or whatever magical Voodoo you personally have created.
+
+## Feature overview
 
 The core functionality of the framework is two-fold based around an executable command delegate callback system and a SceneObjectData container for objects, automated system updating, and global data.  Any amount of unique Objects are able to subscribe to commands and then implement callbacks upon execution of the command.  Commands can be utilized to pass data to another object, as event messaging, or a virtual Execute() method can be implemented to  directly manipulate the data within the command object itself before or after propogating to the delegates.  Commands are pushed into the Framework via static methods which can perform commands on that frame, or after a given delay of frames or seconds.  Commands can push other Commands during their execution giving the ability to create sequences of events.
 
@@ -56,19 +60,19 @@ SceneObjects implementing this interface will have `Destroy()` invoked on them a
  
 ## How To:
 
-### Change a scene:
+##### Change a scene:
 ```
 Framework.PushCommand(new ChangeSceneCmd(<SceneName>));
 ```
-### Change an option value
+##### Change an option value:
 ```
 Framework.App.Options.FullScreen = false;
 ```
-### Apply options and write the configuration to disk:
+##### Apply options and write the configuration to disk:
 ```
 Framework.PushCommand(new ApplyOptionsCmd());
 ```
-### Implement a custom command:
+##### Implement a custom command:
 ```
 class MyCustomCommand<T> : Command
 {
@@ -78,11 +82,11 @@ class MyCustomCommand<T> : Command
     }
 }
 ```
-### Push your custom command:
+##### Push your custom command:
 ```
 Framework.PushCommand(new MyCustomCommand<int>(42));
 ```
-### Implement a custom command listener:
+##### Implement a custom command listener:
 ```
 Command.Register(typeof(MyCustomCommand<int>), OnCustomCommand);
 void OnCustomCommand(Command c)
@@ -93,37 +97,38 @@ void OnCustomCommand(Command c)
 ```
 Note: Many objects can implement listeners for the same command so they can process the data appropriately.  For example: Some internal game system can listen to an incoming command and act on it appropriately while your hud system can also listen to the same command and update it's view appropriately without any coupling between the systems.
 
-### Unregister a command listener:
+##### Unregister a command listener:
 ```
 Command.Unregister(typeof(MyCustomCommand<int>), OnCustomCommand);
 ``` 
-### Pass a data model from one scene to another:
-#### As singleton:
+##### Pass a data model from one scene to another:
+###### As singleton:
 ```
 Framework.Globals.PushObjectAsSingleton(new CustomDataModel());
 ```
-#### As transient:
+###### As transient:
 ```
 Framework.Globals.PushObjectAsTransient("myCustomData", new CustomDataModel());
 ```
-### Resolve a data model from the globals:
-#### As singleton:
+##### Resolve a data model from the globals:
+###### As singleton:
 ```
 var myCustomData = Framework.Globals.ResolveSingleton<CustomDataModel>() as CustomDataModel;
 ``` 
-#### As transient:
+###### As transient:
 ```
 var myCustomData = Framework.Globals.ResolveTransient<CustomDataModel>("myCustomData") as CustomDataModel;
 ```
-### Access to SceneView can be done in the standard way you access any Unity component:
+##### Access to SceneView can be done in the standard way you access any Unity component:
 ```
 var sceneView = GameObject.Find("SceneView").GetComponent<SceneView>() as SceneView;
 ```
  
 ## Tools:
 
-### CDebug object 
-Provides a wrapper for Unity's logger with added functionality. 
+### CDebug
+
+Provides a wrapper for Unity's logger with added functionality:
  - Enable/Disable logging globally
  - Enable/Disable logging per type
   
