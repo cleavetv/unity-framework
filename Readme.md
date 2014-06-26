@@ -61,19 +61,19 @@ SceneObjects implementing this interface will have `Destroy()` invoked on them a
 ## How To:
 
 ##### Change a scene:
-```
+```csharp
 Framework.PushCommand(new ChangeSceneCmd(<SceneName>));
 ```
 ##### Change an option value:
-```
+```csharp
 Framework.App.Options.FullScreen = false;
 ```
 ##### Apply options and write the configuration to disk:
-```
+```csharp
 Framework.PushCommand(new ApplyOptionsCmd());
 ```
 ##### Implement a custom command:
-```
+```csharp
 class MyCustomCommand<T> : Command
 {
     public T Data;
@@ -83,11 +83,11 @@ class MyCustomCommand<T> : Command
 }
 ```
 ##### Push your custom command:
-```
+```csharp
 Framework.PushCommand(new MyCustomCommand<int>(42));
 ```
 ##### Implement a custom command listener:
-```
+```csharp
 Command.Register(typeof(MyCustomCommand<int>), OnCustomCommand);
 void OnCustomCommand(Command c)
 {
@@ -98,29 +98,29 @@ void OnCustomCommand(Command c)
 Note: Many objects can implement listeners for the same command so they can process the data appropriately.  For example: Some internal game system can listen to an incoming command and act on it appropriately while your hud system can also listen to the same command and update it's view appropriately without any coupling between the systems.
 
 ##### Unregister a command listener:
-```
+```csharp
 Command.Unregister(typeof(MyCustomCommand<int>), OnCustomCommand);
 ``` 
 ##### Pass a data model from one scene to another:
 ###### As singleton:
-```
+```csharp
 Framework.Globals.PushObjectAsSingleton(new CustomDataModel());
 ```
 ###### As transient:
-```
+```csharp
 Framework.Globals.PushObjectAsTransient("myCustomData", new CustomDataModel());
 ```
 ##### Resolve a data model from the globals:
 ###### As singleton:
-```
+```csharp
 var myCustomData = Framework.Globals.ResolveSingleton<CustomDataModel>() as CustomDataModel;
 ``` 
 ###### As transient:
-```
+```csharp
 var myCustomData = Framework.Globals.ResolveTransient<CustomDataModel>("myCustomData") as CustomDataModel;
 ```
 ##### Access to SceneView can be done in the standard way you access any Unity component:
-```
+```csharp
 var sceneView = GameObject.Find("SceneView").GetComponent<SceneView>() as SceneView;
 ```
  
