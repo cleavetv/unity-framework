@@ -1,4 +1,6 @@
-﻿# CleaveFramework v0.1.0 - A Unity C# game framework.
+﻿# CleaveFramework v0.1.0 
+
+A Unity3D C# application framework.
 ﻿
 This framework is meant to faciliate the implementation of a better structure for Unity3D game project code.  It is by no means perfect, and I welcome any and all feedback and potential contributions in regards to improving its functionality and easing its usability.  Thanks!
 
@@ -15,17 +17,29 @@ Clone or pull repository.  Copy Assets/CleaveFramework into the location of your
 
 The Framework executes based around several simple principals:
 
- - A single object in your Unity scenes contains the "Framework" component attached to it.  This object must exist in every scene.
- - A component is implemented with the name `<YourScene>SceneView`.  For example:  a GameSceneView component is expected when initializing a scene named Game.
- - Your SceneView component is derived from the CleaveFramework.Scene.SceneView object.
- - Objects are instantiated in your derived SceneView::Initialize() implementation through the exposed SceneObjects instance of SceneObjectsData.
+ - A single object in your Unity scenes contains the `Framework` component attached to it.  This object must exist in every scene.
+ - A component is implemented with the name `<YourScene>SceneView`.  For example: a `GameSceneView` component is expected when initializing a scene named `Game`.
+ - Your SceneView component is derived from the `CleaveFramework.Scene.SceneView` object.
+ - Objects are instantiated in your derived `SceneView.Initialize()` implementation through the exposed `SceneObjects` instance of `SceneObjectsData`.
  
 ## Interfaces:
 
- - IInitializable : SceneObjects implementing this interface will have Initialize() invoked on them at the point in which you call SceneObjects.InitializeSceneObjects() -- you should call this method at the end of your SceneView::Initialize() implementation
- - IConfigureable : SceneObjects implementing this interface will have Configure() invoked on them immediately after all SceneObjects have been completely initialized.  At this point you are now able to bind any references to any initialized object.  For example: in the case of a View object added to your scene hierarchy in UnityEditor mode and has it's instance  resolved during Initialize.
- - IUpdateable : SceneObjects implementing this interface will have Update(deltaTime) invoked on them during the SceneView object's update cycle with Time.deltaTime as the parameter.
- - IDestroyable : SceneObjects implementing this interface will have Destroy() invoked on them at the point in which the OnDestroy() method on your SceneView is being called by the UnityEngine.
+### IInitializable 
+
+SceneObjects implementing this interface will have `Initialize()` invoked on them at the point in which you call `SceneObjects.InitializeSceneObjects()` -- you should call this method at the end of your `SceneView.Initialize()` implementation
+
+### IConfigureable 
+
+SceneObjects implementing this interface will have `Configure()` invoked on them immediately after all SceneObjects have been completely initialized.  At this point you are now able to bind any references to any initialized object.  For example: in the case of a View object added to your scene hierarchy in UnityEditor mode and has it's instance resolved during Initialize.
+
+### IUpdateable 
+
+SceneObjects implementing this interface will have `Update(deltaTime)` invoked on them during the SceneView object's update cycle with `Time.deltaTime` as the parameter.
+
+
+### IDestroyable
+
+SceneObjects implementing this interface will have `Destroy()` invoked on them at the point in which the `OnDestroy()` method on your SceneView is being called by the UnityEngine.
  
 ## Objects:
 
