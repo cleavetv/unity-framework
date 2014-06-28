@@ -84,11 +84,11 @@ class MyCustomCommand<T> : Command
 ```
 ##### Push your custom command:
 ```csharp
-// execute immediately
+// execute on next Framework's Process()
 Framework.PushCommand(new MyCustomCommand<int>(42));
-// execute next frame
-Framework.PushCommand(new MyCustomCommand<int>(42), 1);
-// execute in 5 seconds
+// delay execution for 3 frames
+Framework.PushCommand(new MyCustomCommand<int>(42), 3);
+// delay execution for 5 seconds
 Framework.PushCommand(new MyCustomCommand<int>(42), 5.0f);
 ```
 ##### Implement a custom command listener:
