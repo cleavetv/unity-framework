@@ -84,11 +84,21 @@ class MyCustomCommand<T> : Command
 ```
 ##### Push your custom command:
 ```csharp
+// execute immediately
 Framework.PushCommand(new MyCustomCommand<int>(42));
+// execute next frame
+Framework.PushCommand(new MyCustomCommand<int>(42), 1);
+// execute in 5 seconds
+Framework.PushCommand(new MyCustomCommand<int>(42), 5.0f);
 ```
 ##### Implement a custom command listener:
 ```csharp
 Command.Register(typeof(MyCustomCommand<int>), OnCustomCommand);
+// or with generic method:
+Command.Register<MyCustomCommand<int>>(OnCustomCommand);
+```
+
+```csharp
 void OnCustomCommand(Command c)
 {
    var cmd = c as MyCustomCommand<int>;
