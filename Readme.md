@@ -110,6 +110,8 @@ Note: Many objects can implement listeners for the same command so they can proc
 ##### Unregister a command listener:
 ```csharp
 Command.Unregister(typeof(MyCustomCommand<int>), OnCustomCommand);
+// or with generic command
+Command.Unregister<MyCustomCommand<int>>(OnCustomCommand);
 ``` 
 ##### Pass a data model from one scene to another:
 ###### As singleton:
