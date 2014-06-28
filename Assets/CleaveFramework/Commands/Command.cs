@@ -55,6 +55,29 @@ namespace CleaveFramework.Commands
             }
             //Debug.Log("Registering: " + type.ToString());
         }
+		
+        /// <summary>
+        /// generic registration of a command type to a callback
+        /// </summary>
+        /// <example>  
+        /// This sample shows how to call the generic <see cref="Register{T}"/> method.
+        /// <code> 
+        /// class CustomDataModel  
+        /// { 
+        ///     public void Initialize()
+        ///     { 
+        ///         Commands.Register&lt;MyCustomCommand&gt;(MyCallback);
+        ///     } 
+        /// } 
+        /// </code> 
+        /// </example>         
+        /// <typeparam name="T">command type</typeparam>
+        /// <param name="execute">delegate for callback</param>
+        public static void Register<T>(CommandCallback execute) where T : Command
+        {
+            Register(typeof(T), execute);
+        }	
+		
         /// <summary>
         /// remove callback registration from a command type
         /// </summary>
@@ -67,6 +90,29 @@ namespace CleaveFramework.Commands
                 _executeCallbacks[type] -= execute;
             }
         }
+		
+        /// <summary>
+        /// generic remove callback registration from a command type
+        /// </summary>
+        /// <example>  
+        /// This sample shows how to call the generic <see cref="Unregister{T}"/> method.
+        /// <code> 
+        /// class CustomDataModel  
+        /// { 
+        ///     public void Destroy()
+        ///     { 
+        ///         Commands.Unregister&lt;MyCustomCommand&gt;(MyCallback);
+        ///     } 
+        /// } 
+        /// </code> 
+        /// </example>         
+        /// <typeparam name="T">command type</typeparam>
+        /// <param name="execute">delegate to remove from callback</param>
+        public static void Unregister<T>(CommandCallback execute) where T : Command
+        {
+            Unregister(typeof(T), execute);
+        }	
+		
         /// <summary>
         /// base execution method, can override to provide more functionality
         /// </summary>
