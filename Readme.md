@@ -24,9 +24,9 @@ The Framework executes based around several simple principals:
  - A single object in your Unity scenes contains the `Framework` component attached to it.  This object must exist in every scene.
  - A component is implemented with the name `<YourScene>SceneView`.  For example: a `GameSceneView` component is expected when initializing a scene named `Game`.
  - Your SceneView component is derived from the `CleaveFramework.Scene.SceneView` object.
- - Objects are instantiated in your derived `SceneView.Initialize()` implementation through the exposed `SceneObjects` instance of `SceneObjectsData`.
+ - Objects are pushed into the framework in your derived `SceneView.Initialize()` implementation through the exposed `SceneObjects` instance of `SceneObjectsData`.
  
-## Interfaces:
+## Interfaces Overview:
 
 ### IInitializable 
 
@@ -45,7 +45,7 @@ SceneObjects implementing this interface will have `Update(deltaTime)` invoked o
 
 SceneObjects implementing this interface will have `Destroy()` invoked on them at the point in which the `OnDestroy()` method on your SceneView is being called by the UnityEngine.
  
-## Objects:
+## Objects Overview:
 
  - Framework : The Framework object itself
  - Command : abstract object implements basic event listening callbacks
@@ -61,7 +61,7 @@ SceneObjects implementing this interface will have `Destroy()` invoked on them a
 
 ## Factory:
 
-Factory is a generic factory object which is optional for you to use if you desire.
+Factory is a generic factory object which is optional for you to use if you desire.  It is able to provide the object with a post-instantiation Construction step via delegate.
 
 ### Factory Usage:
 
@@ -81,6 +81,10 @@ private object ConstructDefaultFoo(object obj) {
 ##### Set a default object constructor:
 ```csharp
 Factory.SetConstructor<Foo>(ConstructDefaultFoo);
+// remove default constructor if you want:
+Factory.SetConstructor<Foo>(null);
+// or set it to something else:
+Factory.SetConstructor<Foo>(ConstructNonDefaultFoo);
 ```
 ##### Make a Foo using previous set constructor:
 ```csharp
