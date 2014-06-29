@@ -1,4 +1,4 @@
-﻿# CleaveFramework v0.1.0 
+﻿# CleaveFramework v0.1.1
 
 A Unity3D C# application framework.
 
@@ -57,8 +57,51 @@ SceneObjects implementing this interface will have `Destroy()` invoked on them a
  - SceneObjectData : implements generic containers for objects which live inside the Unity Scene
  - SceneView : abstract object derived from View which holds SceneObjectData
  - CDebug : basic debugging tool (see tools)
- 
-## How To:
+ - Factory : Generic Factory for creating objects and performing post-instantiation construction
+
+## Factory:
+
+Factory is a generic factory object which is optional for you to use if you desire.
+
+### Factory Usage:
+
+##### Define a constructor for an object type:
+```csharp
+private object ConstructDefaultFoo(object obj) {
+    var foo = obj as Foo;
+    // resolve dependencies here however you want for ex (assuming SceneObjects):
+    foo.Dependency = SceneObjects.ResolveSingleton<SystemA>(); 
+    foo.SomeMethod(); // call an internal method on foo if you need to
+    var system = SceneObjects.ResolveSingleton<SystemB>() as SystemB;
+    system.SomeMethod(foo); // tell some object about foo
+    Framework.PushCommand(new FooCommand(foo)); // tell anyone who wants to know all about foo
+    return foo;
+}
+```
+##### Set a default object constructor:
+```csharp
+Factory.SetConstructor<Foo>(ConstructDefaultFoo);
+```
+##### Make a Foo using previous set constructor:
+```csharp
+var newFoo = Factory.Create<Foo>() as Foo;
+```
+##### Make a Foo using an alternate non-default constructor:
+```csharp
+var newFoo = Factory.Create<Foo>(ConstructDifferentFoo) as Foo;
+```
+##### Make a singleton Foo and place it into the SceneObjects framework:
+```csharp
+var newFoo = Factory.Create<Foo>(SceneObjects) as Foo;
+// note this is the same (just less typing and less error prone) as doing:
+var newFoo = SceneObjects.PushObjectAsSingleton((Foo)Factory.Create<Foo>()) as Foo;
+```
+##### Make a transient Foo and place it into the SceneObjects framework:
+```csharp
+var newFoo = Factory.Create<Foo>(SceneObjects, "fooName") as Foo;
+```
+
+## General How To:
 
 ##### Change a scene:
 ```csharp
