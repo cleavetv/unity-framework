@@ -39,7 +39,10 @@ namespace CleaveFramework.Factory
         static public void SetConstructor<T>(Constructor constructor)
         {
             // for now we are a single delegate
-            if (_constructors.ContainsKey(typeof (T))) return;
+            if (_constructors.ContainsKey(typeof (T)))
+            {
+                _constructors[typeof (T)] = constructor;
+            }
             _constructors.Add(typeof(T), constructor);
         }
 
