@@ -26,7 +26,7 @@ The Framework executes based around several simple principals:
  - Your SceneView component is derived from the `CleaveFramework.Scene.SceneView` object.
  - Objects are pushed into the framework in your derived `SceneView.Initialize()` implementation through the exposed `SceneObjects` instance of `SceneObjectsData`.
  
-## Interfaces:
+## Interfaces Overview:
 
 ### IInitializable 
 
@@ -45,7 +45,7 @@ SceneObjects implementing this interface will have `Update(deltaTime)` invoked o
 
 SceneObjects implementing this interface will have `Destroy()` invoked on them at the point in which the `OnDestroy()` method on your SceneView is being called by the UnityEngine.
  
-## Objects:
+## Objects Overview:
 
  - Framework : The Framework object itself
  - Command : abstract object implements basic event listening callbacks
@@ -61,7 +61,7 @@ SceneObjects implementing this interface will have `Destroy()` invoked on them a
 
 ## Factory:
 
-Factory is a generic factory object which is optional for you to use if you desire.
+Factory is a generic factory object which is optional for you to use if you desire.  It is able to provide the object with a post-instantiation Construction step via delegate.
 
 ### Factory Usage:
 
