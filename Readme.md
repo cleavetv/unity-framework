@@ -24,7 +24,7 @@ The Framework executes based around several simple principals:
  - A single object in your Unity scenes contains the `Framework` component attached to it.  This object must exist in every scene.
  - A component is implemented with the name `<YourScene>SceneView`.  For example: a `GameSceneView` component is expected when initializing a scene named `Game`.
  - Your SceneView component is derived from the `CleaveFramework.Scene.SceneView` object.
- - Objects are instantiated in your derived `SceneView.Initialize()` implementation through the exposed `SceneObjects` instance of `SceneObjectsData`.
+ - Objects are pushed into the framework in your derived `SceneView.Initialize()` implementation through the exposed `SceneObjects` instance of `SceneObjectsData`.
  
 ## Interfaces:
 
