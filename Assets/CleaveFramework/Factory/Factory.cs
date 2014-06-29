@@ -42,7 +42,8 @@ namespace CleaveFramework.Factory
 
             if(_constructors.ContainsKey(typeof(T)))
             {
-                obj = (T)_constructors[typeof (T)].Invoke(obj);
+                if(_constructors[typeof(T)] != null)
+                    obj = (T)_constructors[typeof (T)].Invoke(obj);
             }
             return obj;
         }
