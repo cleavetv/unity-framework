@@ -14,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 using CleaveFramework.Scene;
+using UnityEngine;
 
 namespace CleaveFramework.Factory
 {
@@ -48,6 +49,190 @@ namespace CleaveFramework.Factory
         }
 
         /// <summary>
+        /// Construct a previously instantiated Component attached to a GameObject present and active in a UnityScene
+        /// </summary>
+        /// <typeparam name="T">Type of Component to get</typeparam>
+        /// <param name="goName">Name of GameObject holding the component</param>
+        /// <returns></returns>
+        static public MonoBehaviour ConstructMonoBehaviour<T>(string goName)
+        {
+            var component = ResolveComponent<T>(goName);
+            component = (MonoBehaviour) InvokeDefaultConstructor<T>(component);
+            return component;
+        }
+
+        /// <summary>
+        /// Construct a previously instantiated Component attached to a GameObject in a UnityScene
+        /// </summary>
+        /// <typeparam name="T">Type of Component to get</typeparam>
+        /// <param name="go">GameObject holding the component</param>
+        /// <returns></returns>
+        static public MonoBehaviour ConstructMonoBehaviour<T>(GameObject go)
+        {
+            var component = ResolveComponent<T>(go);
+            component = (MonoBehaviour)InvokeDefaultConstructor<T>(component);
+            return component;
+        }
+
+        /// <summary>
+        /// Construct a previously instantiated Component attached to a GameObject present and active in a UnityScene
+        /// </summary>
+        /// <typeparam name="T">Type of Component to get</typeparam>
+        /// <param name="goName">Name of GameObject holding the component</param>
+        /// <param name="constructor">constructor to run on the component</param>
+        /// <returns>constructed component</returns>
+        static public MonoBehaviour ConstructMonoBehaviour<T>(string goName, Constructor constructor)
+        {
+            var component = ResolveComponent<T>(goName);
+            component = (MonoBehaviour) InvokeConstructor<T>(component, constructor);
+            return component;
+        }
+
+        /// <summary>
+        /// Construct a previously instantiated Component attached to a GameObject present and active in a UnityScene
+        /// </summary>
+        /// <typeparam name="T">Type of Component to get</typeparam>
+        /// <param name="go">GameObject holding the component</param>
+        /// <param name="constructor">constructor to run on the component</param>
+        /// <returns>constructed component</returns>
+        static public MonoBehaviour ConstructMonoBehaviour<T>(GameObject go, Constructor constructor)
+        {
+            var component = ResolveComponent<T>(go);
+            component = (MonoBehaviour)InvokeConstructor<T>(component, constructor);
+            return component;
+        }
+
+        /// <summary>
+        /// Construct a previously instantiated Component attached to a GameObject present and active in a UnityScene 
+        /// and add it to the SceneObjects as a singleton
+        /// </summary>
+        /// <typeparam name="T">Type of Component to get</typeparam>
+        /// <param name="goName">Name of GameObject holding the component</param>
+        /// <param name="constructor">constructor to run on the component</param>
+        /// <param name="data">SceneObjectsData instance to add component to</param>
+        /// <returns>constructed component</returns>
+        static public MonoBehaviour ConstructMonoBehaviour<T>(string goName, Constructor constructor, SceneObjectData data)
+        {
+            var component = ConstructMonoBehaviour<T>(goName, constructor);
+            PushSingleton<T>(data, component);
+            return component;
+        }
+
+        /// <summary>
+        /// Construct a previously instantiated Component attached to a GameObject present and active in a UnityScene 
+        /// and add it to the SceneObjects as a singleton
+        /// </summary>
+        /// <typeparam name="T">Type of Component to get</typeparam>
+        /// <param name="go">GameObject holding the component</param>
+        /// <param name="constructor">constructor to run on the component</param>
+        /// <param name="data">SceneObjectsData instance to add component to</param>
+        /// <returns>constructed component</returns>
+        static public MonoBehaviour ConstructMonoBehaviour<T>(GameObject go, Constructor constructor, SceneObjectData data)
+        {
+            var component = ConstructMonoBehaviour<T>(go, constructor);
+            PushSingleton<T>(data, component);
+            return component;
+        }
+
+        /// <summary>
+        /// Construct a previously instantiated Component attached to a GameObject present and active in a UnityScene 
+        /// and add it to the SceneObjects as a singleton
+        /// </summary>
+        /// <typeparam name="T">Type of Component to get</typeparam>
+        /// <param name="goName">Name of GameObject holding the component</param>
+        /// <param name="constructor">constructor to run on the component</param>
+        /// <param name="data">SceneObjectsData instance to add component to</param>
+        /// <returns>constructed component</returns>
+        static public MonoBehaviour ConstructMonoBehaviour<T>(string goName, SceneObjectData data)
+        {
+            var component = ConstructMonoBehaviour<T>(goName);
+            PushSingleton<T>(data, component);
+            return component;
+        }
+
+        /// <summary>
+        /// Construct a previously instantiated Component attached to a GameObject present and active in a UnityScene 
+        /// and add it to the SceneObjects as a singleton
+        /// </summary>
+        /// <typeparam name="T">Type of Component to get</typeparam>
+        /// <param name="go">GameObject holding the component</param>
+        /// <param name="constructor">constructor to run on the component</param>
+        /// <param name="data">SceneObjectsData instance to add component to</param>
+        /// <returns>constructed component</returns>
+        static public MonoBehaviour ConstructMonoBehaviour<T>(GameObject go, SceneObjectData data)
+        {
+            var component = ConstructMonoBehaviour<T>(go);
+            PushSingleton<T>(data, component);
+            return component;
+        }
+
+        /// <summary>
+        /// Construct a previously instantiated Component attached to a GameObject present and active in a UnityScene 
+        /// and add it to the SceneObjects as a transient
+        /// </summary>
+        /// <typeparam name="T">Type of Component to get</typeparam>
+        /// <param name="goName">Name of GameObject holding the component</param>
+        /// <param name="data">SceneObjectsData instance to add component to</param>
+        /// <param name="name">name of the object</param>
+        /// <returns>constructed component</returns>
+        static public MonoBehaviour ConstructMonoBehaviour<T>(string goName, SceneObjectData data, string name)
+        {
+            var component = ConstructMonoBehaviour<T>(goName);
+            PushTransient<T>(data, name, component);
+            return component;
+        }
+
+        /// <summary>
+        /// Construct a previously instantiated Component attached to a GameObject present and active in a UnityScene 
+        /// and add it to the SceneObjects as a transient
+        /// </summary>
+        /// <typeparam name="T">Type of Component to get</typeparam>
+        /// <param name="go">Name of GameObject holding the component</param>
+        /// <param name="data">SceneObjectsData instance to add component to</param>
+        /// <param name="name">name of the object</param>
+        /// <returns>constructed component</returns>
+        static public MonoBehaviour ConstructMonoBehaviour<T>(GameObject go, SceneObjectData data, string name)
+        {
+            var component = ConstructMonoBehaviour<T>(go);
+            PushTransient<T>(data, name, component);
+            return component;
+        }
+
+        /// <summary>
+        /// Construct a previously instantiated Component attached to a GameObject present and active in a UnityScene 
+        /// and add it to the SceneObjects as a transient
+        /// </summary>
+        /// <typeparam name="T">Type of Component to get</typeparam>
+        /// <param name="goName">Name of GameObject holding the component</param>
+        /// <param name="constructor">constructor to run on the component</param>
+        /// <param name="data">SceneObjectsData instance to add component to</param>
+        /// <param name="name">name of the object</param>
+        /// <returns>constructed component</returns>
+        static public MonoBehaviour ConstructMonoBehaviour<T>(string goName, Constructor constructor, SceneObjectData data, string name)
+        {
+            var component = ConstructMonoBehaviour<T>(goName, constructor);
+            PushTransient<T>(data, name, component);
+            return component;
+        }
+
+        /// <summary>
+        /// Construct a previously instantiated Component attached to a GameObject present and active in a UnityScene 
+        /// and add it to the SceneObjects as a transient
+        /// </summary>
+        /// <typeparam name="T">Type of Component to get</typeparam>
+        /// <param name="go">Name of GameObject holding the component</param>
+        /// <param name="constructor">constructor to run on the component</param>
+        /// <param name="data">SceneObjectsData instance to add component to</param>
+        /// <param name="name">name of the object</param>
+        /// <returns>constructed component</returns>
+        static public MonoBehaviour ConstructMonoBehaviour<T>(GameObject go, Constructor constructor, SceneObjectData data, string name)
+        {
+            var component = ConstructMonoBehaviour<T>(go, constructor);
+            PushTransient<T>(data, name, component);
+            return component;
+        }
+
+        /// <summary>
         /// Create object of type T, if a constructor exists in the Factory use it on the object
         /// before returning it
         /// </summary>
@@ -56,12 +241,7 @@ namespace CleaveFramework.Factory
         static public object Create<T>()
         {
             var obj = Activator.CreateInstance<T>();
-
-            if(_constructors.ContainsKey(typeof(T)))
-            {
-                if(_constructors[typeof(T)] != null)
-                    obj = (T)_constructors[typeof (T)].Invoke(obj);
-            }
+            obj = (T)InvokeDefaultConstructor<T>(obj);
             return obj;
         }
 
@@ -159,6 +339,44 @@ namespace CleaveFramework.Factory
                 throw new Exception("Name passed to Create() was empty or null");
             }
             data.PushObjectAsTransient(name, (T)obj);
+        }
+
+        static private object InvokeConstructor<T>(object obj, Constructor constructor)
+        {
+            if (constructor != null)
+            {
+                obj = constructor.Invoke(obj);
+            }
+
+            return obj;
+        }
+
+        static private object InvokeDefaultConstructor<T>(object obj)
+        {
+            if (_constructors.ContainsKey(typeof(T)))
+            {
+                if (_constructors[typeof(T)] != null)
+                    obj = (T)_constructors[typeof(T)].Invoke(obj);
+            }
+            return obj;
+        }
+        static private MonoBehaviour ResolveComponent<T>(string goName)
+        {
+            var go = GameObject.Find(goName);
+            if (go == null)
+            {
+                throw new Exception("ResolveComponent: GameObject was null.");
+            }
+            return ResolveComponent<T>(go);
+        }
+        static private MonoBehaviour ResolveComponent<T>(GameObject go)
+        {
+            var component = go.GetComponent(typeof(T).Name);
+            if (component == null)
+            {
+                throw new Exception("ResolveComponent: Component was null.");
+            }
+            return (MonoBehaviour)component;
         }
     }
 }
