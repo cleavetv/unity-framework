@@ -81,6 +81,10 @@ private object ConstructDefaultFoo(object obj) {
 ##### Set a default object constructor:
 ```csharp
 Factory.SetConstructor<Foo>(ConstructDefaultFoo);
+// remove default constructor if you want:
+Factory.SetConstructor<Foo>(null);
+// or set it to something else:
+Factory.SetConstructor<Foo>(ConstructNonDefaultFoo);
 ```
 ##### Make a Foo using previous set constructor:
 ```csharp
