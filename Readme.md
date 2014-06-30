@@ -89,10 +89,12 @@ Factory.SetConstructor<Foo>(ConstructNonDefaultFoo);
 ##### Make a Foo using previous set constructor:
 ```csharp
 var newFoo = Factory.Create<Foo>() as Foo;
-// or resolve and construct a Foo component on a GameObject in one step from a GameObject's name:
+// or resolve and construct a Foo component already attached to a GameObject in one step from a GameObject's name:
 var fooComponent = Factory.ConstructMonoBehaviour<Foo>("FoosGameObject") as Foo;
 // or pass in the container GameObject directly:
 var fooComponent = Factory.ConstructMonoBehaviour<Foo>(FoosGameObject) as Foo;
+// or if Foo is a non attached MonoBehaviour we can attach it as a component to a GameObject:
+var fooComponent = Factory.AddComponent<Foo>(FoosGameObject) as Foo;
 ```
 ##### Make a Foo using an alternate non-default constructor:
 ```csharp
