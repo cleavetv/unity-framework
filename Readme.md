@@ -101,6 +101,8 @@ var fooComponent = Factory.AddComponent<Foo>(FoosGameObject) as Foo;
 var newFoo = Factory.Create<Foo>(ConstructDifferentFoo) as Foo;
 // or as a component:
 var fooComponent = Factory.ConstructMonoBehaviour<Foo>("FoosGameObject", ConstructDifferentFoo) as Foo;
+// attaching a component:
+var fooComponent = Factory.AddComponent<Foo>(FoosGameObject, ConstructDifferentFoo) as Foo;
 ```
 ##### Make a singleton Foo and place it into the SceneObjects framework:
 ```csharp
@@ -109,6 +111,8 @@ var newFoo = Factory.Create<Foo>(SceneObjects) as Foo;
 var newFoo = SceneObjects.PushObjectAsSingleton((Foo)Factory.Create<Foo>()) as Foo;
 // or as a component:
 var fooComponent = Factory.ConstructMonoBehaviour<Foo>("FoosGameObject", SceneObjects) as Foo;
+// or while adding a component:
+var fooComponent = Factory.AddComponent<Foo>(FoosGameObject, SceneObjects) as Foo;
 ```
 ##### Make a transient Foo and place it into the SceneObjects framework:
 ```csharp
