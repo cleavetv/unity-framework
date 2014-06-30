@@ -49,6 +49,202 @@ namespace CleaveFramework.Factory
         }
 
         /// <summary>
+        /// attach a new component of type T to the GameObject of given name
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="goName"></param>
+        /// <returns></returns>
+        static public MonoBehaviour AddComponent<T>(string goName)
+        {
+            var go = ResolveGameObject(goName);
+            return AddComponent<T>(go);
+        }
+
+        /// <summary>
+        /// attach a new component of type T to the GameObject
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="go"></param>
+        /// <returns></returns>
+        static public MonoBehaviour AddComponent<T>(GameObject go)
+        {
+            if (go == null)
+            {
+                throw new Exception("AddComponent: GameObject was null");
+            }
+            var component = go.AddComponent(typeof(T).Name) as MonoBehaviour;
+            component = (MonoBehaviour)InvokeDefaultConstructor<T>(component);
+            return component;
+        }
+
+        /// <summary>
+        /// attach a new component of type T to the GameObject of given name
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="goName"></param>
+        /// <param name="constructor"></param>
+        /// <returns></returns>
+        static public MonoBehaviour AddComponent<T>(string goName, Constructor constructor)
+        {
+            var go = ResolveGameObject(goName);
+            return AddComponent<T>(go, constructor);
+        }
+
+        /// <summary>
+        /// attach a new component of type T to the GameObject
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="go"></param>
+        /// <param name="constructor"></param>
+        /// <returns></returns>
+        static public MonoBehaviour AddComponent<T>(GameObject go, Constructor constructor)
+        {
+            if (go == null)
+            {
+                throw new Exception("AddComponent: GameObject was null");
+            }
+            var component = go.AddComponent(typeof(T).Name) as MonoBehaviour;
+            component = (MonoBehaviour)InvokeConstructor<T>(component, constructor);
+            return component;
+        }
+
+        /// <summary>
+        /// attach a new component of type T to the GameObject of given name
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="goName"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        static public MonoBehaviour AddComponent<T>(string goName, SceneObjectData data)
+        {
+            var go = ResolveGameObject(goName);
+            return AddComponent<T>(go, data);
+        }
+
+        /// <summary>
+        /// attach a new component of type T to the GameObject
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="go"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        static public MonoBehaviour AddComponent<T>(GameObject go, SceneObjectData data)
+        {
+            if (go == null)
+            {
+                throw new Exception("AddComponent: GameObject was null");
+            }
+            var component = go.AddComponent(typeof(T).Name) as MonoBehaviour;
+            component = (MonoBehaviour)InvokeDefaultConstructor<T>(component);
+            PushSingleton<T>(data, component);
+            return component;
+        }
+
+        /// <summary>
+        /// attach a new component of type T to the GameObject of given name
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="goName"></param>
+        /// <param name="constructor"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        static public MonoBehaviour AddComponent<T>(string goName, Constructor constructor, SceneObjectData data)
+        {
+            var go = ResolveGameObject(goName);
+            return AddComponent<T>(go, constructor, data);
+        }
+
+        /// <summary>
+        /// attach a new component of type T to the GameObject
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="go"></param>
+        /// <param name="constructor"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        static public MonoBehaviour AddComponent<T>(GameObject go, Constructor constructor, SceneObjectData data)
+        {
+            if (go == null)
+            {
+                throw new Exception("AddComponent: GameObject was null");
+            }
+            var component = go.AddComponent(typeof(T).Name) as MonoBehaviour;
+            component = (MonoBehaviour)InvokeConstructor<T>(component, constructor);
+            PushSingleton<T>(data, component);
+            return component;
+        }
+
+        /// <summary>
+        /// attach a new component of type T to the GameObject of given name
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="goName"></param>
+        /// <param name="constructor"></param>
+        /// <param name="data"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        static public MonoBehaviour AddComponent<T>(string goName, Constructor constructor, SceneObjectData data, string name)
+        {
+            var go = ResolveGameObject(goName);
+            return AddComponent<T>(go, constructor, data, name);
+        }
+
+        /// <summary>
+        /// attach a new component of type T to the GameObject
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="go"></param>
+        /// <param name="constructor"></param>
+        /// <param name="data"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        static public MonoBehaviour AddComponent<T>(GameObject go, Constructor constructor, SceneObjectData data, string name)
+        {
+            if (go == null)
+            {
+                throw new Exception("AddComponent: GameObject was null");
+            }
+            var component = go.AddComponent(typeof(T).Name) as MonoBehaviour;
+            component = (MonoBehaviour)InvokeConstructor<T>(component, constructor);
+            PushTransient<T>(data, name, component);
+            return component;
+        }
+
+        /// <summary>
+        /// attach a new component of type T to the GameObject of given name
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="goName"></param>
+        /// <param name="data"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        static public MonoBehaviour AddComponent<T>(string goName, SceneObjectData data, string name)
+        {
+            var go = ResolveGameObject(goName);
+            return AddComponent<T>(go, data, name);
+        }
+
+        /// <summary>
+        /// attach a new component of type T to the GameObject
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="go"></param>
+        /// <param name="data"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        static public MonoBehaviour AddComponent<T>(GameObject go, SceneObjectData data, string name)
+        {
+            if (go == null)
+            {
+                throw new Exception("AddComponent: GameObject was null");
+            }
+            var component = go.AddComponent(typeof(T).Name) as MonoBehaviour;
+            component = (MonoBehaviour)InvokeDefaultConstructor<T>(component);
+            PushTransient<T>(data, name, component);
+            return component;
+        }
+
+        /// <summary>
         /// Construct a previously instantiated Component attached to a GameObject present and active in a UnityScene
         /// </summary>
         /// <typeparam name="T">Type of Component to get</typeparam>
@@ -360,13 +556,19 @@ namespace CleaveFramework.Factory
             }
             return obj;
         }
-        static private MonoBehaviour ResolveComponent<T>(string goName)
+
+        static private GameObject ResolveGameObject(string goName)
         {
             var go = GameObject.Find(goName);
             if (go == null)
             {
                 throw new Exception("ResolveComponent: GameObject was null.");
             }
+            return go;
+        }
+        static private MonoBehaviour ResolveComponent<T>(string goName)
+        {
+            var go = ResolveGameObject(goName);
             return ResolveComponent<T>(go);
         }
         static private MonoBehaviour ResolveComponent<T>(GameObject go)
