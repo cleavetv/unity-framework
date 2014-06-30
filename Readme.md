@@ -61,7 +61,7 @@ SceneObjects implementing this interface will have `Destroy()` invoked on them a
 
 ## Factory:
 
-Factory is a generic factory object which is optional for you to use if you desire.  It is able to provide the object with a post-instantiation Construction step via delegate.
+Factory is a generic factory object which is optional for you to use if you desire.  It is able to provide the object or MonoBehaviour component with a post-instantiation Construction step via delegate.
 
 ### Factory Usage:
 
@@ -89,20 +89,30 @@ Factory.SetConstructor<Foo>(ConstructNonDefaultFoo);
 ##### Make a Foo using previous set constructor:
 ```csharp
 var newFoo = Factory.Create<Foo>() as Foo;
+// or resolve and construct a Foo component on a GameObject in one step from a GameObject's name:
+var fooComponent = Factory.ConstructMonoBehaviour<Foo>("FoosGameObject") as Foo;
+// or pass in the container GameObject directly:
+var fooComponent = Factory.ConstructMonoBehaviour<Foo>(FoosGameObject) as Foo;
 ```
 ##### Make a Foo using an alternate non-default constructor:
 ```csharp
 var newFoo = Factory.Create<Foo>(ConstructDifferentFoo) as Foo;
+// or as a component:
+var fooComponent = Factory.ConstructMonoBehaviour<Foo>("FoosGameObject", ConstructDifferentFoo) as Foo;
 ```
 ##### Make a singleton Foo and place it into the SceneObjects framework:
 ```csharp
 var newFoo = Factory.Create<Foo>(SceneObjects) as Foo;
 // note this is the same (just less typing and less error prone) as doing:
 var newFoo = SceneObjects.PushObjectAsSingleton((Foo)Factory.Create<Foo>()) as Foo;
+// or as a component:
+var fooComponent = Factory.ConstructMonoBehaviour<Foo>("FoosGameObject", SceneObjects) as Foo;
 ```
 ##### Make a transient Foo and place it into the SceneObjects framework:
 ```csharp
 var newFoo = Factory.Create<Foo>(SceneObjects, "fooName") as Foo;
+// or as a component:
+var fooComponent = Factory.ConstructMonoBehaviour<Foo>("FoosGameObject", SceneObjects, "fooName") as Foo;
 ```
 
 ## General How To:
