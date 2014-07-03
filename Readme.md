@@ -85,7 +85,7 @@ Singleton types are very basic.  To use a singleton type you are required to fir
 ##### Give the Injector a singleton instance:
 ```csharp
 // first create an implementation of FooSystem that implements IFooSystem
-var myFooSystemImplementation = Factory.Create<FooSystem>(ConstructFooSystem) as FooSystem;
+var myFooSystem = Factory.Create<FooSystem>(ConstructFooSystem) as FooSystem;
 // bind an implementation of a singleton to an interface:
 Injector.AddSingleton<IFooSystem>(myFooSystem);
 // or just bind it to a concrete implementation (same thing as above just less extensible and flexible)
