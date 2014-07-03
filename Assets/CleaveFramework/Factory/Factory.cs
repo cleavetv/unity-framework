@@ -13,7 +13,9 @@
    limitations under the License. */
 using System;
 using System.Collections.Generic;
+using CleaveFramework.DependencyInjection;
 using CleaveFramework.Scene;
+using CleaveFramework.Tools;
 using UnityEngine;
 
 namespace CleaveFramework.Factory
@@ -73,6 +75,7 @@ namespace CleaveFramework.Factory
                 throw new Exception("AddComponent: GameObject was null");
             }
             var component = go.AddComponent(typeof(T).Name) as MonoBehaviour;
+            component = Injector.PerformInjections(component);
             component = (MonoBehaviour)InvokeDefaultConstructor<T>(component);
             return component;
         }
@@ -104,6 +107,7 @@ namespace CleaveFramework.Factory
                 throw new Exception("AddComponent: GameObject was null");
             }
             var component = go.AddComponent(typeof(T).Name) as MonoBehaviour;
+            component = Injector.PerformInjections(component);
             component = (MonoBehaviour)InvokeConstructor<T>(component, constructor);
             return component;
         }
@@ -130,11 +134,10 @@ namespace CleaveFramework.Factory
         /// <returns></returns>
         static public MonoBehaviour AddComponent<T>(GameObject go, SceneObjectData data)
         {
-            if (go == null)
-            {
-                throw new Exception("AddComponent: GameObject was null");
-            }
+            CDebug.Assert(go == null, "AddComponent: GameObject was null.");
+
             var component = go.AddComponent(typeof(T).Name) as MonoBehaviour;
+            component = Injector.PerformInjections(component);
             component = (MonoBehaviour)InvokeDefaultConstructor<T>(component);
             PushSingleton<T>(data, component);
             return component;
@@ -164,11 +167,10 @@ namespace CleaveFramework.Factory
         /// <returns></returns>
         static public MonoBehaviour AddComponent<T>(GameObject go, Constructor constructor, SceneObjectData data)
         {
-            if (go == null)
-            {
-                throw new Exception("AddComponent: GameObject was null");
-            }
+            CDebug.Assert(go == null, "AddComponent: GameObject was null.");
+
             var component = go.AddComponent(typeof(T).Name) as MonoBehaviour;
+            component = Injector.PerformInjections(component);
             component = (MonoBehaviour)InvokeConstructor<T>(component, constructor);
             PushSingleton<T>(data, component);
             return component;
@@ -200,11 +202,10 @@ namespace CleaveFramework.Factory
         /// <returns></returns>
         static public MonoBehaviour AddComponent<T>(GameObject go, Constructor constructor, SceneObjectData data, string name)
         {
-            if (go == null)
-            {
-                throw new Exception("AddComponent: GameObject was null");
-            }
+            CDebug.Assert(go == null, "AddComponent: GameObject was null.");
+
             var component = go.AddComponent(typeof(T).Name) as MonoBehaviour;
+            component = Injector.PerformInjections(component);
             component = (MonoBehaviour)InvokeConstructor<T>(component, constructor);
             PushTransient<T>(data, name, component);
             return component;
@@ -234,11 +235,10 @@ namespace CleaveFramework.Factory
         /// <returns></returns>
         static public MonoBehaviour AddComponent<T>(GameObject go, SceneObjectData data, string name)
         {
-            if (go == null)
-            {
-                throw new Exception("AddComponent: GameObject was null");
-            }
+            CDebug.Assert(go == null, "AddComponent: GameObject was null.");
+
             var component = go.AddComponent(typeof(T).Name) as MonoBehaviour;
+            component = Injector.PerformInjections(component);
             component = (MonoBehaviour)InvokeDefaultConstructor<T>(component);
             PushTransient<T>(data, name, component);
             return component;
@@ -253,6 +253,7 @@ namespace CleaveFramework.Factory
         static public MonoBehaviour ConstructMonoBehaviour<T>(string goName)
         {
             var component = ResolveComponent<T>(goName);
+            component = Injector.PerformInjections(component);
             component = (MonoBehaviour) InvokeDefaultConstructor<T>(component);
             return component;
         }
@@ -266,6 +267,7 @@ namespace CleaveFramework.Factory
         static public MonoBehaviour ConstructMonoBehaviour<T>(GameObject go)
         {
             var component = ResolveComponent<T>(go);
+            component = Injector.PerformInjections(component);
             component = (MonoBehaviour)InvokeDefaultConstructor<T>(component);
             return component;
         }
@@ -280,6 +282,7 @@ namespace CleaveFramework.Factory
         static public MonoBehaviour ConstructMonoBehaviour<T>(string goName, Constructor constructor)
         {
             var component = ResolveComponent<T>(goName);
+            component = Injector.PerformInjections(component);
             component = (MonoBehaviour) InvokeConstructor<T>(component, constructor);
             return component;
         }
@@ -294,6 +297,7 @@ namespace CleaveFramework.Factory
         static public MonoBehaviour ConstructMonoBehaviour<T>(GameObject go, Constructor constructor)
         {
             var component = ResolveComponent<T>(go);
+            component = Injector.PerformInjections(component);
             component = (MonoBehaviour)InvokeConstructor<T>(component, constructor);
             return component;
         }
@@ -437,7 +441,24 @@ namespace CleaveFramework.Factory
         static public object Create<T>()
         {
             var obj = Activator.CreateInstance<T>();
+            obj = Injector.PerformInjections(obj);
             obj = (T)InvokeDefaultConstructor<T>(obj);
+            return obj;
+        }
+
+        /// <summary>
+        /// Create an object of type T and run it's default constructor if one exists
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        static public object Create(Type t)
+        {
+            var obj = Activator.CreateInstance(t);
+            obj = Injector.PerformInjections(obj);
+            if (_constructors.ContainsKey(t))
+            {
+                _constructors[t].Invoke(obj);
+            }
             return obj;
         }
 
@@ -450,7 +471,7 @@ namespace CleaveFramework.Factory
         static public object Create<T>(Constructor constructor)
         {
             var obj = Activator.CreateInstance<T>();
-
+            obj = Injector.PerformInjections(obj);
             if (constructor != null)
             {
                 obj = (T) constructor.Invoke(obj);
@@ -517,23 +538,16 @@ namespace CleaveFramework.Factory
 
         static private void PushSingleton<T>(SceneObjectData data, object obj)
         {
-            if (data == null)
-            {
-                throw new Exception("SceneObjectsData passed to Create() was null.");
-            }
+            CDebug.Assert(data == null, "SceneObjectsData passed to Create() was null.");
             data.PushObjectAsSingleton((T)obj);
         }
 
         static private void PushTransient<T>(SceneObjectData data, string name, object obj)
         {
-            if (data == null)
-            {
-                throw new Exception("SceneObjectsData passed to Create() was null.");
-            }
-            if (string.IsNullOrEmpty(name))
-            {
-                throw new Exception("Name passed to Create() was empty or null");
-            }
+
+            CDebug.Assert(data == null, "SceneObjectsData passed to Create() was null.");
+            CDebug.Assert(string.IsNullOrEmpty(name), "Name passed to Create() was empty or null");
+
             data.PushObjectAsTransient(name, (T)obj);
         }
 
@@ -560,10 +574,7 @@ namespace CleaveFramework.Factory
         static private GameObject ResolveGameObject(string goName)
         {
             var go = GameObject.Find(goName);
-            if (go == null)
-            {
-                throw new Exception("ResolveComponent: GameObject was null.");
-            }
+            CDebug.Assert(go == null, "ResolveGameObject: GameObject was null.");
             return go;
         }
         static private MonoBehaviour ResolveComponent<T>(string goName)
@@ -574,10 +585,8 @@ namespace CleaveFramework.Factory
         static private MonoBehaviour ResolveComponent<T>(GameObject go)
         {
             var component = go.GetComponent(typeof(T).Name);
-            if (component == null)
-            {
-                throw new Exception("ResolveComponent: Component was null.");
-            }
+            CDebug.Assert(component == null, "ResolveComponent: Component was null.");
+
             return (MonoBehaviour)component;
         }
     }
