@@ -4,13 +4,13 @@ A Unity3D C# application framework.
 
 ## Why you use a framework
 ﻿
-This framework is meant to faciliate the implementation of a better structure for Unity3D game project code.  It is by no means perfect, and I welcome any and all feedback and potential contributions in regards to improving its functionality and easing its usability.  Thanks!
+This framework is meant to facilitate the implementation of a better structure for Unity3D game project code.  It is by no means perfect, and I welcome any and all feedback and potential contributions in regards to improving its functionality and easing its usability.  Thanks!
 
 If you've ever finished, or worse started and not finished, a project using the Unity3D engine you realize the importance of well structuring your code.  This framework was created to assist in maintaining that structure.  The framework does not limit or shoehorn you into developing into a particular pattern however I personally believe it is most useful when utilizing a MVC/DI object pattern.  You are however free from being constrained to one specific architecture pattern, be it DI, Service Location, or whatever magical Voodoo you personally have created.
 
 ## Feature overview
 
-The core functionality of the framework is two-fold based around an executable command delegate callback system and a SceneObjectData container for objects, automated system updating, and global data.  Any amount of unique Objects are able to subscribe to commands and then implement callbacks upon execution of the command.  Commands can be utilized to pass data to another object, as event messaging, or a virtual Execute() method can be implemented to  directly manipulate the data within the command object itself before or after propogating to the delegates.  Commands are pushed into the Framework via static methods which can perform commands on that frame, or after a given delay of frames or seconds.  Commands can push other Commands during their execution giving the ability to create sequences of events.
+The core functionality of the framework is two-fold based around an executable command delegate callback system and a SceneObjectData container for objects, automated system updating, and global data.  Any amount of unique Objects are able to subscribe to commands and then implement callbacks upon execution of the command.  Commands can be utilized to pass data to another object, as event messaging, or a virtual Execute() method can be implemented to  directly manipulate the data within the command object itself before or after propagating to the delegates.  Commands are pushed into the Framework via static methods which can perform commands on that frame, or after a given delay of frames or seconds.  Commands can push other Commands during their execution giving the ability to create sequences of events.
 
 ## Usage:
 
@@ -89,16 +89,20 @@ Factory.SetConstructor<Foo>(ConstructNonDefaultFoo);
 ##### Make a Foo using previous set constructor:
 ```csharp
 var newFoo = Factory.Create<Foo>() as Foo;
-// or resolve and construct a Foo component on a GameObject in one step from a GameObject's name:
+// or resolve and construct a Foo component already attached to a GameObject in one step from a GameObject's name:
 var fooComponent = Factory.ConstructMonoBehaviour<Foo>("FoosGameObject") as Foo;
 // or pass in the container GameObject directly:
 var fooComponent = Factory.ConstructMonoBehaviour<Foo>(FoosGameObject) as Foo;
+// or if Foo is a non attached MonoBehaviour we can attach it as a component to a GameObject:
+var fooComponent = Factory.AddComponent<Foo>(FoosGameObject) as Foo;
 ```
 ##### Make a Foo using an alternate non-default constructor:
 ```csharp
 var newFoo = Factory.Create<Foo>(ConstructDifferentFoo) as Foo;
 // or as a component:
 var fooComponent = Factory.ConstructMonoBehaviour<Foo>("FoosGameObject", ConstructDifferentFoo) as Foo;
+// attaching a component:
+var fooComponent = Factory.AddComponent<Foo>(FoosGameObject, ConstructDifferentFoo) as Foo;
 ```
 ##### Make a singleton Foo and place it into the SceneObjects framework:
 ```csharp
@@ -107,6 +111,8 @@ var newFoo = Factory.Create<Foo>(SceneObjects) as Foo;
 var newFoo = SceneObjects.PushObjectAsSingleton((Foo)Factory.Create<Foo>()) as Foo;
 // or as a component:
 var fooComponent = Factory.ConstructMonoBehaviour<Foo>("FoosGameObject", SceneObjects) as Foo;
+// or while adding a component:
+var fooComponent = Factory.AddComponent<Foo>(FoosGameObject, SceneObjects) as Foo;
 ```
 ##### Make a transient Foo and place it into the SceneObjects framework:
 ```csharp
