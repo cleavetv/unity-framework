@@ -66,6 +66,17 @@ SceneObjects implementing this interface will have `Destroy()` invoked on them a
 
 Dependency Injector is an optional implementation for you to use if you desire.  It is able to automatically provide objects with resolved dependencies before the post-instantiation Constructor is invoked.
 
+### [Inject] Attribute
+[Inject] is a C# attribute which precedes the object you want the Injector to inject for you.
+We can inject into a C# object like:
+```csharp
+// as a field
+[Inject] public IFooSystem MyFooField;
+// or as a property
+[Inject] public IFooSystem MyFooProperty {get;set;}
+```
+Note: Injecting into MonoBehaviours is perfectly valid however you must Inject as a Field only.  Attempting to Inject a Property into a MonoBehaviour will compile but throw an assert at runtime.
+
 ### Singleton types:
 Singleton types are very basic.  To use a singleton type you are required to first create an instance of an implementation of your type and then feed it into the Injector.  All objects which hold a reference to this type marked for injection will be mapped to this exact instance of your implementation.
 
@@ -101,7 +112,6 @@ object ConstructObjectA(object obj)
     return objA;
 }
 ```
-Note: We can inject in to any C# object as a Field or Property but we can only inject into MonoBehaviours as a Field, MonoRuntime will throw an assert if you try to inject into a Property.  I think this might be a limitation of Unity but I will investigate this further.
 ### Transient types:
 Transient types are also quite basic.  The difference between a singleton and a transient is when you define a singleton you give it an implementation but when you define a transient you give it a type.  The injector will then create a brand new instance of that type when it injects.  Transient types can define default constructors through the Factory just like any other object which will be run before injection takes place.
 
@@ -125,7 +135,9 @@ Factory is a generic factory object which is optional for you to use if you desi
 ```csharp
 private object ConstructDefaultFoo(object obj) {
     var foo = obj as Foo;
-    // resolve dependencies here however you want for ex (assuming SceneObjects):
+    // use some dependency that has already been injected by the Injector:
+    foo.InjectedDependency.SomeMethod(); 
+    // if you don't want to use the Injector then you can resolve dependencies here however you want for ex (assuming SceneObjects):
     foo.Dependency = SceneObjects.ResolveSingleton<SystemA>(); 
     foo.SomeMethod(); // call an internal method on foo if you need to
     var system = SceneObjects.ResolveSingleton<SystemB>() as SystemB;
