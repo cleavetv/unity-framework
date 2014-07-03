@@ -66,6 +66,8 @@ SceneObjects implementing this interface will have `Destroy()` invoked on them a
 
 Dependency Injector is an optional implementation for you to use if you desire.  It is able to automatically provide objects with resolved dependencies before the post-instantiation Constructor is invoked.
 
+This version of the Dependency Injector only supports Property and Field injection.  In the future we will also support Constructor injection but it is not available yet.
+
 ### [Inject] Attribute
 [Inject] is a C# attribute which precedes the object you want the Injector to inject for you.
 We can inject into a C# object like:
