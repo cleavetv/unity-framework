@@ -11,7 +11,7 @@ namespace CleaveFramework.Tools
         [Conditional("UNITY_EDITOR")]
         public static void Assert(bool condition)
         {
-            if (!condition)
+            if (condition)
             {
                 throw new Exception();
             }
@@ -19,7 +19,7 @@ namespace CleaveFramework.Tools
         [Conditional("UNITY_EDITOR")]
         public static void Assert(bool condition, string msg)
         {
-            if (!condition)
+            if (condition)
                 throw new Exception(msg);
         }
         #endregion
