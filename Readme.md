@@ -1,4 +1,4 @@
-﻿# CleaveFramework v0.1.1
+﻿# CleaveFramework v0.2.0
 
 A Unity3D C# application framework.
 
@@ -24,7 +24,24 @@ The Framework executes based around several simple principals:
  - A single object in your Unity scenes contains the `Framework` component attached to it.  This object must exist in every scene.
  - A component is implemented with the name `<YourScene>SceneView`.  For example: a `GameSceneView` component is expected when initializing a scene named `Game`.
  - Your SceneView component is derived from the `CleaveFramework.Scene.SceneView` object.
- - Objects are pushed into the framework in your derived `SceneView.Initialize()` implementation through the exposed `SceneObjects` instance of `SceneObjectsData`.
+ - Objects are pushed into the framework through the exposed `SceneObjects` property of your SceneView.
+
+## Objects Overview:
+
+ - Framework : The Framework object itself
+ - Command : abstract object implements basic event listening callbacks
+ - EngineOptions : A generic options structure containing settings for things like screen resolution, volumes, and rendering qualities.
+ - App : Currently functions a container object for the EngineOptions
+ - CommandQueue : Contains and processes Command objects pushed to the Framework
+ - View : abstract object derived from MonoBehaviour
+ - SceneManager : implements basic scene switching functionality
+ - SceneObjectData : implements generic containers for objects which live inside the Unity Scene
+ - SceneView : abstract object derived from View which holds SceneObjectData
+ - CDebug : basic debugging tool (see tools)
+ - Factory : Generic Factory for creating objects and performing post-instantiation construction
+ - Binder : Wrapper for a Generic Dictionary
+ - BindingLibrary : Generic collection of Binders
+ - Injector : Dependency Injector for object creation (relies on Factory) 
  
 ## Interfaces Overview:
 
@@ -45,19 +62,72 @@ SceneObjects implementing this interface will have `Update(deltaTime)` invoked o
 
 SceneObjects implementing this interface will have `Destroy()` invoked on them at the point in which the `OnDestroy()` method on your SceneView is being called by the UnityEngine.
  
-## Objects Overview:
 
- - Framework : The Framework object itself
- - Command : abstract object implements basic event listening callbacks
- - EngineOptions : A generic options structure containing settings for things like screen resolution, volumes, and rendering qualities.
- - App : Currently functions a container object for the EngineOptions
- - CommandQueue : Contains and processes Command objects pushed to the Framework
- - View : abstract object derived from MonoBehaviour
- - SceneManager : implements basic scene switching functionality
- - SceneObjectData : implements generic containers for objects which live inside the Unity Scene
- - SceneView : abstract object derived from View which holds SceneObjectData
- - CDebug : basic debugging tool (see tools)
- - Factory : Generic Factory for creating objects and performing post-instantiation construction
+
+## Dependency Injector:
+
+Dependency Injector is an optional implementation for you to use if you desire.  It is able to automatically provide objects with resolved dependencies before the post-instantiation Constructor is invoked.
+
+This version of the Dependency Injector only supports Property and Field injection.  In the future we will also support Constructor injection but it is not available yet.
+
+### [Inject] Attribute
+[Inject] is a C# attribute which precedes the object you want the Injector to inject for you.
+We can inject into a C# object like:
+```csharp
+// as a field
+[Inject] public IFooSystem MyFooField;
+// or as a property
+[Inject] public IFooSystem MyFooProperty {get;set;}
+```
+Note: Injecting into MonoBehaviours is perfectly valid however you must Inject as a Field only.  Attempting to Inject a Property into a MonoBehaviour will compile but throw an assert at runtime.
+
+### Singleton types:
+Singleton types are very basic.  To use a singleton type you are required to first create an instance of an implementation of your type and then feed it into the Injector.  All objects which hold a reference to this type marked for injection will be mapped to this exact instance of your implementation.
+
+##### Give the Injector a singleton instance:
+```csharp
+// first create an instance of a FooSystem that implements IFooSystem
+var myFooSystem = Factory.Create<FooSystem>(ConstructFooSystem) as FooSystem;
+// bind an instance of a singleton to an interface:
+Injector.AddSingleton<IFooSystem>(myFooSystem);
+// or just bind it to a concrete implementation (same thing as above just less extensible and flexible)
+Injector.AddSingleton<FooSystem>(myFooSystem);
+```
+##### Define an object that injects a FooSystem:
+```csharp
+// define our object
+class ObjectA : IInitializable {
+    // precede injectable types with the [Inject] attribute
+    [Inject] public IFooSystem AFooSystem {get; set;} // Field or Property injection is valid here
+    void Initialize() {
+        AFooSystem.SomeMethod(); // AFooSystem is resolved here automagically assuming ObjectA was created by Factory
+    }
+}
+```
+##### Instantiate an ObjectA:
+```csharp
+// tell Factory to make you an ObjectA and have it run ConstructObjectA on it
+var myA = Factory.Create<ObjectA>(ConstructObjectA);
+// define constructor:
+object ConstructObjectA(object obj)
+{
+    var objA = obj as ObjectA;
+    objA.AFooSystem.SomeMethod(); // AFooSystem is resolved here already and we can use it if we need to
+    return objA;
+}
+```
+### Transient types:
+Transient types are also quite basic.  The difference between a singleton and a transient is when you define a singleton you give it an instance of an object but when you define a transient you give it a type of an object.  The injector will then create a brand new instance of that type when it injects.  Transient types can define default constructors through the Factory just like any other object which will be run before injection takes place.
+
+##### Give the injector a transient type:
+```csharp
+// if we don't implement any interface we can just give it the type
+Injector.AddTransient<FooSystem>();
+// or we can bind an implementation to an interface:
+Injector.AddTransient<IFooSystem>(typeof(FooSystemImpl));
+```
+That's all we need to know about the difference between Singleton and Transient types.
+Object definition and instantiation is identical to the definition and instantiation of ObjectA above.  The object doesn't care and shouldn't know whether it is receiving a new instance or a previously instantiated instance of FooSystem.  
 
 ## Factory:
 
@@ -69,7 +139,9 @@ Factory is a generic factory object which is optional for you to use if you desi
 ```csharp
 private object ConstructDefaultFoo(object obj) {
     var foo = obj as Foo;
-    // resolve dependencies here however you want for ex (assuming SceneObjects):
+    // use some dependency that has already been injected by the Injector:
+    foo.InjectedDependency.SomeMethod(); 
+    // if you don't want to use the Injector then you can resolve dependencies here however you want for ex (assuming SceneObjects):
     foo.Dependency = SceneObjects.ResolveSingleton<SystemA>(); 
     foo.SomeMethod(); // call an internal method on foo if you need to
     var system = SceneObjects.ResolveSingleton<SystemB>() as SystemB;
@@ -120,6 +192,12 @@ var newFoo = Factory.Create<Foo>(SceneObjects, "fooName") as Foo;
 // or as a component:
 var fooComponent = Factory.ConstructMonoBehaviour<Foo>("FoosGameObject", SceneObjects, "fooName") as Foo;
 ```
+
+Note: In the SceneObjects data the difference between a singleton and a transient object is subtle but important:
+
+A singleton object can only ever have one instance of it's type in the library.  Attempting to place a second instance of a singleton into the library will OVERWRITE the previous instance.  This can have extremely undesirable effects or could be exactly what you were looking for, it all depends on your situation.
+
+A transient object can have unlimited amounts of instances of it's type in the library.  Transients are differentiated between each other by their "name" property.  Type/Name combinations however must be UNIQUE and the SceneObjects will assert if you attempt to place a second object of the same type and name into it.
 
 ## General How To:
 
@@ -203,10 +281,33 @@ var sceneView = GameObject.Find("SceneView").GetComponent<SceneView>() as SceneV
 
 ### CDebug
 
-Provides a wrapper for Unity's logger with added functionality:
- - Enable/Disable logging globally
- - Enable/Disable logging per type
-  
+##### Tell CDebug to log from a type:
+```csharp
+CDebug.LogThis(typeof(MyType));
+```
+##### Tell CDebug to log something:
+```csharp
+CDebug.Log("hello world");
+// or attach a GameObject to the console:
+CDebug.Log("hello world", someGameObject);
+```
+##### Assert a value
+```csharp
+CDebug.Assert(myName.Equals("CleaveTV")); // throws an exception if (!myName.Equals("CleaveTV"))
+// or add a msg to the assert:
+CDebug.Assert(myName.Equals("CleaveTV"), "myName != CleaveTV");
+```
+
 ## Dynamic Objects:
- 
-Objects instantiated after the SceneView::Initialize() process implementing IInitializeable and IConfigureable will have their Initialize() and Configure() methods invoked on them in sequence immediately after being pushed into the SceneObjects.
+
+During gameplay obviously it is highly likely you will need to instantiate new objects, the framework fully supports it.
+
+Here is the order of operations for an object instantiated through Factory at runtime:
+ - Your object's default constructor is executed (ie: var obj = new MyObject();)
+ - Your object is evaluated for [Inject] attributes and existing dependencies are resolved.
+ - Your object's Factory defined default constructor is invoked.
+ - Your object is added to SceneData if it is provided to the Factory's create method.
+  - If your object is added to the Scene Data then: 
+    - Your object's Initialize() method is invoked if you have implemented the interface.
+    - Your object's Configure() method is invoked if you have implemented the interface.
+ - Factory.Create returns your object now.
