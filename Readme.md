@@ -293,9 +293,9 @@ CDebug.Log("hello world", someGameObject);
 ```
 ##### Assert a value
 ```csharp
-CDebug.Assert(myName.Equals("CleaveTV")); // throws an exception if (!myName.Equals("CleaveTV"))
+CDebug.Assert(!myName.Equals("CleaveTV")); // throws an exception if (!myName.Equals("CleaveTV"))
 // or add a msg to the assert:
-CDebug.Assert(myName.Equals("CleaveTV"), "myName != CleaveTV");
+CDebug.Assert(!myName.Equals("CleaveTV"), "myName != CleaveTV");
 ```
 
 ## Dynamic Objects:
