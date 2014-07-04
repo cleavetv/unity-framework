@@ -193,6 +193,12 @@ var newFoo = Factory.Create<Foo>(SceneObjects, "fooName") as Foo;
 var fooComponent = Factory.ConstructMonoBehaviour<Foo>("FoosGameObject", SceneObjects, "fooName") as Foo;
 ```
 
+Note: In the SceneObjects data the difference between a singleton and a transient object is subtle but important:
+
+A singleton object can only ever have one instance of it's type in the library.  Attempting to place a second instance of a singleton into the library will OVERWRITE the previous instance.  This can have extremely undesirable effects or could be exactly what you were looking for, it all depends on your situation.
+
+A transient object can have unlimited amounts of instances of it's type in the library.  Transients are differentiated between each other by their "name" property.  Type/Name combinations however must be UNIQUE and the SceneObjects will assert if you attempt to place a second object of the same type and name into it.
+
 ## General How To:
 
 ##### Change a scene:
