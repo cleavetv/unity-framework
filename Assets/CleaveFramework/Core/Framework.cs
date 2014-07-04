@@ -1,4 +1,6 @@
-﻿using CleaveFramework.Commands;
+﻿using System;
+using CleaveFramework.Commands;
+using CleaveFramework.DependencyInjection;
 using CleaveFramework.Scene;
 using CleaveFramework.Tools;
 using UnityEngine;
@@ -27,7 +29,6 @@ namespace CleaveFramework.Core
         public static Framework Instance { get; private set; }
 
         private static CommandQueue _commands;
-
         private static SceneObjectData _frameworkObjects;
 
         /// <summary>
@@ -43,6 +44,7 @@ namespace CleaveFramework.Core
         void Awake()
         {
             CDebug.DisplayMethod = CDebug.ConsoleLogMethod.Selected;
+            CDebug.LogThis(typeof(Injector));
 
             if (Instance != this && Instance != null)
             {
@@ -87,6 +89,38 @@ namespace CleaveFramework.Core
                 _commands.Process();
                 yield return null;
             }
+        }
+
+        /// <summary>
+        /// Dispatch a command through the injector before pushing it to the framework
+        /// </summary>
+        /// <param name="cmd"></param>
+        public static void Dispatch<T>(T cmd) where T : Command
+        {
+            cmd = Injector.PerformInjections(cmd);
+            PushCommand(cmd);
+        }
+
+        /// <summary>
+        /// Dispatch a frame delayed command through the injector before pushing it to the framework
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <param name="frameDelay"></param>
+        public static void Dispatch<T>(T cmd, int frameDelay) where T : Command
+        {
+            cmd = Injector.PerformInjections(cmd);
+            PushCommand(cmd, frameDelay);
+        }
+
+        /// <summary>
+        /// Dispatch a time delayed command through the injector before pushing it to the framework
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <param name="timeDelay"></param>
+        public static void Dispatch<T>(T cmd, float timeDelay) where T : Command
+        {
+            cmd = Injector.PerformInjections(cmd);
+            PushCommand(cmd, timeDelay);
         }
 
         /// <summary>

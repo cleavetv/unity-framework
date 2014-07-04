@@ -52,7 +52,7 @@ namespace CleaveFramework.Scene
             _configureables = new List<IConfigureable>();
             _destroyables = new List<IDestroyable>();
             _wasSceneInitialized = false;
-            CDebug.LogThis(typeof(SceneObjectData));
+            //CDebug.LogThis(typeof(SceneObjectData));
         }
 
         public void Destroy()

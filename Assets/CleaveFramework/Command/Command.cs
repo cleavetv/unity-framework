@@ -22,11 +22,6 @@ namespace CleaveFramework.Commands
     abstract public class Command
     {
         /// <summary>
-        /// callback delegate
-        /// </summary>
-        /// <param name="cmd">the command that was executed</param>
-        public delegate void CommandCallback(Command cmd);
-        /// <summary>
         /// dictionary for the command callbacks
         /// </summary>
         static private Dictionary<Type, CommandCallback> _executeCallbacks = new Dictionary<Type, CommandCallback>();
@@ -43,6 +38,7 @@ namespace CleaveFramework.Commands
         /// </summary>
         /// <param name="type">command type</param>
         /// <param name="execute">delegate for callback</param>
+        [Obsolete("Migrate to CmdBinder, this function will self destruct on July 11th, 2014", false)]
         public static void Register(Type type, CommandCallback execute)
         {
             if (!_executeCallbacks.ContainsKey(type))
@@ -73,6 +69,7 @@ namespace CleaveFramework.Commands
         /// </example>         
         /// <typeparam name="T">command type</typeparam>
         /// <param name="execute">delegate for callback</param>
+        [Obsolete("Migrate to CmdBinder, this function will self destruct on July 11th, 2014", false)]
         public static void Register<T>(CommandCallback execute) where T : Command
         {
             Register(typeof(T), execute);
@@ -83,6 +80,7 @@ namespace CleaveFramework.Commands
         /// </summary>
         /// <param name="type">command type</param>
         /// <param name="execute">delegate to remove from callback</param>
+        [Obsolete("Migrate to CmdBinder, this function will self destruct on July 11th, 2014", false)]
         public static void Unregister(Type type, CommandCallback execute)
         {
             if (execute != null)
@@ -108,6 +106,7 @@ namespace CleaveFramework.Commands
         /// </example>         
         /// <typeparam name="T">command type</typeparam>
         /// <param name="execute">delegate to remove from callback</param>
+        [Obsolete("Migrate to CmdBinder, this function will self destruct on July 11th, 2014", false)]
         public static void Unregister<T>(CommandCallback execute) where T : Command
         {
             Unregister(typeof(T), execute);
@@ -118,6 +117,9 @@ namespace CleaveFramework.Commands
         /// </summary>
         virtual public void Execute()
         {
+            CmdBinder.DispatchBindings(GetType(), this);
+
+            // holding this code for backwards API compatibility until its removal
             if (!_executeCallbacks.ContainsKey(this.GetType())) return;
             if (_executeCallbacks[this.GetType()] != null)
                 _executeCallbacks[this.GetType()].Invoke(this);

@@ -70,6 +70,17 @@ namespace CleaveFramework.DependencyInjection
         }
 
         /// <summary>
+        /// Add a Transient type to the Injector and map it to a specific implementation
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="I"></typeparam>
+        public static void AddTransient<T, I>()
+        {
+            _injectionTypes.Bind(typeof(T), InjectTypes.Transient);
+            _transients.Bind(typeof(T), typeof(I));
+        }
+
+        /// <summary>
         /// Add a transient type to the Injector and use itself as the implementation type
         /// </summary>
         /// <typeparam name="T"></typeparam>

@@ -1,17 +1,4 @@
-﻿/* Copyright 2014 Glen/CleaveTV
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License. */
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using CleaveFramework.Commands;
 using UnityEngine;
 
@@ -57,11 +44,7 @@ namespace CleaveFramework.Core
             }
         }
 
-        private readonly Queue<CommandContainer> _q; 
-        public CommandQueue()
-        {
-            _q = new Queue<CommandContainer>();
-        }
+        private readonly Queue<CommandContainer> _q = new Queue<CommandContainer>();
 
         /// <summary>
         /// process every command in the queue
@@ -127,7 +110,7 @@ namespace CleaveFramework.Core
             }
             var cmd = _q.Dequeue();
 
-            bool processCmd = false;
+            var processCmd = false;
             switch (cmd.DelayType)
             {
                 case CommandContainer.DelayTypes.Frame:
@@ -144,12 +127,9 @@ namespace CleaveFramework.Core
                 _q.Enqueue(cmd);
                 return _q.Count > _delayedCommands;
             }
-            else
-            {
-//                 Debug.Log("Executing: " + cmd.Cmd.ToString());
-                cmd.Cmd.Execute();
-                return _q.Count > 0;
-            }
+
+            cmd.Cmd.Execute();
+            return _q.Count > 0;
 
         }
 

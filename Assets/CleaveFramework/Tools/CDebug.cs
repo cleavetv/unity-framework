@@ -42,7 +42,9 @@ namespace CleaveFramework.Tools
 
         /// <summary>
         /// add a type into the selected logging types:
-        /// CDebug.LogThis(typeof(ClassName))
+        /// CDebug.LogThis(typeof(ClassName));
+        /// or
+        /// CDebug.LogThis<ClassName>();
         /// </summary>
         /// <param name="type">log from this type</param>
         public static void LogThis(Type type)
@@ -51,6 +53,10 @@ namespace CleaveFramework.Tools
             {
                 SelectedTypes.Add(type);
             }
+        }
+        public static void LogThis<T>()
+        {
+            LogThis(typeof(T));
         }
 
         #region UnityEngine.Debug.Log Wrappers
