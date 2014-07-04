@@ -86,9 +86,9 @@ Singleton types are very basic.  To use a singleton type you are required to fir
 
 ##### Give the Injector a singleton instance:
 ```csharp
-// first create an implementation of FooSystem that implements IFooSystem
+// first create an instance of a FooSystem that implements IFooSystem
 var myFooSystem = Factory.Create<FooSystem>(ConstructFooSystem) as FooSystem;
-// bind an implementation of a singleton to an interface:
+// bind an instance of a singleton to an interface:
 Injector.AddSingleton<IFooSystem>(myFooSystem);
 // or just bind it to a concrete implementation (same thing as above just less extensible and flexible)
 Injector.AddSingleton<FooSystem>(myFooSystem);
@@ -117,7 +117,7 @@ object ConstructObjectA(object obj)
 }
 ```
 ### Transient types:
-Transient types are also quite basic.  The difference between a singleton and a transient is when you define a singleton you give it an implementation but when you define a transient you give it a type.  The injector will then create a brand new instance of that type when it injects.  Transient types can define default constructors through the Factory just like any other object which will be run before injection takes place.
+Transient types are also quite basic.  The difference between a singleton and a transient is when you define a singleton you give it an instance of an object but when you define a transient you give it a type of an object.  The injector will then create a brand new instance of that type when it injects.  Transient types can define default constructors through the Factory just like any other object which will be run before injection takes place.
 
 ##### Give the injector a transient type:
 ```csharp
