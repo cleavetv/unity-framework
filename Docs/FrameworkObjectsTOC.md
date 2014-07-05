@@ -2,40 +2,38 @@
 
 These pages will go in-depth discussing the interactivity between and functionality and extensibility of these objects.
 
+*Please bear with me as this area is a work-in-progress, information will become fully available in the next day or so*
+
 ## Namespaces
 
 ### CleaveFramework.Core
  - [Framework](FrameworkObject.md)
- - [EngineOptions](EngineOptionsObject.md) : A generic options structure containing settings for things like screen resolution, volumes, and rendering qualities.
- - [App](AppObject.md) : Currently functions as container object for the EngineOptions
- - [CommandQueue](CommandQueueObject.md) : Contains and processes Command objects pushed to the Framework
- - [View](ViewObject.md) : abstract object derived from MonoBehaviour
+ - [EngineOptions](EngineOptionsObject.md)
+ - [App](AppObject.md)
+ - [CommandQueue](CommandQueueObject.md)
+ - [View](ViewObject.md)
 
 ### CleaveFramework.Commands
- - [CmdBinder](CmdBinderObject.md) : 
- - [Command](CommandObject.md) : abstract object implements basic event listening callbacks
+ - [CmdBinder](CmdBinderObject.md)
+ - [Command](CommandObject.md)
 
 ### CleaveFramework.Binding
- - [Binder](BinderObject.md) : Wrapper for a Generic Dictionary
- - [BindingLibrary](BindingLibraryObject.md) : Generic collection of Binders
+ - [Binder](BinderObject.md)
+ - [BindingLibrary](BindingLibraryObject.md)
  
 ### CleaveFramework.DependencyInjection
- - [Injector](InjectorObject.md) : Dependency Injector for object creation
+ - [Injector](InjectorObject.md)
 
 ### CleaveFramework.Factory
- - [Factory](FactoryObject.md) : Generic Factory for creating objects and performing post-instantiation construction
+ - [Factory](FactoryObject.md)
 
 ### CleaveFramework.Scene
- - [SceneManager](SceneManagerObject.md) : implements basic scene switching functionality
- - [SceneObjectData](SceneObjectDataObject.md) : implements generic containers for objects which live inside the Unity Scene
- - [SceneView](SceneViewObject.md) : abstract object derived from View which holds SceneObjectData
+ - [SceneManager](SceneManagerObject.md)
+ - [SceneObjectData](SceneObjectDataObject.md)
+ - [SceneView](SceneViewObject.md)
 
 ### CleaveFramework.SceneViews
  - [LoadingSceneView](LoadingSceneViewObject.md)
 
 ### CleaveFramework.Tools
- - [CDebug](CDebugObject.md) : basic debugging tool (see tools)
-
-
-
- 
+ - [CDebug](CDebugObject.md)
