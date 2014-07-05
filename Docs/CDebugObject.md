@@ -30,7 +30,7 @@ CDebug.DisplayMethod = ConsoleLogMethod.Verbose;
 #### Log
 ```csharp
 CDebug.Log(string);
-CDebugLog(string, GameObject);
+CDebug.Log(string, GameObject);
 ```
 #### Selected type logging
 When DisplayMethod is set to Selected the Log method will ignore all calls to it made from types not provided to the CDebugger.  This can be handy for quickly enabling or disabling lots of calls to the Logger from types that you don't care about at once.
