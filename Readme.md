@@ -3,14 +3,41 @@
 A Unity3D C# application framework.
 
 ## Why you use a framework
-﻿
-This framework is meant to facilitate the implementation of a better structure for Unity3D game project code.  It is by no means perfect, and I welcome any and all feedback and potential contributions in regards to improving its functionality and easing its usability.  Thanks!
 
-If you've ever finished, or worse started and not finished, a project using the Unity3D engine you realize the importance of well structuring your code.  This framework was created to assist in maintaining that structure.  The framework does not limit or shoehorn you into developing into a particular pattern however I personally believe it is most useful when utilizing a MVC/DI object pattern.  You are however free from being constrained to one specific architecture pattern, be it DI, Service Location, or whatever magical Voodoo you personally have created.
+A good application framework allows it's users to save time by using generic code that allows them to focus on more project-specific areas.  
 
-## Feature overview
+A great application framework provides it's users with excellent, fast, well tested, and well maintained generic modules capable of providing their application with a structure they can depend on.
 
-The core functionality of the framework is two-fold based around an executable command delegate callback system and a SceneObjectData container for objects, automated system updating, and global data.  Any amount of unique Objects are able to subscribe to commands and then implement callbacks upon execution of the command.  Commands can be utilized to pass data to another object, as event messaging, or a virtual Execute() method can be implemented to  directly manipulate the data within the command object itself before or after propagating to the delegates.  Commands are pushed into the Framework via static methods which can perform commands on that frame, or after a given delay of frames or seconds.  Commands can push other Commands during their execution giving the ability to create sequences of events.
+Every piece of software you've even worked with has utilized a framework in one way or another.  Whether it was home-rolled or an off the shelf solution the very structure of your code base makes up the framework it executes on.  If you've ever finished, or worse started and not finished, a project using the Unity3D engine you realize the importance of well structuring your code.  If find yourself re-implementing the same functionality from project to project time and time again then you are a great candidate for migrating your work-flow into a framework package.
+
+## What CleaveFramework can do for you
+
+If you've ever written code that looks like:
+
+```csharp
+TheGlobals.GameManager.Game.WorldManager.World.SpawnPlayer(TheGlobals.GameManager.Game.PlayerManager.MakeNewPlayer());
+TheGlobals.GameManager.Game.HUDManager.ShowWelcomeMsg(TheGlobals.GameManager.Game.PlayerManager.Player.Name);
+TheGlobals.GameManager.Game.Sounds.PlaySound(GameSounds.WelcomeSound);
+// etc...
+```
+
+Or worse yet: you dream of one day writing code that looks that clean.  You're in dire need of a better structure and work-flow.
+
+You could write this snippet utilizing framework features in one line:
+```csharp
+Framework.Dispatch(new SpawnNewPlayerCmd());
+```
+You'll have to read further to see how powerful the Command Dispatching system is, and hopefully that alone has got you interested.
+
+The framework was created to assist in creating and maintaining a better structure for you by implementing several core features.  However most of the framework itself remains modular and you can pick and choose how much or little of it you want to use and how you want to use it.
+
+The framework will not constrain you in to working within one particular design paradigm.  Bits and pieces of it's implementation can be constructed together to form a flow that makes the best sense for you and your project.
+
+What the framework is not is perfect.  We need your help and feedback to make this a great usable piece of software that programmers of all skill levels can use, learn from, and make great games with.
+
+## Documentation
+
+### [Installation](../Installation.md)
 
 ## Usage:
 

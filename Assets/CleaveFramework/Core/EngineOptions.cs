@@ -45,7 +45,7 @@ namespace CleaveFramework.Core
                 CreateDefaultOptions();
             }
 
-            Command.Register(typeof(ApplyOptionsCmd), OnApplyOptions);
+            CmdBinder.AddBinding<ApplyOptionsCmd>(OnApplyOptions);
             Framework.PushCommand(new ApplyOptionsCmd());
         }
 

@@ -8,12 +8,17 @@ namespace CleaveFramework.Scene
 
     public sealed class SceneManager
     {
+        /// <summary>
+        /// IsSceneInitialized will return true once the current SceneView.Initialize() method has returned completely.
+        /// You can use this value to make sure a totally encapsulated component object away from the framework doesn't
+        /// attempt to use an unresolved dependency inside of the scene before it's ready.
+        /// </summary>
         public static bool IsSceneInitialized { get; private set; }
 
         public SceneManager()
         {
-            Command.Register(typeof(ChangeSceneCmd), OnChangeScene);
-            Command.Register(typeof(SceneLoadedCmd), OnSceneLoaded);
+            CmdBinder.AddBinding<ChangeSceneCmd>(OnChangeScene);
+            CmdBinder.AddBinding<SceneLoadedCmd>(OnSceneLoaded);
         }
 
         static SceneManager()
@@ -21,9 +26,9 @@ namespace CleaveFramework.Scene
             IsSceneInitialized = false;
         }
 
-        static void OnChangeScene(Command cmd)
+        static void OnChangeScene(Command c)
         {
-            var cCmd = (ChangeSceneCmd)cmd;
+            var cmd = c as ChangeSceneCmd;
 
             GC.Collect();
 
@@ -33,19 +38,19 @@ namespace CleaveFramework.Scene
             UnityEngine.Application.LoadLevel(Framework.TransitionScene);
             // load the new scene
             if(UnityEngine.Application.HasProLicense())
-                UnityEngine.Application.LoadLevelAsync(cCmd.SceneName);
+                UnityEngine.Application.LoadLevelAsync(cmd.SceneName);
             else
             {
-                UnityEngine.Application.LoadLevel(cCmd.SceneName);
+                UnityEngine.Application.LoadLevel(cmd.SceneName);
             }
         }
 
-        static void OnSceneLoaded(Command cmd)
+        static void OnSceneLoaded(Command c)
         {
-            var cCmd = (SceneLoadedCmd) cmd;
-            cCmd.View.Initialize();
+            var cmd = c as SceneLoadedCmd;
+            cmd.View.Initialize();
             IsSceneInitialized = true;
-            cCmd.View.SceneObjects.InitializeSceneObjects();
+            cmd.View.SceneObjects.InitializeSceneObjects();
         }
 
         /// <summary>

@@ -46,15 +46,21 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\CleaveFramework\Commands\ApplyOptionsCmd.cs" />
-     <Compile Include="Assets\CleaveFramework\Commands\ChangeSceneCmd.cs" />
-     <Compile Include="Assets\CleaveFramework\Commands\Command.cs" />
-     <Compile Include="Assets\CleaveFramework\Commands\SceneLoadedCmd.cs" />
+     <Compile Include="Assets\CleaveFramework\Binding\Binding.cs" />
+     <Compile Include="Assets\CleaveFramework\Binding\BindingLibrary.cs" />
+     <Compile Include="Assets\CleaveFramework\Command\CmdBinder.cs" />
+     <Compile Include="Assets\CleaveFramework\Command\Command.cs" />
+     <Compile Include="Assets\CleaveFramework\Command\cmds\ApplyOptionsCmd.cs" />
+     <Compile Include="Assets\CleaveFramework\Command\cmds\ChangeSceneCmd.cs" />
+     <Compile Include="Assets\CleaveFramework\Command\cmds\SceneLoadedCmd.cs" />
      <Compile Include="Assets\CleaveFramework\Core\App.cs" />
      <Compile Include="Assets\CleaveFramework\Core\CommandQueue.cs" />
      <Compile Include="Assets\CleaveFramework\Core\EngineOptions.cs" />
      <Compile Include="Assets\CleaveFramework\Core\Framework.cs" />
      <Compile Include="Assets\CleaveFramework\Core\View.cs" />
+     <Compile Include="Assets\CleaveFramework\Dependency Inject\Attributes\AInject.cs" />
+     <Compile Include="Assets\CleaveFramework\Dependency Inject\Injector.cs" />
+     <Compile Include="Assets\CleaveFramework\Factory\Factory.cs" />
      <Compile Include="Assets\CleaveFramework\Interfaces\IConfigureable.cs" />
      <Compile Include="Assets\CleaveFramework\Interfaces\IDestroyable.cs" />
      <Compile Include="Assets\CleaveFramework\Interfaces\IInitializeable.cs" />

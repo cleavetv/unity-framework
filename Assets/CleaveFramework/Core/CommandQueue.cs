@@ -5,7 +5,7 @@ using UnityEngine;
 namespace CleaveFramework.Core
 {
     /// <summary>
-    /// CommandQueue contains logic capable of processing the commands pushed into the application
+    /// CommandQueue contains logic capable of processing commands pushed into it
     /// </summary>
     class CommandQueue
     {

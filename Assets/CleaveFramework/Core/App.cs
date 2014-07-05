@@ -14,7 +14,7 @@ namespace CleaveFramework.Core
         {
             // initialize UnityEngine from Options
             Options = new EngineOptions();
-            Command.Register(typeof(ApplyOptionsCmd), OnApplyOptions);
+            CmdBinder.AddBinding<ApplyOptionsCmd>(OnApplyOptions);
         }
 
         void OnApplyOptions(Command cmd)
