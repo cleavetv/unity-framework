@@ -7,7 +7,7 @@ In CleaveFramework a Command is an extremely simple but powerful concept.  Comma
 The Command object itself is an abstract class meaning no type of it may be created but it can be used as a base class for implementing custom Command Types.
 Command implements a single virtual function which you can override: `Execute()`
 
-When you use the Framework.Dispatch() or Framework.PushCommand() methods your command object is placed into a queue and upon reaching the top of that queue its `Execute()` method is...wait for it... executed.  This does one of two things:
+When you use the `Framework.Dispatch()` or `Framework.PushCommand()` methods your command object is placed into a queue and upon reaching the top of that queue its `Execute()` method is...wait for it... executed.  This does one of two things:
  - If you haven't overrode `Execute()` in your Command the base `Command.Execute()` will invoke now which in turn invokes all of the callback methods which are bound to that Command Type through the [CmdBinder](CmdBinderObject.md) with `this` as the parameter.
  - If you've overrode `Execute()` in your implementation of the Command it will be invoked now instead.  It is up to you to make sure you call `base.Execute()` in your method if (and importantly when) you want the callbacks to be invoked.
  
@@ -37,10 +37,31 @@ class DoWorkCmd {
 		SysB = sysB;
 	}
 	public override void Execute() {
-		WorkResult = SysA().DoWork();
-		WorkResult = SysB().DoWorkWithResults(WorkResult);
+		WorkResult = SysA.DoWork();
+		WorkResult = SysB.DoWorkWithResults(WorkResult);
 		// now invoke callbacks who are waiting for the WorkResult
 		base.Execute();
 	}
 }
 ```
+## Using Injector with Commands
+Using [Inject] attributes on Command objects is perfectly valid however there are some stipulations:
+ - Commands requiring [Inject] evaluations must be given to `Framework.Dispatch()`
+ - Injection is a non-trivial operation so take care that Commands requiring Injections actually do indeed require them and that these commands are executed infrequently.
+
+By utilizing Injection you could re-write the `DoWorkCmd` like this:
+```csharp
+class DoWorkCmd {
+	[Inject] public ISystemA SysA {get; private set;}
+	[Inject] public ISystemB SysB {get; private set;}
+	public IWork WorkResult {get; private set;}
+	
+	public override void Execute() {
+		WorkResult = SysA.DoWork();
+		WorkResult = SysB.DoWorkWithResults(WorkResult);
+		// now invoke callbacks who are waiting for the WorkResult
+		base.Execute();
+	}
+}
+```
+ 
