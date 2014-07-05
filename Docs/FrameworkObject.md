@@ -27,7 +27,7 @@ Giving a float as the second parameter will cause that command to be executed in
 
 ## Globals
 
-Framework contains a static accessor for a [SceneObjectsData](SceneObjectsDataObject.md) capable of storing global data.  This data will persist throughout the execution lifetime of your game or until you have cleaned up all references to it and removed it from the Globals manually.  
+Framework contains a static accessor for a [SceneObjectData](SceneObjectDataObject.md) capable of storing global data.  This data will persist throughout the execution lifetime of your game or until you have cleaned up all references to it and removed it from the Globals manually.  
 
 ```csharp
 // access globals via static method like:

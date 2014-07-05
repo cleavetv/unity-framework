@@ -15,6 +15,3 @@ When `SceneView.OnDestroy` is called by the UnityEngine or by your overriden imp
 `SceneView.Initialize()` is an abstract method required by your implementations of each `SceneView`.  It is automatically invoked by the [SceneManager](SceneManagerObject.md) upon receiving the `SceneLoadedCmd` Command Type.  
 
 ###### `SceneLoadedCmd` is the framework event which occurs after UnityEngine is done building the hierarchy for your scene as serialized by the UnityEditor.  
-
-
-
