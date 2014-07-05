@@ -120,27 +120,7 @@ var myCustomData = Framework.Globals.ResolveTransient<CustomDataModel>("myCustom
 ```csharp
 var sceneView = GameObject.Find("SceneView").GetComponent<SceneView>() as SceneView;
 ```
- 
-## Tools:
 
-### CDebug
-
-##### Tell CDebug to log from a type:
-```csharp
-CDebug.LogThis(typeof(MyType));
-```
-##### Tell CDebug to log something:
-```csharp
-CDebug.Log("hello world");
-// or attach a GameObject to the console:
-CDebug.Log("hello world", someGameObject);
-```
-##### Assert a value
-```csharp
-CDebug.Assert(!myName.Equals("CleaveTV")); // throws an exception if (!myName.Equals("CleaveTV"))
-// or add a msg to the assert:
-CDebug.Assert(!myName.Equals("CleaveTV"), "myName != CleaveTV");
-```
 
 ## Dynamic Objects:
 
