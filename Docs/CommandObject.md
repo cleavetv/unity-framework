@@ -14,21 +14,21 @@ When you use the `Framework.Dispatch()` or `Framework.PushCommand()` methods you
 ## Some sample Command implementations:
 ```csharp
 // Here's a Command implementation which takes in two integers and multiplies them together before invoking it's callbacks
-class IntManipulationCmd {
+class IntManipulationCmd : Command {
 	public int ManipulatedInt { get; private set; }
 	public IntManipulationCmd(int lhs, int rhs) {
 		ManipulatedInt = lhs * rhs;
 	}
 }
 // Here's a generic Command that takes a piece of data and stores it
-class DataContainerCmd<T> {
+class DataContainerCmd<T> : Command {
 	public T MyData {get;private set;}
 	public DataContainer<T>(T data) {
 		MyData = data;
 	}
 }
 // Here's a more complicated command that takes two systems, performs some work, and stores the result for the callbacks to use.
-class DoWorkCmd {
+class DoWorkCmd : Command {
 	public ISystemA SysA {get; private set;}
 	public ISystemB SysB {get; private set;}
 	public IWork WorkResult {get; private set;}
@@ -51,7 +51,7 @@ Using [Inject] attributes on Command objects is perfectly valid however there ar
 
 By utilizing Injection you could re-write the `DoWorkCmd` like this:
 ```csharp
-class DoWorkCmd {
+class DoWorkCmd : Command {
 	[Inject] public ISystemA SysA {get; set;}
 	[Inject] public ISystemB SysB {get; set;}
 	public IWork WorkResult {get; private set;}

@@ -5,14 +5,14 @@ CmdBinder is a static object that gives you an interface to bind your Command Ty
 For the purposes of this page lets assume that a few Commands exists defined like so:
 ```csharp
 // this basic cmd takes a value an int holds it
-class BasicCmd {
+class BasicCmd : Command {
 	public int BasicValue { get; private set; }
 	public BasicCmd(int value) {
 		BasicValue = value;
 	}
 }
 // this basic cmd takes an int, multiplies it by 100 and then invokes its callbacks
-class ValueSharedCmd {
+class ValueSharedCmd : Command {
 	public int ModifiedValue { get; private set; }
 	public ValueSharedCmd(int value) {
 		ModifiedValue = value;
@@ -23,7 +23,7 @@ class ValueSharedCmd {
 	}
 }
 // this basic cmd takes an initial value, invokes its callbacks which have the capability of modifying the value, then pushes a new BasicCmd with the resulting value
-class ValueReturnedCmd {
+class ValueReturnedCmd : Command {
 	public int ModifiedValue { get; set; }
 	public ValueReturnedCmd(int value) {
 		ModifiedValue = value;
