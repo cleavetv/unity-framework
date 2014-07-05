@@ -58,6 +58,11 @@ class MainMenuSceneView : SceneView
 		CmdBinder.AddBinding<StartGameCmd>(OnStartGame);
 	}
 	
+	void OnDestroy()
+	{
+		CmdBinder.RemoveBinding<StartGameCmd>(OnStartGame);
+	}
+	
 	void OnStartGame(Command c)
 	{
 		// save our game type constructor in the globals
