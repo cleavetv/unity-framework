@@ -35,34 +35,18 @@ class ValueReturnedCmd {
 }
 ```
 
-## Defining a CommandCallback
+## CommandCallback
 
 `CommandCallback` is defined as:
 ```csharp
 public delegate void CommandCallback(Command cmd);
 ```
 
-An object can then define a callback to a specific Command with the following syntax:
-
-```csharp
-private void OnBasic(Command c) {
-	var cmd = c as BasicCmd;
-	CDebug.Log(cmd.BasicValue.ToString()); // whatever you want to do
-}
-private void OnValueShared(Command c) {
-	var cmd = c as ValueSharedCmd;
-	CDebug.Log(cmd.ModifiedValue.ToString());
-}
-private void OnValueReturned(Command c) {
-	var cmd = c as ValueReturnedCmd;
-	cmd.ModifiedValue *= 100;
-}
-```
-
-## Binding and Unbinding Callbacks to and from types
+## An object that implements listeners:
 
 The main purpose of the CmdBinder is to bind the callbacks to these types, here's how:
 
+```csharp
 class SomeListeningObject : IDestroyable {
 	// add bindings in constructor
 	public SomeListeningObject() {
@@ -77,4 +61,20 @@ class SomeListeningObject : IDestroyable {
 		CmdBinder.RemoveBinding<ValueSharedCmd>(OnValueShared);
 		CmdBinder.RemoveBinding<ValueReturnedCmd>(OnValueReturned);
 	}
-		
+	
+	private void OnBasic(Command c) {
+		var cmd = c as BasicCmd;
+		CDebug.Log(cmd.BasicValue.ToString()); // whatever you want to do
+	}
+	
+	private void OnValueShared(Command c) {
+		var cmd = c as ValueSharedCmd;
+		CDebug.Log(cmd.ModifiedValue.ToString());
+	}
+	
+	private void OnValueReturned(Command c) {
+		var cmd = c as ValueReturnedCmd;
+		cmd.ModifiedValue *= 100;
+	}	
+}	
+```
