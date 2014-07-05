@@ -38,37 +38,12 @@ What the framework is not is perfect.  We need your help and feedback to make th
 ## Documentation
 
 ### [Installation](../master/Docs/Installation.md)
+### [Core Principals](../master/Docs/CorePrincipals.md)
+### [Basic Usage](../master/Docs/BasicUsage.md)
+### [Framework Objects](../master/Docs/FrameworkObjectsTOC.md)
+### [Interfaces](../master/Docs/Interfaces.md)
 
-## Usage:
 
-Clone or pull repository.  Copy Assets/CleaveFramework into the location of your Unity project Assets.  Load Unity.
-
-
-## Basic Implementation:
-
-The Framework executes based around several simple principals:
-
- - A single object in your Unity scenes contains the `Framework` component attached to it.  This object must exist in every scene.
- - A component is implemented with the name `<YourScene>SceneView`.  For example: a `GameSceneView` component is expected when initializing a scene named `Game`.
- - Your SceneView component is derived from the `CleaveFramework.Scene.SceneView` object.
- - Objects are pushed into the framework through the exposed `SceneObjects` property of your SceneView.
-
-## Objects Overview:
-
- - Framework : The Framework object itself
- - Command : abstract object implements basic event listening callbacks
- - EngineOptions : A generic options structure containing settings for things like screen resolution, volumes, and rendering qualities.
- - App : Currently functions a container object for the EngineOptions
- - CommandQueue : Contains and processes Command objects pushed to the Framework
- - View : abstract object derived from MonoBehaviour
- - SceneManager : implements basic scene switching functionality
- - SceneObjectData : implements generic containers for objects which live inside the Unity Scene
- - SceneView : abstract object derived from View which holds SceneObjectData
- - CDebug : basic debugging tool (see tools)
- - Factory : Generic Factory for creating objects and performing post-instantiation construction
- - Binder : Wrapper for a Generic Dictionary
- - BindingLibrary : Generic collection of Binders
- - Injector : Dependency Injector for object creation (relies on Factory) 
  
 ## Interfaces Overview:
 
