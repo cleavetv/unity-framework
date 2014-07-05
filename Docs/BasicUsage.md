@@ -66,7 +66,8 @@ class MainMenuSceneView : SceneView
 	void OnStartGame(Command c)
 	{
 		// save our game type constructor in the globals
-		Framework.Globals.PushSingleton<GameTypeConstructor>(_gameTypeConstructor);
+		StartGameCmd cmd = c as StartGameCmd;
+		Framework.Globals.PushSingleton<GameTypeConstructor>(cmd.GameType);
 		// switch scenes
 		Framework.PushCommand(new ChangeSceneCmd("Game"));
 	}
