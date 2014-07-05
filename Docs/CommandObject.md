@@ -1,6 +1,6 @@
 # Command
 
-In CleaveFramework a Command is an extremely simple but powerful concept.  Command objects work very closely with [CmdBinder](CmdBinderObject) so it is important you understand how they both work to get the big picture on the Command system.
+In CleaveFramework a Command is an extremely simple but powerful concept.  Command objects work very closely with [CmdBinder](CmdBinderObject.md) so it is important you understand how they both work to get the big picture on the Command system.
 
 ## Command Object
 
