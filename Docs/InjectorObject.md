@@ -13,12 +13,14 @@ We can inject into a C# object like:
 // or as a property
 [Inject] public IFooSystem MyFooProperty {get;set;}
 ```
-Note: Injecting into MonoBehaviours is perfectly valid however you must Inject as a Field only.  Attempting to Inject a Property into a MonoBehaviour will compile but throw an assert at runtime.
+Note: Injecting into MonoBehaviours is perfectly valid however you must Inject as a Field only.  Attempting to Inject a Property into a MonoBehaviour will compile but throw an exception at runtime.
 
 ## Injection Types
 Injection of two different variable types is supported:  Singleton and Transient.  
 
-The difference between a singleton and a transient is when you define a singleton you give it an instance of an object but when you define a transient you give it a type of an object.  The injector will then create a brand new instance of that type when it injects.  Transient types can define default constructors through the Factory just like any other object which will be run before injection takes place.
+The difference between a singleton and a transient is when you define a singleton you give it an instance of an object but when you define a transient you give it a type of an object.  The injector will then assign either the instance of the singleton or create a brand new instance of that transient type when it injects, depending on what was requested.  
+
+Transient types can define default constructors through the Factory just like any other object which will be run before injection takes place.
 
 ### Singleton types:
 To use a singleton type you are required to first create an instance of an implementation of your type and then feed it into the Injector.  All objects which hold a reference to this type marked for injection will be mapped to this exact instance of your implementation.
