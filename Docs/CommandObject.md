@@ -52,8 +52,8 @@ Using [Inject] attributes on Command objects is perfectly valid however there ar
 By utilizing Injection you could re-write the `DoWorkCmd` like this:
 ```csharp
 class DoWorkCmd {
-	[Inject] public ISystemA SysA {get; private set;}
-	[Inject] public ISystemB SysB {get; private set;}
+	[Inject] public ISystemA SysA {get; set;}
+	[Inject] public ISystemB SysB {get; set;}
 	public IWork WorkResult {get; private set;}
 	
 	public override void Execute() {
