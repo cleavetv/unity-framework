@@ -64,4 +64,29 @@ class DoWorkCmd {
 	}
 }
 ```
- 
+
+## Giving Commands to the Framework
+
+Framework supports six different methods for activating Commands:
+
+### Injected commands
+Commands that require Injection are activated in the Framework via the following three methods:
+```csharp
+// send a command this frame
+Framework.Dispatch(new DoWorkCmd());
+// send a command in 3 frames
+Framework.Dispatch(new DoWorkCmd(), 3);
+// send a command in 3 seconds
+Framework.Dispatch(new DoWorkCmd(), 3.0f);
+```
+### Normal commands
+Commands that don't require Injection evaluation are activated in the Framework via the following three methods:
+```csharp
+// send a command this frame
+Framework.PushCommand(new DoWorkCmd(SysA, SysB));
+// send a command in 3 frames
+Framework.PushCommand(new DoWorkCmd(SysA, SysB), 3);
+// send a command in 3 seconds
+Framework.PushCommand(new DoWorkCmd(SysA, SysB), 3.0f);
+```
+
