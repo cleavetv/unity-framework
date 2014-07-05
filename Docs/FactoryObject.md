@@ -1,4 +1,4 @@
-# Factory:
+# Factory
 
 Factory is a generic factory object which is optional for you to use if you desire.  It is able to provide the object or MonoBehaviour component with a post-instantiation Construction step via delegate.
 

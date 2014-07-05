@@ -6,16 +6,16 @@ These pages will go in-depth discussing the interactivity between and functional
 
 ## Namespaces
 
-### CleaveFramework.Core
- - [Framework](FrameworkObject.md)
- - [EngineOptions](EngineOptionsObject.md)
- - [App](AppObject.md)
- - [CommandQueue](CommandQueueObject.md)
- - [View](ViewObject.md)
-
 ### CleaveFramework.Commands
  - [CmdBinder](CmdBinderObject.md)
  - [Command](CommandObject.md)
+ 
+### CleaveFramework.Core
+ - [App](AppObject.md)
+ - [CommandQueue](CommandQueueObject.md)
+ - [EngineOptions](EngineOptionsObject.md)
+ - [Framework](FrameworkObject.md)
+ - [View](ViewObject.md)
 
 ### CleaveFramework.Binding
  - [Binder](BinderObject.md)

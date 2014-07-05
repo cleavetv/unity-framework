@@ -1,4 +1,4 @@
-# Dependency Injector:
+# Injector
 
 Dependency Injector is able to automatically provide objects with resolved dependencies before the post-instantiation Constructor is invoked.
 
