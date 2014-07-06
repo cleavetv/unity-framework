@@ -2,7 +2,7 @@
 
 The SceneView is the abstract class of which you will derive your SceneView implementations from.
 
-SceneView contains an accessible instance of [SceneObjectData](SceneObjectDataObject.md) named `SceneObjects` to use for populationg with your Scene space's related objects.  
+SceneView contains an accessible instance of [SceneObjectData](SceneObjectDataObject.md) named `SceneObjects` for populating with your Scene space's related objects.  
 
 SceneView in combination with the [SceneManager](SceneManagerObject.md) takes care of handling the tasks related to implementing the various available [Interfaces](Interfaces.md) in the framework.
 
