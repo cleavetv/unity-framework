@@ -37,9 +37,11 @@ What the framework is not is perfect.  We need your help and feedback to make th
 
 ## Documentation
 
+### [About](../master/Docs/About.md)
 ### [Installation](../master/Docs/Installation.md)
 ### [Core Principals](../master/Docs/CorePrincipals.md)
-### [Basic Usage](../master/Docs/BasicUsage.md)
+### [Basic Example Usage](../master/Docs/BasicUsage.md)
+### [Sample Project](../master/Docs/CleaveFrameworkSampleProject.md)
 ### [Framework Objects](../master/Docs/FrameworkObjectsTOC.md)
 ### [Interfaces](../master/Docs/Interfaces.md)
 ### [Quick Snippets](../master/Docs/QuickSnippets.md)
