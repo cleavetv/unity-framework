@@ -12,7 +12,7 @@ Every piece of software you've even worked with has utilized a framework in one 
 
 ## What CleaveFramework can do for you
 
-If you've ever written code that looks like:
+If you're writing code that looks like:
 
 ```csharp
 TheGlobals.GameManager.Game.WorldManager.World.SpawnPlayer(TheGlobals.GameManager.Game.PlayerManager.MakeNewPlayer());
