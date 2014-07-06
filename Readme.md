@@ -11,8 +11,8 @@ A Unity3D C# application framework.
      * Resolve object instances across your entire application in any scene or class
    - Scene Objects
      * Resolve scene specific object instances in any class
-   - Updateable Objects
-     * Scene Object Manager takes care of updating objects that require it for you.  Stops you from creating general objects specifically to manage other objects.
+   - Automatically Update Objects
+     * Object Manager takes care of updating objects that require it for you.  Stops you from creating general objects specifically to manage other objects.
  * Object Creation Factory supports C# Objects and Unity Component Attachments
    - Attach Constructors to MonoBehaviour Components
  * Automated Dependency Injection Module
