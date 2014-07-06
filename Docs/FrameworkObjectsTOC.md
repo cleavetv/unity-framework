@@ -2,8 +2,6 @@
 
 These pages will go in-depth discussing the interactivity between and functionality and extensibility of these objects.
 
-*Please bear with me as this area is a work-in-progress, information will become fully available in the next day or so*
-
 ## Namespaces
 
 ### CleaveFramework.Commands
