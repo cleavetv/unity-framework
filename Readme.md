@@ -17,7 +17,7 @@ A Unity3D C# application framework.
    - Attach Constructors to MonoBehaviour Components
  * Automated Dependency Injection Module
  * Global Application level Executable Command Queuing System
-   - Reusable Command Framework and Executable Command Queue Object in your own implementations
+   - Reuse the Command Framework and Executable Command Queue Object in your own implementations with minimal code.
  * Private Command Subscription for Multi-Delegate Callbacks
  * Generic Data Binding Libraries
    - Bind and Resolve almost any two types together quickly and easily from one object.
