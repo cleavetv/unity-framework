@@ -45,7 +45,7 @@ namespace CleaveFramework.Core
         void Awake()
         {
             CDebug.DisplayMethod = CDebug.ConsoleLogMethod.Selected;
-            CDebug.LogThis(typeof(Injector));
+            //CDebug.LogThis(typeof(Injector));
 
             if (Instance != this && Instance != null)
             {

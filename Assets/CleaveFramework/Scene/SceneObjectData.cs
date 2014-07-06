@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CleaveFramework.Interfaces;
 using CleaveFramework.Tools;
+using CleaveFramework.Binding;
 
 namespace CleaveFramework.Scene
 {
@@ -13,51 +14,44 @@ namespace CleaveFramework.Scene
         /// <summary>
         /// singleton library
         /// </summary>
-        private Dictionary<Type, object> _singletons;
+        //private Dictionary<Type, object> _singletons;
+        private Binding<Type, object> _singletons = new Binding<Type,object>();
 
         /// <summary>
         /// transient objects library
         /// </summary>
-        private Dictionary<Type, Dictionary<string, object>> _transients;
+        //private Dictionary<Type, Dictionary<string, object>> _transients;
+        private Binding<Type, Binding<string, object>> _transients = new Binding<Type, Binding<string, object>>();
 
         /// <summary>
         /// IUpdateable objects library
         /// </summary>
-        private List<IUpdateable> _updateables;
+        private List<IUpdateable> _updateables = new List<IUpdateable>();
 
         /// <summary>
         /// IInitializeable objects library
         /// </summary>
-        private List<IInitializeable> _initializeables;
+        private List<IInitializeable> _initializeables = new List<IInitializeable>();
 
         /// <summary>
         /// IConfigureable objects library
         /// </summary>
-        private List<IConfigureable> _configureables;
+        private List<IConfigureable> _configureables = new List<IConfigureable>();
 
         /// <summary>
         /// IConfigureable objects library
         /// </summary>
-        private List<IDestroyable> _destroyables;
+        private List<IDestroyable> _destroyables = new List<IDestroyable>();
 
         public bool IsObjectDataInitialized { get; private set; }
 
         public SceneObjectData()
         {
-            _singletons = new Dictionary<Type, object>();
-            _transients = new Dictionary<Type, Dictionary<string, object>>();
-            _updateables = new List<IUpdateable>();
-            _initializeables = new List<IInitializeable>();
-            _configureables = new List<IConfigureable>();
-            _destroyables = new List<IDestroyable>();
             IsObjectDataInitialized = false;
-            //CDebug.LogThis(typeof(SceneObjectData));
         }
 
         public void Destroy()
         {
-            CDebug.Log("SceneObjectData::Destroy()");
-
             foreach (var obj in _destroyables)
             {
                 obj.Destroy();
@@ -145,22 +139,21 @@ namespace CleaveFramework.Scene
         /// </summary>
         /// <typeparam name="T">object type</typeparam>
         /// <param name="obj">object instance</param>
+        public object PushSingleton<T>(T obj)
+        {
+            return PushObjectAsSingleton(obj);
+        }
+
+        /// <summary>
+        /// Injects an object instance into the framework singleton library
+        /// </summary>
+        /// <typeparam name="T">object type</typeparam>
+        /// <param name="obj">object instance</param>
         public object PushObjectAsSingleton<T>(T obj)
         {
             // reflect on the implemented interfaces
             ReflectInterfaces(this, obj);
-
-            if (!_singletons.ContainsKey(typeof(T)))
-            {
-                // insert object into the library
-                _singletons.Add(typeof(T), obj);
-            }
-            else
-            {
-                // overwrite existing object with new instance
-                _singletons[typeof(T)] = obj;
-            }
-
+            _singletons[typeof (T)] = obj;
             return obj;
         }
 
@@ -171,7 +164,18 @@ namespace CleaveFramework.Scene
         /// <returns>object instance if injected, otherwise null</returns>
         public object ResolveSingleton<T>()
         {
-            return _singletons.ContainsKey(typeof(T)) ? _singletons[typeof(T)] : null;
+            return _singletons[typeof (T)];
+        }
+
+        /// <summary>
+        /// Inject an object instance into the framework transients library
+        /// </summary>
+        /// <typeparam name="T">object type</typeparam>
+        /// <param name="name">object instance name, required for lookup and must be unique per type</param>
+        /// <param name="obj">object instance</param>
+        public object PushTransient<T>(string name, T obj)
+        {
+            return PushObjectAsTransient(name, obj);
         }
 
         /// <summary>
@@ -184,20 +188,17 @@ namespace CleaveFramework.Scene
         {
             ReflectInterfaces(this, obj);
 
-            if (!_transients.ContainsKey(typeof (T)))
+            var objType = typeof (T);
+            if (!_transients.IsBound(objType))
             {
-                _transients.Add(typeof(T), new Dictionary<string, object>());
+                _transients.Bind(objType, new Binding<string, object>());
             }
 
-            if (_transients[typeof (T)].ContainsKey(name))
-            {
-                throw new Exception("Object instance type/name combination is not unique: " + typeof(T).ToString() + "/" + name);
-            }
+            CDebug.Assert(_transients[objType].IsBound(name),
+                "Object instance type/name combination is not unique: " + objType + "/" + name);
 
-            _transients[typeof(T)].Add(name, obj);
-
+            _transients[objType][name] = obj;
             return obj;
-
         }
 
         /// <summary>
@@ -208,14 +209,8 @@ namespace CleaveFramework.Scene
         /// <returns>object instance</returns>
         public object ResolveTransient<T>(string name)
         {
-            if (!_transients.ContainsKey(typeof (T)))
-            {
-                return null;
-            }
-            return !_transients[typeof (T)].ContainsKey(name) ? null : _transients[typeof (T)][name];
+            var objType = typeof (T);
+            return !_transients.IsBound(objType) ? null : _transients[objType][name];
         }
-
-
-
     }
 }

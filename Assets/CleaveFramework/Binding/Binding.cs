@@ -103,5 +103,50 @@ namespace CleaveFramework.Binding
             return Bindings.ContainsKey(type);
         }
 
+        /// <summary>
+        /// removes all bindings from the library
+        /// </summary>
+        public void Clear()
+        {
+            Bindings.Clear();
+        }
+
+        /// <summary>
+        /// removes binding of type from the library
+        /// </summary>
+        /// <param name="type"></param>
+        public void Clear(T type)
+        {
+            Bindings.Remove(type);
+        }
+
+        /// <summary>
+        /// return the bindings library as an associative array
+        /// </summary>
+        /// <returns></returns>
+        public KeyValuePair<T, V>[] ToArray()
+        {
+            return Bindings.ToArray();
+        }
+
+        /// <summary>
+        /// return the number of total bindings in the library
+        /// </summary>
+        public int Count
+        {
+            get { return Bindings.Count; }
+        }
+
+        /// <summary>
+        /// [] operator overload
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public V this[T type]
+        {
+            get { return Resolve(type); }
+            set { Bind(type, value);  }
+        }
     }
+
 }

@@ -12,6 +12,8 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using CleaveFramework.Binding;
@@ -55,8 +57,11 @@ namespace CleaveFramework.DependencyInjection
 
         private static Binding<Type, InjectTypes> _injectionTypes = new Binding<Type, InjectTypes>();
         private static Binding<Type, object> _singletons = new Binding<Type, object>();
-
         private static Binding<Type, Type> _transients = new Binding<Type, Type>(); 
+
+        private static Binding<Type, IEnumerable<FieldInfo>>  _fieldsCache = new Binding<Type, IEnumerable<FieldInfo>>();
+        private static Binding<Type, IEnumerable<PropertyInfo>> _propertyCache = new Binding<Type, IEnumerable<PropertyInfo>>();
+        private static Binding<Type, IEnumerable<MemberInfo>> _memberCache = new Binding<Type, IEnumerable<MemberInfo>>();
 
         /// <summary>
         /// Add a Transient type to the Injector and map it to a specific implementation
@@ -117,11 +122,23 @@ namespace CleaveFramework.DependencyInjection
 
         private static void InjectProperties<T>(T obj)
         {
-            var props = typeof(T).GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(Inject)));
+            var injectingType = typeof (T);
+
+            IEnumerable<PropertyInfo> props;
+            if (_propertyCache.IsBound(injectingType))
+            {
+                props = _propertyCache.Resolve(injectingType);
+            }
+            else
+            {
+                props = injectingType.GetProperties().Where(prop => Attribute.IsDefined(prop, typeof(Inject)));
+                _propertyCache.Bind(injectingType, props);
+            }
+            CDebug.Assert(props == null, "Injector.InjectProperties()");
+
             foreach (var cProp in props)
             {
                 if (!cProp.CanWrite) continue;
-
                 CDebug.Log("Injector.InjectProperties<" + cProp.PropertyType + "> on " + obj);
                 var instance = Resolve(cProp.PropertyType);
                 cProp.SetValue(obj, instance, null);
@@ -130,7 +147,21 @@ namespace CleaveFramework.DependencyInjection
 
         private static void InjectFields<T>(T obj)
         {
-            var fields = typeof(T).GetFields().Where(prop => Attribute.IsDefined(prop, typeof(Inject)));
+
+            var injectingType = typeof(T);
+
+            IEnumerable<FieldInfo> fields;
+            if (_fieldsCache.IsBound(injectingType))
+            {
+                fields = _fieldsCache.Resolve(injectingType);
+            }
+            else
+            {
+                fields = injectingType.GetFields().Where(prop => Attribute.IsDefined(prop, typeof(Inject)));
+                _fieldsCache.Bind(injectingType, fields);
+            }
+            CDebug.Assert(fields == null, "Injector.InjectFields()");
+
             foreach (var cField in fields)
             {
                 CDebug.Log("Injector.InjectFields<" + cField.FieldType + "> on " + obj);
@@ -142,12 +173,27 @@ namespace CleaveFramework.DependencyInjection
         private static void InjectMonoBehaviour<T>(T obj)
         {
             var monoObj = obj as MonoBehaviour;
-            var monoFields = monoObj.GetType().GetMembers().Where(prop => Attribute.IsDefined(prop, typeof(Inject)));
-            foreach (FieldInfo monoField in monoFields)
+
+            var injectingType = monoObj.GetType();
+
+            IEnumerable<MemberInfo> members;
+            if (_memberCache.IsBound(injectingType))
             {
-                CDebug.Log("Injector.InjectMonoBehaviour<" + monoField.FieldType + "> on " + obj);
-                var instance = Resolve(monoField.FieldType);
-                monoField.SetValue(monoObj, instance);
+                members = _memberCache.Resolve(injectingType);
+            }
+            else
+            {
+                members = injectingType.GetMembers().Where(prop => Attribute.IsDefined(prop, typeof(Inject)));
+                _memberCache.Bind(injectingType, members);
+            }
+            CDebug.Assert(members == null, "Injector.InjectMonoBehaviour()");
+
+            // for some reason MonoBehaviour members need to be addressed as fields.
+            foreach (FieldInfo cField in members)
+            {
+                CDebug.Log("Injector.InjectMonoBehaviour<" + cField.FieldType + "> on " + obj);
+                var instance = Resolve(cField.FieldType);
+                cField.SetValue(monoObj, instance);
             }
         }
 

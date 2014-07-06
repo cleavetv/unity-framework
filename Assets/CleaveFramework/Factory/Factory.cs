@@ -12,7 +12,7 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 using System;
-using System.Collections.Generic;
+using CleaveFramework.Binding;
 using CleaveFramework.DependencyInjection;
 using CleaveFramework.Scene;
 using CleaveFramework.Tools;
@@ -32,7 +32,7 @@ namespace CleaveFramework.Factory
     /// </summary>
     static class Factory
     {
-        static Dictionary<Type, Constructor> _constructors = new Dictionary<Type, Constructor>();
+        static Binding<Type, Constructor> _constructors = new Binding<Type,Constructor>();
 
         /// <summary>
         /// Sets a post instantiation constructor to an object type
@@ -41,13 +41,7 @@ namespace CleaveFramework.Factory
         /// <param name="constructor">delegate to act as constructor</param>
         static public void SetConstructor<T>(Constructor constructor)
         {
-            // for now we are a single delegate
-            if (_constructors.ContainsKey(typeof (T)))
-            {
-                _constructors[typeof (T)] = constructor;
-                return;
-            }
-            _constructors.Add(typeof(T), constructor);
+            _constructors[typeof (T)] = constructor;
         }
 
         /// <summary>
@@ -473,7 +467,7 @@ namespace CleaveFramework.Factory
         {
             var obj = Activator.CreateInstance(t);
             obj = Injector.PerformInjections(obj);
-            if (_constructors.ContainsKey(t))
+            if (_constructors.IsBound(t))
             {
                 _constructors[t].Invoke(obj);
             }
@@ -581,12 +575,9 @@ namespace CleaveFramework.Factory
 
         static private object InvokeDefaultConstructor<T>(object obj)
         {
-            if (_constructors.ContainsKey(typeof(T)))
-            {
-                if (_constructors[typeof(T)] != null)
-                    obj = (T)_constructors[typeof(T)].Invoke(obj);
-            }
-            return obj;
+            var objType = typeof (T);
+            if (!_constructors.IsBound(objType)) return obj;
+            return (T)_constructors[objType].Invoke(obj);
         }
 
         static private GameObject ResolveGameObject(string goName)
