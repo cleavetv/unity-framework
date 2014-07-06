@@ -70,6 +70,8 @@ namespace CleaveFramework.Scene
             _updateables.Clear();
             _initializeables.Clear();
             _configureables.Clear();
+
+            _wasSceneInitialized = false;
         }
 
         public void Update(float deltaTime)
@@ -88,8 +90,6 @@ namespace CleaveFramework.Scene
         {
             // ensure scene is only able to be initialized once
             if (_wasSceneInitialized) return;
-
-            CDebug.Log("SceneObjectData::InitializeSceneObjects()");
 
             foreach (var obj in _initializeables)
             {

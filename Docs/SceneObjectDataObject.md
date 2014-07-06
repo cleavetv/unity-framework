@@ -1,8 +1,10 @@
 # SceneObjectData
 
-The SceneObjectData is a container for objects created at runtime.  Upon calling the `InitializeSceneObjects()` method it will iterate the objects in its containers reflecting on the [interfaces](Interfaces.md) implemented.
+The SceneObjectData is a container for objects created at runtime.  The container is what provides the invocation of the framework [Interfaces](Interfaces.md) available so any object you want to have the interface methods automatically invoked on needs to be inside of a SceneObjectData container.  
 
-The container functionality is what provides the invocation of the framework [Interfaces](Interfaces.md) available so any object you want to have the interface methods automatically invoked on needs to be inside of a SceneObjectData container.  
+##  `InitializeSceneObjects()`
+
+Upon calling the `InitializeSceneObjects()` method it will iterate the objects in its containers reflecting on the [interfaces](Interfaces.md) implemented.  It will then set its internal state to initialized, further calls to `InitializeSceneObjects()` will be ignored.
 
 ## Adding objects after calling `InitializeSceneObjects()`
 
@@ -14,7 +16,7 @@ Calling `Update(deltaTime)` on the SceneObjectData instance will invoke the `Upd
 
 ## Destroying SceneObjectData
 
-Calling `Destroy()` on the SceneObjectData will invoke the `Destroy()` method on all contained objects implementing the `IDestroyable` interface.
+Calling `Destroy()` on the SceneObjectData will invoke the `Destroy()` method on all contained objects implementing the `IDestroyable` interface.  It will also clear all the containers and reset the initialization state of the object to false allowing you to re-use it with new object data if you want to.
 
 ## SceneDataObject contained object types
 

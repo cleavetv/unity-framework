@@ -57,6 +57,8 @@ namespace CleaveFramework.Core
 
                 // create framework manager objects
                 _frameworkObjects = new SceneObjectData();
+                _frameworkObjects.InitializeSceneObjects();
+
                 _frameworkObjects.PushObjectAsSingleton(new SceneManager());
                 // give App a getter.  Get options via:
                 // Framework.App.Options.<Option> 
@@ -64,6 +66,7 @@ namespace CleaveFramework.Core
                 App = _frameworkObjects.PushObjectAsSingleton(new App()) as App;
 
                 Globals = new SceneObjectData();
+                Globals.InitializeSceneObjects();
 
                 // ProcessCommands() executes all commands in a co-routine
                 StartCoroutine(ProcessCommands());
