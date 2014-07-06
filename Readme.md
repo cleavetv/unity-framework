@@ -2,6 +2,18 @@
 
 A Unity3D C# application framework.
 
+## Documentation
+
+### [About](https://github.com/cleavetv/unity-framework/blob/master/Docs/About.md)
+### [Installation](https://github.com/cleavetv/unity-framework/blob/master/Docs/Installation.md)
+### [Core Principals](https://github.com/cleavetv/unity-framework/blob/master/Docs/CorePrincipals.md)
+### [Basic Example Usage](https://github.com/cleavetv/unity-framework/blob/master/Docs/BasicUsage.md)
+### [Sample Project](https://github.com/cleavetv/unity-framework/blob/master/Docs/CleaveFrameworkSampleProject.md)
+### [Framework Objects](https://github.com/cleavetv/unity-framework/blob/master/Docs/FrameworkObjectsTOC.md)
+### [Interfaces](https://github.com/cleavetv/unity-framework/blob/master/Docs/Interfaces.md)
+### [Quick Snippets](https://github.com/cleavetv/unity-framework/blob/master/Docs/QuickSnippets.md)
+### [Contributions](https://github.com/cleavetv/unity-framework/blob/master/Docs/Contributions.md)
+
 ## Why you use a framework
 
 A good application framework allows it's users to save time by using generic code that allows them to focus on more project-specific areas.  
@@ -34,15 +46,3 @@ The framework was created to assist in creating and maintaining a better structu
 The framework will not constrain you in to working within one particular design paradigm.  Bits and pieces of it's implementation can be constructed together to form a flow that makes the best sense for you and your project.
 
 What the framework is not is perfect.  We need your help and feedback to make this a great usable piece of software that programmers of all skill levels can use, learn from, and make great games with.
-
-## Documentation
-
-### [About](https://github.com/cleavetv/unity-framework/blob/master/Docs/About.md)
-### [Installation](https://github.com/cleavetv/unity-framework/blob/master/Docs/Installation.md)
-### [Core Principals](https://github.com/cleavetv/unity-framework/blob/master/Docs/CorePrincipals.md)
-### [Basic Example Usage](https://github.com/cleavetv/unity-framework/blob/master/Docs/BasicUsage.md)
-### [Sample Project](https://github.com/cleavetv/unity-framework/blob/master/Docs/CleaveFrameworkSampleProject.md)
-### [Framework Objects](https://github.com/cleavetv/unity-framework/blob/master/Docs/FrameworkObjectsTOC.md)
-### [Interfaces](https://github.com/cleavetv/unity-framework/blob/master/Docs/Interfaces.md)
-### [Quick Snippets](https://github.com/cleavetv/unity-framework/blob/master/Docs/QuickSnippets.md)
-### [Contributions](https://github.com/cleavetv/unity-framework/blob/master/Docs/Contributions.md)
