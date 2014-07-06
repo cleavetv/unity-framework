@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using CleaveFramework.Interfaces;
 using CleaveFramework.Tools;
-using UnityEngine;
 
 namespace CleaveFramework.Scene
 {
@@ -39,9 +38,9 @@ namespace CleaveFramework.Scene
         /// <summary>
         /// IConfigureable objects library
         /// </summary>
-        private List<IDestroyable> _destroyables; 
+        private List<IDestroyable> _destroyables;
 
-        private bool _wasSceneInitialized;
+        public bool IsObjectDataInitialized { get; private set; }
 
         public SceneObjectData()
         {
@@ -51,7 +50,7 @@ namespace CleaveFramework.Scene
             _initializeables = new List<IInitializeable>();
             _configureables = new List<IConfigureable>();
             _destroyables = new List<IDestroyable>();
-            _wasSceneInitialized = false;
+            IsObjectDataInitialized = false;
             //CDebug.LogThis(typeof(SceneObjectData));
         }
 
@@ -71,13 +70,13 @@ namespace CleaveFramework.Scene
             _initializeables.Clear();
             _configureables.Clear();
 
-            _wasSceneInitialized = false;
+            IsObjectDataInitialized = false;
         }
 
         public void Update(float deltaTime)
         {
             // ensure IInitializeables before we update
-            if (!_wasSceneInitialized) return;
+            if (!IsObjectDataInitialized) return;
 
             // process IUpdateables
             foreach (var obj in _updateables)
@@ -89,7 +88,7 @@ namespace CleaveFramework.Scene
         public void InitializeSceneObjects()
         {
             // ensure scene is only able to be initialized once
-            if (_wasSceneInitialized) return;
+            if (IsObjectDataInitialized) return;
 
             foreach (var obj in _initializeables)
             {
@@ -102,7 +101,7 @@ namespace CleaveFramework.Scene
                 obj.Configure();
             }
 
-            _wasSceneInitialized = true;
+            IsObjectDataInitialized = true;
         }
 
         /// <summary>
@@ -121,7 +120,7 @@ namespace CleaveFramework.Scene
                 instance._initializeables.Add((IInitializeable)obj);
                 
                 // if the scene was already initialized we need to call initialize on this object which has been added dynamically after construction
-                if (instance._wasSceneInitialized)
+                if (instance.IsObjectDataInitialized)
                 {
                     ((IInitializeable)obj).Initialize();
                 }
@@ -130,7 +129,7 @@ namespace CleaveFramework.Scene
             {
                 instance._configureables.Add((IConfigureable)obj);
 
-                if (instance._wasSceneInitialized)
+                if (instance.IsObjectDataInitialized)
                 {
                     ((IConfigureable)obj).Configure();
                 }

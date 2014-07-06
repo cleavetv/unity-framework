@@ -1,4 +1,5 @@
-﻿using CleaveFramework.Core;
+﻿using System.Collections;
+using CleaveFramework.Core;
 using UnityEngine;
 
 namespace CleaveFramework.Scene
@@ -22,6 +23,15 @@ namespace CleaveFramework.Scene
         {
             if(SceneObjects != null)
                 SceneObjects.Destroy();
+        }
+
+        IEnumerator ValidateSceneObjects()
+        {
+            while (!SceneObjects.IsObjectDataInitialized)
+            {
+                yield return null;
+            }
+            SceneManager.ValidateSceneObjects();
         }
 
     }

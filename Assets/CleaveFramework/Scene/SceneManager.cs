@@ -1,6 +1,7 @@
 ﻿using System;
 using CleaveFramework.Commands;
 using CleaveFramework.Core;
+using CleaveFramework.Tools;
 using UnityEngine;
 
 namespace CleaveFramework.Scene
@@ -14,6 +15,8 @@ namespace CleaveFramework.Scene
         /// attempt to use an unresolved dependency inside of the scene before it's ready.
         /// </summary>
         public static bool IsSceneInitialized { get; private set; }
+
+        private static SceneView _cachedSceneView = null;
 
         public SceneManager()
         {
@@ -43,8 +46,6 @@ namespace CleaveFramework.Scene
 
             GC.Collect();
 
-            IsSceneInitialized = false;
-
             // enter transition scene
             Framework.PushCommand(new LoadNextSceneCmd(cmd.SceneName), 1);
             UnityEngine.Application.LoadLevel(Framework.TransitionScene);
@@ -53,10 +54,9 @@ namespace CleaveFramework.Scene
         static void OnSceneLoaded(Command c)
         {
             var cmd = c as SceneLoadedCmd;
-
+            _cachedSceneView = cmd.View;
+            cmd.View.StartCoroutine("ValidateSceneObjects");
             cmd.View.Initialize();
-            IsSceneInitialized = true;
-
             cmd.View.SceneObjects.InitializeSceneObjects();
         }
 
@@ -68,6 +68,8 @@ namespace CleaveFramework.Scene
         public static void CreateSceneView()
         {
             if (GameObject.Find("SceneView")) return;
+
+            IsSceneInitialized = false;
 
             var viewName = Application.loadedLevelName + "SceneView";
             var sceneViewObject = new GameObject("SceneView");
@@ -82,6 +84,13 @@ namespace CleaveFramework.Scene
             return sceneView;
         }
 
+        public static void ValidateSceneObjects()
+        {
+            CDebug.Assert(_cachedSceneView == null, "SceneManager.ValidateSceneObjects()");
+
+            IsSceneInitialized = true;
+            _cachedSceneView.StopAllCoroutines();
+        }
     }
 
 }

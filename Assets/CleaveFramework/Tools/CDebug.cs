@@ -6,6 +6,7 @@ namespace CleaveFramework.Tools
 {
     static class CDebug
     {
+        public static bool BreakOnAsserts = false;
 
         #region Assert
         [Conditional("UNITY_EDITOR")]
@@ -13,6 +14,7 @@ namespace CleaveFramework.Tools
         {
             if (condition)
             {
+                if(BreakOnAsserts) UnityEngine.Debug.Break();
                 throw new Exception();
             }
         }
@@ -20,7 +22,10 @@ namespace CleaveFramework.Tools
         public static void Assert(bool condition, string msg)
         {
             if (condition)
+            {
+                if (BreakOnAsserts) UnityEngine.Debug.Break();
                 throw new Exception(msg);
+            }
         }
         #endregion
 
