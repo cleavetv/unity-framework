@@ -20,8 +20,6 @@ Calling `Destroy()` on the SceneObjectData will invoke the `Destroy()` method on
 
 ## SceneDataObject contained object types
 
-SceneDataObject provides two different types of object containment, Singleton and Transient, which are described below.
-
 For the following examples assume we have access to a SceneObjectData defined like:
 ```csharp
 public SceneObjectData SceneObjects;
@@ -30,6 +28,8 @@ public SceneObjectData SceneObjects;
 ### Singleton
 
 A SceneObjects Singleton type is a 1-to-1 mapping of a System.Type to an instance of that type.  
+
+##### A singleton object can only ever have one instance of it's type in the library.  Attempting to place a second instance of a singleton into the library will OVERWRITE the previous instance.  This can have extremely undesirable effects or could be exactly what you were looking for, it all depends on your situation.
 
 #### Adding a singleton
 ```csharp
@@ -47,6 +47,8 @@ var myFoo = SceneObjects.ResolveSingleton<Foo>() as Foo;
 ### Transient
 
 A SceneObjects Transient type is a mapping of a System.Type to a Name/Type instance pair.
+
+##### A transient object can have unlimited amounts of instances of it's type in the library.  Transients are differentiated between each other by their "name" property.  Type/Name combinations however must be UNIQUE and the SceneObjects will assert if you attempt to place a second object of the same type and name into it.
 
 #### Adding a transient
 ```csharp

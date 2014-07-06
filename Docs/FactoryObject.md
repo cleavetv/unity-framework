@@ -2,7 +2,7 @@
 
 Factory is a generic factory object which is optional for you to use if you desire.  It is able to provide the object or MonoBehaviour component with a post-instantiation Construction step via delegate.
 
-### Factory Usage:
+## Factory Usage:
 
 ##### Define a constructor for an object type:
 ```csharp
@@ -62,8 +62,17 @@ var newFoo = Factory.Create<Foo>(SceneObjects, "fooName") as Foo;
 var fooComponent = Factory.ConstructMonoBehaviour<Foo>("FoosGameObject", SceneObjects, "fooName") as Foo;
 ```
 
-Note: In the SceneObjects data the difference between a singleton and a transient object is subtle but important:
 
-A singleton object can only ever have one instance of it's type in the library.  Attempting to place a second instance of a singleton into the library will OVERWRITE the previous instance.  This can have extremely undesirable effects or could be exactly what you were looking for, it all depends on your situation.
+## Dynamic Objects:
 
-A transient object can have unlimited amounts of instances of it's type in the library.  Transients are differentiated between each other by their "name" property.  Type/Name combinations however must be UNIQUE and the SceneObjects will assert if you attempt to place a second object of the same type and name into it.
+During gameplay obviously it is highly likely you will need to instantiate new objects, the framework fully supports it.
+
+Here is the order of operations for an object instantiated through Factory at runtime:
+ - Your object's default constructor is executed (ie: var obj = new MyObject();)
+ - Your object is evaluated for [Inject] attributes and existing dependencies are resolved.
+ - Your object's Factory defined default constructor is invoked.
+ - Your object is added to SceneData if it is provided to the Factory's create method.
+  - If your object is added to the Scene Data then: 
+    - Your object's Initialize() method is invoked if you have implemented the interface.
+    - Your object's Configure() method is invoked if you have implemented the interface.
+ - Factory.Create returns your object now.

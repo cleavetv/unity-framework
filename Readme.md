@@ -43,17 +43,3 @@ What the framework is not is perfect.  We need your help and feedback to make th
 ### [Framework Objects](../master/Docs/FrameworkObjectsTOC.md)
 ### [Interfaces](../master/Docs/Interfaces.md)
 ### [Quick Snippets](../master/Docs/QuickSnippets.md)
-
-## Dynamic Objects:
-
-During gameplay obviously it is highly likely you will need to instantiate new objects, the framework fully supports it.
-
-Here is the order of operations for an object instantiated through Factory at runtime:
- - Your object's default constructor is executed (ie: var obj = new MyObject();)
- - Your object is evaluated for [Inject] attributes and existing dependencies are resolved.
- - Your object's Factory defined default constructor is invoked.
- - Your object is added to SceneData if it is provided to the Factory's create method.
-  - If your object is added to the Scene Data then: 
-    - Your object's Initialize() method is invoked if you have implemented the interface.
-    - Your object's Configure() method is invoked if you have implemented the interface.
- - Factory.Create returns your object now.
