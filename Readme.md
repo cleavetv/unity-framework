@@ -2,19 +2,6 @@
 
 A Unity3D C# application framework.
 
-## Documentation
-
-### [About](https://github.com/cleavetv/unity-framework/blob/master/Docs/About.md)
-### [Installation](https://github.com/cleavetv/unity-framework/blob/master/Docs/Installation.md)
-### [Core Principals](https://github.com/cleavetv/unity-framework/blob/master/Docs/CorePrincipals.md)
-### [Basic Example Usage](https://github.com/cleavetv/unity-framework/blob/master/Docs/BasicUsage.md)
-### [Sample Project](https://github.com/cleavetv/unity-framework/blob/master/Docs/CleaveFrameworkSampleProject.md)
-### [Framework Objects](https://github.com/cleavetv/unity-framework/blob/master/Docs/FrameworkObjectsTOC.md)
-### [Interfaces](https://github.com/cleavetv/unity-framework/blob/master/Docs/Interfaces.md)
-### [Quick Snippets](https://github.com/cleavetv/unity-framework/blob/master/Docs/QuickSnippets.md)
-### [Contributions](https://github.com/cleavetv/unity-framework/blob/master/Docs/Contributions.md)
-
-
 ## Quick Feature Overview
 
  * Unity Scene Management
@@ -42,3 +29,17 @@ A good application framework allows it's users to save time by using generic cod
 A great application framework provides it's users with excellent, fast, well tested, and well maintained generic modules capable of providing their application with a structure they can depend on.
 
 Every piece of software you've even worked with has utilized a framework in one way or another.  Whether it was home-rolled or an off the shelf solution the very structure of your code base makes up the framework it executes on.  If you've ever finished, or worse started and not finished, a project using the Unity3D engine you realize the importance of well structuring your code.  If find yourself re-implementing the same functionality from project to project time and time again then you are a great candidate for migrating your work-flow into a framework package.
+
+## Documentation
+
+### [About](https://github.com/cleavetv/unity-framework/blob/master/Docs/About.md)
+### [Installation](https://github.com/cleavetv/unity-framework/blob/master/Docs/Installation.md)
+### [Core Principals](https://github.com/cleavetv/unity-framework/blob/master/Docs/CorePrincipals.md)
+### [Basic Example Usage](https://github.com/cleavetv/unity-framework/blob/master/Docs/BasicUsage.md)
+### [Sample Project](https://github.com/cleavetv/unity-framework/blob/master/Docs/CleaveFrameworkSampleProject.md)
+### [Framework Objects](https://github.com/cleavetv/unity-framework/blob/master/Docs/FrameworkObjectsTOC.md)
+### [Interfaces](https://github.com/cleavetv/unity-framework/blob/master/Docs/Interfaces.md)
+### [Quick Snippets](https://github.com/cleavetv/unity-framework/blob/master/Docs/QuickSnippets.md)
+### [Contributions](https://github.com/cleavetv/unity-framework/blob/master/Docs/Contributions.md)
+
+
