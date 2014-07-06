@@ -20,7 +20,21 @@ namespace CleaveFramework.Scene
             IsSceneInitialized = false;
             CmdBinder.AddBinding<ChangeSceneCmd>(OnChangeScene);
             CmdBinder.AddBinding<SceneLoadedCmd>(OnSceneLoaded);
+            CmdBinder.AddBinding<LoadNextSceneCmd>(OnLoadNextScene);
             Factory.Factory.SetConstructor<SceneView>(ConstructSceneView);
+        }
+
+        static void OnLoadNextScene(Command c)
+        {
+            var cmd = c as LoadNextSceneCmd;
+
+            // load the new scene
+            if (UnityEngine.Application.HasProLicense())
+                UnityEngine.Application.LoadLevelAsync(cmd.SceneName);
+            else
+            {
+                UnityEngine.Application.LoadLevel(cmd.SceneName);
+            }
         }
 
         static void OnChangeScene(Command c)
@@ -32,14 +46,8 @@ namespace CleaveFramework.Scene
             IsSceneInitialized = false;
 
             // enter transition scene
+            Framework.PushCommand(new LoadNextSceneCmd(cmd.SceneName), 1);
             UnityEngine.Application.LoadLevel(Framework.TransitionScene);
-            // load the new scene
-            if(UnityEngine.Application.HasProLicense())
-                UnityEngine.Application.LoadLevelAsync(cmd.SceneName);
-            else
-            {
-                UnityEngine.Application.LoadLevel(cmd.SceneName);
-            }
         }
 
         static void OnSceneLoaded(Command c)
