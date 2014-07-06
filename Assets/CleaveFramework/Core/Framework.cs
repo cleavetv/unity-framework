@@ -21,6 +21,7 @@ namespace CleaveFramework.Core
         public static string TransitionScene
         {
             get { return Instance._transitionScene; }
+            set { Instance._transitionScene = value; }
         }
 
         /// <summary>
