@@ -22,6 +22,17 @@ class ValueSharedCmd : Command {
 		base.Execute();
 	}
 }
+// this basic cmd takes an initial value, invokes its callbacks which have the capability of modifying the value, then pushes a new BasicCmd with the resulting value
+class ValueReturnedCmd : Command {
+	public int ModifiedValue { get; set; }
+	public ValueReturnedCmd(int value) {
+		ModifiedValue = value;
+	}
+	public override void Execute() {
+		base.Execute();
+		Framework.PushCommand(new BasicCmd(ModifiedValue));
+	}
+}
 ```
 
 ## CommandCallback
@@ -41,12 +52,14 @@ class SomeListeningObject : IDestroyable {
 	public SomeListeningObject() {
 		CmdBinder.AddBinding<BasicCmd>(OnBasic);
 		CmdBinder.AddBinding<ValueSharedCmd>(OnValueShared);
+		CmdBinder.AddBinding<ValueReturnedCmd>(OnValueReturned);
 	}
 	
 	// implements IDestroyable
 	public void Destroy() {
 		CmdBinder.RemoveBinding<BasicCmd>(OnBasic);
 		CmdBinder.RemoveBinding<ValueSharedCmd>(OnValueShared);
+		CmdBinder.RemoveBinding<ValueReturnedCmd>(OnValueReturned);
 	}
 	
 	private void OnBasic(Command c) {
@@ -58,5 +71,10 @@ class SomeListeningObject : IDestroyable {
 		var cmd = c as ValueSharedCmd;
 		CDebug.Log(cmd.ModifiedValue.ToString());
 	}
+	
+	private void OnValueReturned(Command c) {
+		var cmd = c as ValueReturnedCmd;
+		cmd.ModifiedValue *= 100;
+	}	
 }	
 ```
