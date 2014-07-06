@@ -51,6 +51,24 @@ namespace CleaveFramework.Factory
         }
 
         /// <summary>
+        /// attach a new component of type T to the GameObject
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="go"></param>
+        /// <returns></returns>
+        static public MonoBehaviour AddComponent<T>(string componentName, GameObject go)
+        {
+            if (go == null)
+            {
+                throw new Exception("AddComponent: GameObject was null");
+            }
+            var component = go.AddComponent(componentName) as MonoBehaviour;
+            component = Injector.PerformInjections(component);
+            component = (MonoBehaviour)InvokeDefaultConstructor<T>(component);
+            return component;
+        }
+
+        /// <summary>
         /// attach a new component of type T to the GameObject of given name
         /// </summary>
         /// <typeparam name="T"></typeparam>

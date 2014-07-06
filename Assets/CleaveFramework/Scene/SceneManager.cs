@@ -17,13 +17,10 @@ namespace CleaveFramework.Scene
 
         public SceneManager()
         {
+            IsSceneInitialized = false;
             CmdBinder.AddBinding<ChangeSceneCmd>(OnChangeScene);
             CmdBinder.AddBinding<SceneLoadedCmd>(OnSceneLoaded);
-        }
-
-        static SceneManager()
-        {
-            IsSceneInitialized = false;
+            Factory.Factory.SetConstructor<SceneView>(ConstructSceneView);
         }
 
         static void OnChangeScene(Command c)
@@ -48,8 +45,10 @@ namespace CleaveFramework.Scene
         static void OnSceneLoaded(Command c)
         {
             var cmd = c as SceneLoadedCmd;
+
             cmd.View.Initialize();
             IsSceneInitialized = true;
+
             cmd.View.SceneObjects.InitializeSceneObjects();
         }
 
@@ -64,9 +63,15 @@ namespace CleaveFramework.Scene
 
             var viewName = Application.loadedLevelName + "SceneView";
             var sceneViewObject = new GameObject("SceneView");
-            var sceneViewComponent = sceneViewObject.AddComponent(viewName) as SceneView;
-
+            var sceneViewComponent = Factory.Factory.AddComponent<SceneView>(viewName, sceneViewObject) as SceneView;
             Framework.PushCommand(new SceneLoadedCmd(sceneViewComponent));
+        }
+
+        private static object ConstructSceneView(object obj)
+        {
+            var sceneView = obj as SceneView;
+            sceneView.SceneObjects = new SceneObjectData();
+            return sceneView;
         }
 
     }

@@ -5,12 +5,7 @@ namespace CleaveFramework.Scene
 {
     abstract public class SceneView : View
     {
-        public SceneObjectData SceneObjects { get; private set; }
-
-        virtual public void Start()
-        {
-            SceneObjects = new SceneObjectData();
-        }
+        public SceneObjectData SceneObjects { get; set; }
 
         /// <summary>
         /// construct your scene here
