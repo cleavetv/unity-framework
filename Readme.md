@@ -42,7 +42,7 @@ What the framework is not is perfect.  We need your help and feedback to make th
 ### [Basic Usage](../master/Docs/BasicUsage.md)
 ### [Framework Objects](../master/Docs/FrameworkObjectsTOC.md)
 ### [Interfaces](../master/Docs/Interfaces.md)
-### [Quick Snippets](..master/Docs/QuickSnippets.md)
+### [Quick Snippets](../master/Docs/QuickSnippets.md)
 
 ## Dynamic Objects:
 
