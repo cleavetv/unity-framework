@@ -62,17 +62,13 @@ var newFoo = Factory.Create<Foo>(SceneObjects, "fooName") as Foo;
 var fooComponent = Factory.ConstructMonoBehaviour<Foo>("FoosGameObject", SceneObjects, "fooName") as Foo;
 ```
 
-
-## Dynamic Objects:
-
-During gameplay obviously it is highly likely you will need to instantiate new objects, the framework fully supports it.
-
-Here is the order of operations for an object instantiated through Factory at runtime:
+## Object creation order of operations
+### A object instantiated through Factory at runtime goes through the following steps in order:
  - Your object's default constructor is executed (ie: var obj = new MyObject();)
  - Your object is evaluated for [Inject] attributes and existing dependencies are resolved.
  - Your object's Factory defined default constructor is invoked.
  - Your object is added to SceneData if it is provided to the Factory's create method.
-  - If your object is added to the Scene Data then: 
+  - If your object is added to the Scene Data and the SceneObjectData has already been initialized then: 
     - Your object's Initialize() method is invoked if you have implemented the interface.
     - Your object's Configure() method is invoked if you have implemented the interface.
  - Factory.Create returns your object now.
