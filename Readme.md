@@ -37,11 +37,11 @@ What the framework is not is perfect.  We need your help and feedback to make th
 
 ## Documentation
 
-### [About](../master/Docs/About.md)
-### [Installation](../master/Docs/Installation.md)
-### [Core Principals](../master/Docs/CorePrincipals.md)
-### [Basic Example Usage](../master/Docs/BasicUsage.md)
-### [Sample Project](../master/Docs/CleaveFrameworkSampleProject.md)
-### [Framework Objects](../master/Docs/FrameworkObjectsTOC.md)
-### [Interfaces](../master/Docs/Interfaces.md)
-### [Quick Snippets](../master/Docs/QuickSnippets.md)
+### [About](https://github.com/cleavetv/unity-framework/blob/master/Docs/About.md)
+### [Installation](https://github.com/cleavetv/unity-framework/blob/master/Docs/Installation.md)
+### [Core Principals](https://github.com/cleavetv/unity-framework/blob/master/Docs/CorePrincipals.md)
+### [Basic Example Usage](https://github.com/cleavetv/unity-framework/blob/master/Docs/BasicUsage.md)
+### [Sample Project](https://github.com/cleavetv/unity-framework/blob/master/Docs/CleaveFrameworkSampleProject.md)
+### [Framework Objects](https://github.com/cleavetv/unity-framework/blob/master/Docs/FrameworkObjectsTOC.md)
+### [Interfaces](https://github.com/cleavetv/unity-framework/blob/master/Docs/Interfaces.md)
+### [Quick Snippets](https://github.com/cleavetv/unity-framework/blob/master/Docs/QuickSnippets.md)
