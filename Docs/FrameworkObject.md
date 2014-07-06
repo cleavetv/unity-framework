@@ -15,7 +15,7 @@ The Framework object holds the static interface for pushing Command Type objects
 
 ### Command method overloads
 
-Each method type also has 2 overloads available to it.  These provide the capability of putting commands in to the queue that will execute with a delay component attached to them.  The delays available are: frame based and time based.
+Each method group also has 2 overloads available to it.  These provide the capability of putting commands in to the queue that will execute with a delay component attached to them.  The delays available are: frame based and time based.
 
 #### Frame based delays:
 

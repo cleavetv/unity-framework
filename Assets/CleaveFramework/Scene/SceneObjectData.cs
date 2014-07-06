@@ -158,7 +158,6 @@ namespace CleaveFramework.Scene
             }
             else
             {
-                // TODO: should we throw exception here?  I'm not sure...
                 // overwrite existing object with new instance
                 _singletons[typeof(T)] = obj;
             }
