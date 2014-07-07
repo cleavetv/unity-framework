@@ -71,6 +71,7 @@ author = "Shel Silverstein";
 Books["The Giving Tree"] = author;
 Books["Where The Sidewalk Ends"] = author;
 IEnumerable<string> booksByAuthor = Books.FindKeyMatches("Dr Suess"); // returns 4 books matching Dr Suess
+```
 
 ## Size of bindings
 
