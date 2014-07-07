@@ -12,7 +12,7 @@ var stringToInt = new Binder<string, int>();
 
 ## Add some bindings:
 
-``csharp
+```csharp
 intToString.Bind(11, "eleven");
 intToString.Bind(31, "thirty-one");
 stringToInt.Bind("eleven", 11);
