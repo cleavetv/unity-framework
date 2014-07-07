@@ -70,7 +70,8 @@ Books["Hop On Pop"] = author;
 author = "Shel Silverstein";
 Books["The Giving Tree"] = author;
 Books["Where The Sidewalk Ends"] = author;
-IEnumerable<string> booksByAuthor = Books.FindKeyMatches("Dr Suess"); // returns 4 books matching Dr Suess
+IEnumerable<string> booksByDrSuess = Books.FindKeyMatches("Dr Suess"); // returns 4 strings matching Dr Suess
+IEnumerable<string> booksByShel = Books.FindKeyMatches("Shel Silverstein"); // returns 2 strings matching Shel Silverstein
 ```
 
 ## Size of bindings
