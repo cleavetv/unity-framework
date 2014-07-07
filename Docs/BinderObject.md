@@ -9,6 +9,7 @@ Binder is a generic binding wrapper for C#'s Dictionary.
 var intToString = new Binder<int, string>();
 // make a binder that binds strings to ints:
 var stringToInt = new Binder<string, int>();
+```
 
 ## Add some bindings:
 
