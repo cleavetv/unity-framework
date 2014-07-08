@@ -36,4 +36,8 @@ Most of these features are optional modules you can use as much or as little of 
 ### [Quick Snippets](https://github.com/cleavetv/unity-framework/blob/master/Docs/QuickSnippets.md)
 ### [Contributions](https://github.com/cleavetv/unity-framework/blob/master/Docs/Contributions.md)
 
+## Community
+
+If you've got questions, want to request a feature, report a bug, or show off a project using the framework come talk about it on [reddit](http://www.reddit.com/r/CleaveFramework/)
+
 
