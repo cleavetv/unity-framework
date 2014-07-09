@@ -40,7 +40,7 @@ namespace CleaveFramework.Binding
     /// </summary>
     /// <typeparam name="T">Key</typeparam>
     /// <typeparam name="V">Value</typeparam>
-    class Binding<T, V>
+    public class Binding<T, V>
     {
         public Dictionary<T, V> Bindings = new Dictionary<T, V>();
 

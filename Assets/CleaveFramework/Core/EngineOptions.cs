@@ -4,12 +4,26 @@ using SimpleJSON;
 
 namespace CleaveFramework.Core
 {
+
+
+
+
     /// <summary>
     /// wrapper for Unity engine configuration options
     /// </summary>
     public class EngineOptions
     {
         private const string ConfigFile = "engine.ini";
+
+        // Rendering options
+        public enum Quality
+        {
+            Ultra,
+            High,
+            Medium,
+            Low,
+            Disabled
+        }
 
         // Window options
         public bool FullScreen { get; set; }
@@ -22,23 +36,24 @@ namespace CleaveFramework.Core
         public bool PlaySfx { get; set; }
         public float SfxVolume { get; set; }
 
-        // Rendering options
-        public enum Quality
-        {
-            Ultra,
-            High,
-            Medium,
-            Low,
-            Disabled
-        }
+
         public Quality Antialias { get; set; }
         public Quality SSAO { get; set; }
         public Quality MotionBlur { get; set; }
         public Quality Shadow { get; set; }
         public Quality Vignette { get; set; }
 
-        public EngineOptions()
+        private bool _useDiskAccess;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="diskAccess">If diskAccess is false EngineOptions will initialize to it's default values
+        /// and never write or read itself from the disk (for web platform)</param>
+        public EngineOptions(bool diskAccess)
         {
+            _useDiskAccess = diskAccess;
+
             // check for configuration file
             if (!LoadFromConfig())
             {
@@ -54,6 +69,8 @@ namespace CleaveFramework.Core
         /// </summary>
         private bool LoadFromConfig()
         {
+            if (!_useDiskAccess) return false;
+
             if (!File.Exists(ConfigFile)) return false;
             var options = JSONNode.LoadFromFile(ConfigFile);
             if (options == null) return false;
@@ -79,6 +96,8 @@ namespace CleaveFramework.Core
 
         private void WriteConfig()
         {
+            if (!_useDiskAccess) return;
+
             var options = Save();
             options.SaveToFile(ConfigFile);
         }

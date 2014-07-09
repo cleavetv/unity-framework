@@ -10,10 +10,15 @@ namespace CleaveFramework.Core
     {
         public EngineOptions Options { get; private set; }
 
-        public App()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="diskAccess">If diskAccess is false EngineOptions will initialize to it's default values
+        /// and never write or read itself from the disk (for web platform)</param>
+        public App(bool diskAccess)
         {
             // initialize UnityEngine from Options
-            Options = new EngineOptions();
+            Options = new EngineOptions(diskAccess);
             CmdBinder.AddBinding<ApplyOptionsCmd>(OnApplyOptions);
         }
 

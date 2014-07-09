@@ -33,6 +33,7 @@ namespace CleaveFramework.Scene
 
             // load the new scene
             if (UnityEngine.Application.HasProLicense())
+                // TODO: AsyncOperation level load handler
                 UnityEngine.Application.LoadLevelAsync(cmd.SceneName);
             else
             {

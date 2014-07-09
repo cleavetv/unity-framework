@@ -25,6 +25,12 @@ namespace CleaveFramework.Core
         }
 
         /// <summary>
+        /// If true -- application will use engine.ini to load and save it's settings configuration
+        /// If false -- application will use default configuration and never save
+        /// </summary>
+        [SerializeField] private bool _readWriteSettingsConfiguration = true;
+
+        /// <summary>
         /// singleton instance
         /// </summary>
         public static Framework Instance { get; private set; }
@@ -64,7 +70,8 @@ namespace CleaveFramework.Core
                 // give App a getter.  Get options via:
                 // Framework.App.Options.<Option> 
                 // Remember to apply options when necessary
-                App = _frameworkObjects.PushObjectAsSingleton(new App()) as App;
+                // true/false parameter tells App if it can use JSON to write and read default configurations from a HD.
+                App = _frameworkObjects.PushObjectAsSingleton(new App(_readWriteSettingsConfiguration)) as App;
 
                 Globals = new SceneObjectData();
                 Globals.InitializeSceneObjects();

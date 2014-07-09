@@ -17,22 +17,24 @@ namespace CleaveFramework.Binding
 {
     /// <summary>
     /// A generic BindingLibrary that can filter bindings into an appropriate library
+    /// Since everything gets stored as an object you need to be sure to cast your expected 
+    /// return value appropriately
     /// 
     /// for ex:
     /// var myLibrary = new BindingLibrary();
     /// myLibrary.Bind(11, "Eleven");
-    /// var value = myLibrary.Resolve(11); // value = "Eleven";
+    /// var value = (string) myLibrary.Resolve(11); // value = "Eleven";
     /// 
     /// myLibrary.Bind("sky", "is up");
-    /// var value = myLibrary.Resolve("sky"); // value = "is up";
+    /// var value = (string) myLibrary.Resolve("sky"); // value = "is up";
     /// 
-    /// myLibrary.Bind(ESomeEnum.EnumEntry, typeof(MyClass));
-    /// var value = myLibrary.Resolve(ESomeEnum.EnumEntry); // value = typeof(MyClass);
+    /// myLibrary.Bind(ESomeEnum.EnumEntry.ToString(), typeof(MyClass));
+    /// var value = (Type) myLibrary.Resolve(ESomeEnum.EnumEntry.ToString()); // value = typeof(MyClass);
     /// 
     /// myLibrary.Bind(typeof(MyClass), new MyClass());
-    /// var value = myLibrary.Resolve(typeof(MyClass)); // value = MyClass instance previously bound
+    /// var value = (MyClass) myLibrary.Resolve(typeof(MyClass)); // value = MyClass instance previously bound
     /// </summary>
-    class BindingLibrary
+    public class BindingLibrary
     {
         private Binding<object, object> _library = new Binding<object, object>();
         private Binding<object, object> _instances = new Binding<object, object>(); 
@@ -46,7 +48,48 @@ namespace CleaveFramework.Binding
         }
 
         /// <summary>
-        /// Throw a binding into the library of LHS = RHS
+        /// Explicitly get the Strings library
+        /// </summary>
+        public Binding<string, object> Strings
+        {
+            get { return (Binding<string, object>)_library[typeof (string)]; }
+        }
+
+        /// <summary>
+        /// Explicitly get the Ints library
+        /// </summary>
+        public Binding<int, object> Ints
+        {
+            get { return (Binding<int, object>)_library[typeof(int)]; }
+        }
+
+        /// <summary>
+        /// Explicitly get the Floats library
+        /// </summary>
+        public Binding<float, object> Floats
+        {
+            get { return (Binding<float, object>)_library[typeof(float)]; }
+        }
+
+        /// <summary>
+        /// Explicitly get the Types library
+        /// </summary>
+        public Binding<Type, object> Types
+        {
+            get { return (Binding<Type, object>)_library[typeof(Type)]; }
+        }
+
+        /// <summary>
+        /// Explicitly get the Objects library
+        /// </summary>
+        public Binding<object, object> Objects
+        {
+            get { return _instances; }
+        }
+
+
+        /// <summary>
+        /// Add a binding implicitly by its type into the appropriately library
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
@@ -65,11 +108,11 @@ namespace CleaveFramework.Binding
         }
 
         /// <summary>
-        /// Resolve a binding from the library of LHS
+        /// Implicitly resolve a binding from the library
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
-        /// <returns></returns>
+        /// <returns>will return null if no key of that type exists</returns>
         public object Resolve<T>(T key)
         {
             var bindings = GetBinder<T>();

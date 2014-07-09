@@ -52,7 +52,6 @@ namespace CleaveFramework.DependencyInjection
         {
             Singleton,
             Transient,
-            MonoBehaviour,
         }
 
         private static Binding<Type, InjectTypes> _injectionTypes = new Binding<Type, InjectTypes>();
