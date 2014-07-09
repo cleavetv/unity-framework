@@ -34,7 +34,7 @@ A SceneObjects Singleton type is a 1-to-1 mapping of a System.Type to an instanc
 #### Adding a singleton
 ```csharp
 // add one specific instance of a Foo
-SceneObjects.PushObjectAsSingleton<Foo>(new Foo());
+SceneObjects.PushSingleton<Foo>(new Foo());
 ```
 
 #### Resolving the singleton
@@ -54,7 +54,7 @@ A SceneObjects Transient type is a mapping of a System.Type to a Name/Type insta
 ```csharp
 // add a few instances of Foo named Foo0 through Foo4
 for(var i = 0; i < 5; i++) {
-	SceneObjects.PushObjectAsTransient<Foo>("foo" + i, new Foo());
+	SceneObjects.PushTransient<Foo>("foo" + i, new Foo());
 }
 ```
 

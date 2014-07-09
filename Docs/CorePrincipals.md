@@ -7,8 +7,7 @@
  - SceneView has an abstract method named `Initialize()` which you must implement in your derived `GameSceneView` object.  It is within this method that you can begin to set up and start your scene.
  - The Framework has two "namespaces" reserved for storing and manipulating objects in memory.
    * Global space 
-     - `Framework` contains a static accessor available at `Framework.Globals` which is the Global space object container.   
+     - `Framework` contains a static accessor available at `Framework.Globals` which is the Global space object container.       - A Global object will remain alive for the entire duration of your applications lifetime from the moment you create it until the moment the game closes. 
    * Scene space.  
      - `SceneView`'s base class contains a property called `SceneObjects` which is the Scene space object container.
- - A Global object will remain alive for the entire duration of your applications lifetime from the moment you create it until the moment the game closes.
- - A Scene object will remain alive only up until the point where you tell the framework to change scenes. 
+     - A Scene object will remain alive only up until the point where you tell the framework to change scenes. 

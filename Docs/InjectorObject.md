@@ -4,6 +4,9 @@ Dependency Injector is able to automatically provide objects with resolved depen
 
 The Injector currently only supports Property and Field injection.
 
+## Caching
+Injector will cache your objects injectable members the first time it is asked to inject into an object of a given type.  Subsequent injections into that type will use the cached values rather then additional reflection which should provide much improved performance.
+
 ## [Inject] Attribute
 [Inject] is a C# attribute which precedes the object you want the Injector to inject for you.
 We can inject into a C# object like:

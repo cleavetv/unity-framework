@@ -9,14 +9,22 @@ Binder is a generic binding wrapper for C#'s Dictionary.
 var intToString = new Binder<int, string>();
 // make a binder that binds strings to ints:
 var stringToInt = new Binder<string, int>();
+```
 
 ## Add some bindings:
 
-``csharp
+```csharp
+// function style
 intToString.Bind(11, "eleven");
 intToString.Bind(31, "thirty-one");
 stringToInt.Bind("eleven", 11);
 stringToInt.Bind("thirty-one", 31);
+
+// or with [] operator
+intToString[11] = "eleven";
+intToString[31] = "thirty-one";
+stringToInt["eleven"] = 11;
+stringToint["thirty-one"] = 31;
 ```
 
 ## Check a binding:
@@ -36,5 +44,39 @@ if(intToString.IsBound(11)) {
 if(stringToInt.IsBound("eleven")) {
 	CDebug.Log(stringToInt.Resolve("eleven"); // this prints 11
 }
+```
+
+## Remove a binding:
+
+```csharp
+intToString.Clear(11);
+```
+
+## Remove all bindings
+
+```csharp
+intToString.Clear();
+```
+
+## Reverse resolve, find a list of keys matching a given value
+
+```csharp
+var Books = new Binding<string, string>();
+var author = "Dr Suess";
+Books["Cat In the Hat"] = author;
+Books["Green Eggs and Ham"] = author;
+Books["The Lorax"] = author;
+Books["Hop On Pop"] = author;
+author = "Shel Silverstein";
+Books["The Giving Tree"] = author;
+Books["Where The Sidewalk Ends"] = author;
+IEnumerable<string> booksByDrSuess = Books.FindKeyMatches("Dr Suess"); // returns 4 strings matching Dr Suess
+IEnumerable<string> booksByShel = Books.FindKeyMatches("Shel Silverstein"); // returns 2 strings matching Shel Silverstein
+```
+
+## Size of bindings
+
+```csharp
+int binds = Books.Count; // 6
 ```
 
