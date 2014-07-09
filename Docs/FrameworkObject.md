@@ -1,6 +1,15 @@
 # Framework Object
 Framework is implemented as a View and attaches to a Unity GameObject when your game starts.  A framework GameObject is expected to be found in every scene, a prefab located in _Prefabs is provided to speed up the process.  It is a very simple object containing just one component.  You are free to use this object as a parent for other objects you wish to stay alive for your games lifetime as children of objects marked for `DontDestroyOnLoad` also stay resident.
 
+## Scriptable Settings
+
+### TransitionScene
+This tells the framework the name of the .unity scene file to use as the next transition stage when a SceneChange event is requested.
+
+### ReadWriteSettingsConfiguration
+This tells the framework if it should use disk access to read and write the EngineOptions configuration during loading and ApplyOptions events.
+
+
 ## Activating Commands to the Framework
 
 The Framework object holds the static interface for pushing Command Type objects into the main application execution queue.  The interface is quite simple, there are two types of methods each in groups of 3 for 6 total methods.
