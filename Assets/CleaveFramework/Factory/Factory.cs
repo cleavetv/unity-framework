@@ -450,7 +450,7 @@ namespace CleaveFramework.Factory
         /// </summary>
         /// <typeparam name="T">Type of object to construct</typeparam>
         /// <returns>constructed object</returns>
-        static public object Create<T>()
+        static public T Create<T>() where T : class
         {
             var obj = Activator.CreateInstance<T>();
             obj = Injector.PerformInjections(obj);
@@ -466,6 +466,9 @@ namespace CleaveFramework.Factory
         static public object Create(Type t)
         {
             var obj = Activator.CreateInstance(t);
+
+            UnityEngine.Debug.Log("Factory.Create(t) = " + obj.GetType());
+
             obj = Injector.PerformInjections(obj);
             if (_constructors.IsBound(t))
             {
@@ -499,6 +502,7 @@ namespace CleaveFramework.Factory
         /// <param name="data">Instance of SceneObjectsData to insert to</param>
         /// <returns>constructed object</returns>
         static public object Create<T>(SceneObjectData data)
+            where T: class
         {
             var obj = Create<T>();
             PushSingleton<T>(data, obj);
@@ -513,6 +517,7 @@ namespace CleaveFramework.Factory
         /// <param name="name">Name of object to use in transients library</param>
         /// <returns>constructed object</returns>
         static public object Create<T>(SceneObjectData data, string name)
+            where T: class
         {
             var obj = Create<T>();
             PushTransient<T>(data, name, obj);

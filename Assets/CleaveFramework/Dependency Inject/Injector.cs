@@ -26,7 +26,9 @@ namespace CleaveFramework.DependencyInjection
     /// <summary>
     /// Injector handles mapping types and interfaces to implementations
     /// 
+    /// 
     /// for ex:
+    /// <code>
     /// // Map IMySystem interface to an implementation of MySystem in the Injector
     /// // Create MySystem using ConstructMySystem as its secondary constructor
     /// Injector.AddSingleton<IMySystem>(Factory.Create<MySystem>(ConstructMySystem));
@@ -45,7 +47,7 @@ namespace CleaveFramework.DependencyInjection
     /// 
     /// </code>
     /// </summary>
-    static class Injector
+    static public class Injector
     {
 
         private enum InjectTypes
@@ -67,7 +69,7 @@ namespace CleaveFramework.DependencyInjection
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="impl"></param>
-        public static void AddTransient<T>(Type impl)
+        public static void BindTransient<T>(Type impl)
         {
             _injectionTypes.Bind(typeof(T), InjectTypes.Transient);
             _transients.Bind(typeof(T), impl);
@@ -78,7 +80,7 @@ namespace CleaveFramework.DependencyInjection
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="I"></typeparam>
-        public static void AddTransient<T, I>()
+        public static void BindTransient<T, I>()
         {
             _injectionTypes.Bind(typeof(T), InjectTypes.Transient);
             _transients.Bind(typeof(T), typeof(I));
@@ -88,7 +90,7 @@ namespace CleaveFramework.DependencyInjection
         /// Add a transient type to the Injector and use itself as the implementation type
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        public static void AddTransient<T>()
+        public static void BindTransient<T>()
         {
             _injectionTypes.Bind(typeof(T), InjectTypes.Transient);
             _transients.Bind(typeof(T), typeof(T));
@@ -99,7 +101,7 @@ namespace CleaveFramework.DependencyInjection
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="instance"></param>
-        public static void AddSingleton<T>(object instance)
+        public static void BindSingleton<T>(object instance)
         {
             _injectionTypes.Bind(typeof(T), InjectTypes.Singleton);
             _singletons.Bind(typeof (T), instance);
@@ -114,7 +116,10 @@ namespace CleaveFramework.DependencyInjection
             if(_injectionTypes.Resolve(t) == InjectTypes.Transient)
             {
                 var impl = _transients.Resolve(t);
-                return Factory.Factory.Create(impl);
+                var instance = Factory.Factory.Create(impl);
+
+                return instance;
+
             }
             return null;
         }
@@ -141,6 +146,9 @@ namespace CleaveFramework.DependencyInjection
                 CDebug.Log("Injector.InjectProperties<" + cProp.PropertyType + "> on " + obj);
                 var instance = Resolve(cProp.PropertyType);
                 cProp.SetValue(obj, instance, null);
+
+                var value = cProp.GetValue(obj, null);
+                PerformInjections(value);
             }
         }
 
@@ -166,6 +174,9 @@ namespace CleaveFramework.DependencyInjection
                 CDebug.Log("Injector.InjectFields<" + cField.FieldType + "> on " + obj);
                 var instance = Resolve(cField.FieldType);
                 cField.SetValue(obj, instance);
+
+                var value = cField.GetValue(obj);
+                PerformInjections(value);
             }
         }
 
@@ -193,18 +204,23 @@ namespace CleaveFramework.DependencyInjection
                 CDebug.Log("Injector.InjectMonoBehaviour<" + cField.FieldType + "> on " + obj);
                 var instance = Resolve(cField.FieldType);
                 cField.SetValue(monoObj, instance);
+
+                var value = cField.GetValue(monoObj);
+                PerformInjections(value);
             }
         }
 
         /// <summary>
         /// Reflect on the Object and inject its fields and properties marked with [Inject] tag
         /// Note: although this is public it should generally only need to be called by Factory
+        /// except in the case of nested transient injections
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <returns></returns>
         public static T PerformInjections<T>(T obj)
         {
+            UnityEngine.Debug.Log("PerformInjections() = " + obj.GetType());
 
             if (typeof (MonoBehaviour).IsAssignableFrom(typeof (T)))
             {

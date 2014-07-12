@@ -24,6 +24,9 @@ A Unity3D C# application framework.
 
 Most of these features are optional modules you can use as much or as little of as your project requires.
 
+## License
+The code is offered under the [Apache 2.0](http://www.apache.org/licenses/LICENSE-2.0) license which essentially gives you complete freedom for use and distribution.  I do humbly request that if you are using and extending the code that you consider also offering those extensions back.
+
 ## Documentation
 
 ### [About](https://github.com/cleavetv/unity-framework/blob/master/Docs/About.md)
@@ -39,5 +42,7 @@ Most of these features are optional modules you can use as much or as little of 
 ## Community
 
 If you've got questions, want to request a feature, report a bug, or show off a project using the framework come talk about it on [reddit](http://www.reddit.com/r/CleaveFramework/)
+
+
 
 
