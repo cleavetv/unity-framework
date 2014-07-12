@@ -42,7 +42,9 @@ namespace CleaveFramework.Example_Projects.Character_Paperdoll.SceneViews
             var playerGameObject = new GameObject("PlayerWorldView_FromCode");
             Factory.Factory.AddComponent<PlayerWorldView>(playerGameObject, SceneObjects);
             // Important note: Since the Player object is a singleton each PlayerWorldView has a reference to the exact same
-            // instance of the PlayerData (you can tell because their stat printouts will all be identical)
+            // instance of the PlayerData.  We've successful encapsulated Player from it's Scene View representation.
+            // We could easily give this exact same Player to another system, like HUD, Combat, or a Web Service via Injection
+            // in the same manner.
 
             // re-bind IPaperdoll interface to MonsterPaperdoll now
             Injector.BindTransient<IPaperdoll, MonsterPaperdoll>();
