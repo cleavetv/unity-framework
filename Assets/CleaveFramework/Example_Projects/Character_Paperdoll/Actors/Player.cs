@@ -34,7 +34,7 @@ namespace CleaveFramework.Example_Projects.Character_Paperdoll.Actors
             if (cmd.Item == item)
             {
                 // request failed, do something to tell the player
-                UnityEngine.Debug.Log("EquipRequest failure");
+                Debug.Log("EquipRequest failure");
             }
             else
             {
