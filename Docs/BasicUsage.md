@@ -2,7 +2,7 @@
 
 ## Your first CleaveFramework Project
 
-Here we will implement some very basic functionality utilizing the framework.  I will not be explaining very much of how or why this works as I will be going into much further depth discussions about the objects in their own individual pages.  This is meant to give you a basic overview of how your code might look using the framework's features.  This is by no means a completely comprehensive view into how you should structure an application, in fact in the interests of brevity I will mix in pseudo-code and take several short-cuts here I don't recommend.  To see an exact practice of implementing the Framework you can take a look [here](https://github.com/cleavetv/Architect).  A more comprehensive sample project is also in the plans.
+Here we will implement some very basic functionality utilizing the framework.  I will not be explaining very much of how or why this works as I will be going into much further depth discussions about the objects in their own individual pages.  This is meant to give you a basic overview of how your code might look using the framework's features.  This is by no means a completely comprehensive view into how you should structure an application, in fact in the interests of brevity I will mix in pseudo-code and take several short-cuts here I don't recommend.  To see a practice of implementing the Framework you can take a look at the Example_Projects folder included in the repository.
 
 ### Set up some types and commands:
 ```csharp
