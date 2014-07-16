@@ -30,7 +30,7 @@ namespace CleaveFramework.Factory
     /// <summary>
     /// generic Factory implementation
     /// </summary>
-    static class Factory
+    public static class Factory
     {
         static Binding<Type, Constructor> _constructors = new Binding<Type,Constructor>();
 
@@ -132,6 +132,7 @@ namespace CleaveFramework.Factory
         /// <param name="data"></param>
         /// <returns></returns>
         static public MonoBehaviour AddComponent<T>(string goName, SceneObjectData data)
+            where T : class
         {
             var go = ResolveGameObject(goName);
             return AddComponent<T>(go, data);
@@ -145,6 +146,7 @@ namespace CleaveFramework.Factory
         /// <param name="data"></param>
         /// <returns></returns>
         static public MonoBehaviour AddComponent<T>(GameObject go, SceneObjectData data)
+            where T: class
         {
             CDebug.Assert(go == null, "AddComponent: GameObject was null.");
 
@@ -164,6 +166,7 @@ namespace CleaveFramework.Factory
         /// <param name="data"></param>
         /// <returns></returns>
         static public MonoBehaviour AddComponent<T>(string goName, Constructor constructor, SceneObjectData data)
+            where T : class
         {
             var go = ResolveGameObject(goName);
             return AddComponent<T>(go, constructor, data);
@@ -178,6 +181,7 @@ namespace CleaveFramework.Factory
         /// <param name="data"></param>
         /// <returns></returns>
         static public MonoBehaviour AddComponent<T>(GameObject go, Constructor constructor, SceneObjectData data)
+            where T : class
         {
             CDebug.Assert(go == null, "AddComponent: GameObject was null.");
 
@@ -198,6 +202,7 @@ namespace CleaveFramework.Factory
         /// <param name="name"></param>
         /// <returns></returns>
         static public MonoBehaviour AddComponent<T>(string goName, Constructor constructor, SceneObjectData data, string name)
+            where T : class
         {
             var go = ResolveGameObject(goName);
             return AddComponent<T>(go, constructor, data, name);
@@ -213,6 +218,7 @@ namespace CleaveFramework.Factory
         /// <param name="name"></param>
         /// <returns></returns>
         static public MonoBehaviour AddComponent<T>(GameObject go, Constructor constructor, SceneObjectData data, string name)
+            where T : class
         {
             CDebug.Assert(go == null, "AddComponent: GameObject was null.");
 
@@ -232,6 +238,7 @@ namespace CleaveFramework.Factory
         /// <param name="name"></param>
         /// <returns></returns>
         static public MonoBehaviour AddComponent<T>(string goName, SceneObjectData data, string name)
+            where T : class
         {
             var go = ResolveGameObject(goName);
             return AddComponent<T>(go, data, name);
@@ -246,6 +253,7 @@ namespace CleaveFramework.Factory
         /// <param name="name"></param>
         /// <returns></returns>
         static public MonoBehaviour AddComponent<T>(GameObject go, SceneObjectData data, string name)
+            where T : class
         {
             CDebug.Assert(go == null, "AddComponent: GameObject was null.");
 
@@ -263,6 +271,7 @@ namespace CleaveFramework.Factory
         /// <param name="goName">Name of GameObject holding the component</param>
         /// <returns></returns>
         static public MonoBehaviour ConstructMonoBehaviour<T>(string goName)
+            where T : class
         {
             var component = ResolveComponent<T>(goName);
             component = Injector.PerformInjections(component);
@@ -277,6 +286,7 @@ namespace CleaveFramework.Factory
         /// <param name="go">GameObject holding the component</param>
         /// <returns></returns>
         static public MonoBehaviour ConstructMonoBehaviour<T>(GameObject go)
+            where T : class
         {
             var component = ResolveComponent<T>(go);
             component = Injector.PerformInjections(component);
@@ -292,6 +302,7 @@ namespace CleaveFramework.Factory
         /// <param name="constructor">constructor to run on the component</param>
         /// <returns>constructed component</returns>
         static public MonoBehaviour ConstructMonoBehaviour<T>(string goName, Constructor constructor)
+            where T : class
         {
             var component = ResolveComponent<T>(goName);
             component = Injector.PerformInjections(component);
@@ -307,6 +318,7 @@ namespace CleaveFramework.Factory
         /// <param name="constructor">constructor to run on the component</param>
         /// <returns>constructed component</returns>
         static public MonoBehaviour ConstructMonoBehaviour<T>(GameObject go, Constructor constructor)
+            where T : class
         {
             var component = ResolveComponent<T>(go);
             component = Injector.PerformInjections(component);
@@ -324,6 +336,7 @@ namespace CleaveFramework.Factory
         /// <param name="data">SceneObjectsData instance to add component to</param>
         /// <returns>constructed component</returns>
         static public MonoBehaviour ConstructMonoBehaviour<T>(string goName, Constructor constructor, SceneObjectData data)
+            where T : class
         {
             var component = ConstructMonoBehaviour<T>(goName, constructor);
             PushSingleton<T>(data, component);
@@ -340,6 +353,7 @@ namespace CleaveFramework.Factory
         /// <param name="data">SceneObjectsData instance to add component to</param>
         /// <returns>constructed component</returns>
         static public MonoBehaviour ConstructMonoBehaviour<T>(GameObject go, Constructor constructor, SceneObjectData data)
+            where T : class
         {
             var component = ConstructMonoBehaviour<T>(go, constructor);
             PushSingleton<T>(data, component);
@@ -356,6 +370,7 @@ namespace CleaveFramework.Factory
         /// <param name="data">SceneObjectsData instance to add component to</param>
         /// <returns>constructed component</returns>
         static public MonoBehaviour ConstructMonoBehaviour<T>(string goName, SceneObjectData data)
+            where T : class
         {
             var component = ConstructMonoBehaviour<T>(goName);
             PushSingleton<T>(data, component);
@@ -372,6 +387,7 @@ namespace CleaveFramework.Factory
         /// <param name="data">SceneObjectsData instance to add component to</param>
         /// <returns>constructed component</returns>
         static public MonoBehaviour ConstructMonoBehaviour<T>(GameObject go, SceneObjectData data)
+            where T : class
         {
             var component = ConstructMonoBehaviour<T>(go);
             PushSingleton<T>(data, component);
@@ -388,6 +404,7 @@ namespace CleaveFramework.Factory
         /// <param name="name">name of the object</param>
         /// <returns>constructed component</returns>
         static public MonoBehaviour ConstructMonoBehaviour<T>(string goName, SceneObjectData data, string name)
+            where T : class
         {
             var component = ConstructMonoBehaviour<T>(goName);
             PushTransient<T>(data, name, component);
@@ -404,6 +421,7 @@ namespace CleaveFramework.Factory
         /// <param name="name">name of the object</param>
         /// <returns>constructed component</returns>
         static public MonoBehaviour ConstructMonoBehaviour<T>(GameObject go, SceneObjectData data, string name)
+            where T : class
         {
             var component = ConstructMonoBehaviour<T>(go);
             PushTransient<T>(data, name, component);
@@ -421,6 +439,7 @@ namespace CleaveFramework.Factory
         /// <param name="name">name of the object</param>
         /// <returns>constructed component</returns>
         static public MonoBehaviour ConstructMonoBehaviour<T>(string goName, Constructor constructor, SceneObjectData data, string name)
+            where T : class
         {
             var component = ConstructMonoBehaviour<T>(goName, constructor);
             PushTransient<T>(data, name, component);
@@ -438,6 +457,7 @@ namespace CleaveFramework.Factory
         /// <param name="name">name of the object</param>
         /// <returns>constructed component</returns>
         static public MonoBehaviour ConstructMonoBehaviour<T>(GameObject go, Constructor constructor, SceneObjectData data, string name)
+            where T : class
         {
             var component = ConstructMonoBehaviour<T>(go, constructor);
             PushTransient<T>(data, name, component);
@@ -530,6 +550,7 @@ namespace CleaveFramework.Factory
         /// <param name="data">Instance of scene data</param>
         /// <returns>constructed object</returns>
         static public object Create<T>(Constructor constructor, SceneObjectData data)
+            where T : class
         {
             var obj = Create<T>(constructor);
             PushSingleton<T>(data, obj);
@@ -545,6 +566,7 @@ namespace CleaveFramework.Factory
         /// <param name="name">Name to use in transients library</param>
         /// <returns>constructed object</returns>
         static public object Create<T>(Constructor constructor, SceneObjectData data, string name)
+            where T : class
         {
             var obj = Create<T>(constructor);
             PushTransient<T>(data, name, obj);
@@ -552,12 +574,14 @@ namespace CleaveFramework.Factory
         }
 
         static private void PushSingleton<T>(SceneObjectData data, object obj)
+            where T: class
         {
             CDebug.Assert(data == null, "SceneObjectsData passed to Create() was null.");
             data.PushObjectAsSingleton((T)obj);
         }
 
         static private void PushTransient<T>(SceneObjectData data, string name, object obj)
+            where T: class
         {
 
             CDebug.Assert(data == null, "SceneObjectsData passed to Create() was null.");
