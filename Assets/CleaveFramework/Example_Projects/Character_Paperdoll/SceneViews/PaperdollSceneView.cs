@@ -89,6 +89,12 @@ namespace CleaveFramework.Example_Projects.Character_Paperdoll.SceneViews
             // equip items with the PlayerEquipItemRequestCmd as an example
             // we could call player.Equip() here and get the same results, however it's important to realize
             // that other systems besides the Player might be listening for this Command and need to act on it as well!
+            // We could also consider moving the PushCommand() in to an overloaded Equip in Player instead.  
+            // These are design decisions you'll have to determine on your own.
+            // Also note that although we are creating new items here we could easily modify the Command
+            // to take an ItemID and resolve that through a data library instead.
+            // We could also be loading those ItemID's from a save file too.  
+            // These are things you'll have to consider when implementing your own game.
             Framework.PushCommand(new PlayerEquipItemRequestCmd<ArmorItem>(PaperdollSlot.Head, new ArmorItem(1, "Tattered Hat")));
             Framework.PushCommand(new PlayerEquipItemRequestCmd<ArmorItem>(PaperdollSlot.Chest,
                 new ArmorItem(1, "Tattered Shirt")));

@@ -8,8 +8,6 @@ namespace CleaveFramework.Example_Projects.Character_Paperdoll.Actors
     {
         [Inject] public IPaperdoll Paperdoll;
 
-
-
         public Actor()
         {
             // We need to ask the injector to PerformInjections() on us because we use
