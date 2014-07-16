@@ -48,8 +48,10 @@ namespace CleaveFramework.Core
         /// </summary>
         public static App App { get; private set; }
 
-        void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             CDebug.DisplayMethod = CDebug.ConsoleLogMethod.Selected;
             //CDebug.LogThis(typeof(Injector));
 

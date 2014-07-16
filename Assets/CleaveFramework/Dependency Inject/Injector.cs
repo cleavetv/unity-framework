@@ -147,8 +147,8 @@ namespace CleaveFramework.DependencyInjection
                 var instance = Resolve(cProp.PropertyType);
                 cProp.SetValue(obj, instance, null);
 
-                var value = cProp.GetValue(obj, null);
-                PerformInjections(value);
+//                 var value = cProp.GetValue(obj, null);
+//                 PerformInjections(value);
             }
         }
 
@@ -175,8 +175,8 @@ namespace CleaveFramework.DependencyInjection
                 var instance = Resolve(cField.FieldType);
                 cField.SetValue(obj, instance);
 
-                var value = cField.GetValue(obj);
-                PerformInjections(value);
+//                 var value = cField.GetValue(obj);
+//                 PerformInjections(value);
             }
         }
 
@@ -205,8 +205,8 @@ namespace CleaveFramework.DependencyInjection
                 var instance = Resolve(cField.FieldType);
                 cField.SetValue(monoObj, instance);
 
-                var value = cField.GetValue(monoObj);
-                PerformInjections(value);
+//                 var value = cField.GetValue(monoObj);
+//                 PerformInjections(value);
             }
         }
 
@@ -220,8 +220,6 @@ namespace CleaveFramework.DependencyInjection
         /// <returns></returns>
         public static T PerformInjections<T>(T obj)
         {
-            UnityEngine.Debug.Log("PerformInjections() = " + obj.GetType());
-
             if (typeof (MonoBehaviour).IsAssignableFrom(typeof (T)))
             {
                 InjectMonoBehaviour(obj);

@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+﻿using FullInspector;
 
 namespace CleaveFramework.Core
 {
-    public abstract class View : MonoBehaviour
+    public abstract class View : BaseBehavior
     {
 
     }

@@ -22,7 +22,7 @@ namespace CleaveFramework.Commands
     /// callback delegate
     /// </summary>
     /// <param name="cmd">the command that was executed</param>
-    public delegate void CommandCallback(Command cmd);
+    public delegate void CommandCallback(Command c);
 
     /// <summary>
     /// CmdBinder handles the binding and unbinding of CommandCallback actions to Command Types.

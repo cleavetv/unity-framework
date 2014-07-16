@@ -467,8 +467,6 @@ namespace CleaveFramework.Factory
         {
             var obj = Activator.CreateInstance(t);
 
-            UnityEngine.Debug.Log("Factory.Create(t) = " + obj.GetType());
-
             obj = Injector.PerformInjections(obj);
             if (_constructors.IsBound(t))
             {

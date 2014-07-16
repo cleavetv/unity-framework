@@ -115,9 +115,11 @@ namespace CleaveFramework.Binding
         /// removes binding of type from the library
         /// </summary>
         /// <param name="type"></param>
-        public void Clear(T type)
+        public V Clear(T type)
         {
+            var obj = Bindings[type];
             Bindings.Remove(type);
+            return obj;
         }
 
         /// <summary>
