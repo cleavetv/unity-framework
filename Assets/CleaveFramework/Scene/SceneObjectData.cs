@@ -139,7 +139,8 @@ namespace CleaveFramework.Scene
         /// </summary>
         /// <typeparam name="T">object type</typeparam>
         /// <param name="obj">object instance</param>
-        public object PushSingleton<T>(T obj)
+        public T PushSingleton<T>(T obj)
+            where T: class
         {
             return PushObjectAsSingleton(obj);
         }
@@ -149,7 +150,8 @@ namespace CleaveFramework.Scene
         /// </summary>
         /// <typeparam name="T">object type</typeparam>
         /// <param name="obj">object instance</param>
-        public object PushObjectAsSingleton<T>(T obj)
+        public T PushObjectAsSingleton<T>(T obj)
+            where T: class
         {
             // reflect on the implemented interfaces
             ReflectInterfaces(this, obj);
@@ -162,9 +164,10 @@ namespace CleaveFramework.Scene
         /// </summary>
         /// <typeparam name="T">object type to retrieve</typeparam>
         /// <returns>object instance if injected, otherwise null</returns>
-        public object ResolveSingleton<T>()
+        public T ResolveSingleton<T>()
+            where T: class
         {
-            return _singletons[typeof (T)];
+            return (T)_singletons[typeof (T)];
         }
 
         /// <summary>
@@ -173,7 +176,8 @@ namespace CleaveFramework.Scene
         /// <typeparam name="T">object type</typeparam>
         /// <param name="name">object instance name, required for lookup and must be unique per type</param>
         /// <param name="obj">object instance</param>
-        public object PushTransient<T>(string name, T obj)
+        public T PushTransient<T>(string name, T obj)
+            where T: class
         {
             return PushObjectAsTransient(name, obj);
         }
@@ -184,7 +188,8 @@ namespace CleaveFramework.Scene
         /// <typeparam name="T">object type</typeparam>
         /// <param name="name">object instance name, required for lookup and must be unique per type</param>
         /// <param name="obj">object instance</param>
-        public object PushObjectAsTransient<T>(string name, T obj)
+        public T PushObjectAsTransient<T>(string name, T obj)
+            where T: class
         {
             ReflectInterfaces(this, obj);
 
@@ -207,10 +212,33 @@ namespace CleaveFramework.Scene
         /// <typeparam name="T">object type</typeparam>
         /// <param name="name">instance name</param>
         /// <returns>object instance</returns>
-        public object ResolveTransient<T>(string name)
+        public T ResolveTransient<T>(string name)
+            where T: class
         {
             var objType = typeof (T);
-            return !_transients.IsBound(objType) ? null : _transients[objType][name];
+            return !_transients.IsBound(objType) ? null : (T)_transients[objType][name];
+        }
+
+        /// <summary>
+        /// Retrieve a KeyValuePair (name, object) tuple of every transient matching that type
+        /// </summary>
+        /// <typeparam name="T">object type</typeparam>
+        /// <returns>KeyValuePair(name, object)</returns>
+        public KeyValuePair<string, object> [] ResolveTransient<T>()
+            where T: class
+        {
+            var objType = typeof (T);
+            KeyValuePair<string, object> [] objList;
+            if (_transients.IsBound(objType))
+            {
+                var objs = _transients[objType];
+                objList = objs.ToArray();
+            }
+            else
+            {
+                objList = new KeyValuePair<string, object>[0];
+            }
+            return objList;
         }
     }
 }
