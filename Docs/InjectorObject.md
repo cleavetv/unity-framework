@@ -33,9 +33,9 @@ To use a singleton type you are required to first create an instance of an imple
 // first create an instance of a FooSystem that implements IFooSystem
 var myFooSystem = Factory.Create<FooSystem>(ConstructFooSystem) as FooSystem;
 // bind an instance of a singleton to an interface:
-Injector.AddSingleton<IFooSystem>(myFooSystem);
+Injector.BindSingleton<IFooSystem>(myFooSystem);
 // or just bind it to a concrete implementation (same thing as above just less extensible and flexible)
-Injector.AddSingleton<FooSystem>(myFooSystem);
+Injector.BindSingleton<FooSystem>(myFooSystem);
 ```
 
 ### Transient types:
@@ -45,10 +45,10 @@ To use a transient type we use the Injector to map a type to an implementation. 
 ```csharp
 // if we don't implement any interface we can just give it the type.
 // Any object looking to inject FooSystem will receive a new FooSystem()
-Injector.AddTransient<FooSystem>();
+Injector.BindTransient<FooSystem>();
 // or we can bind an implementation to an interface:
 // Any object looking to inject an IFooSystem will receive a new FooSystemImpl()
-Injector.AddTransient<IFooSystem, FooSystemImpl>();
+Injector.BindTransient<IFooSystem, FooSystemImpl>();
 ```
 
 ##### Define an object that injects a FooSystem:
