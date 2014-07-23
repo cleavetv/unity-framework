@@ -501,7 +501,7 @@ namespace CleaveFramework.Factory
         /// <typeparam name="T">Type of object to create</typeparam>
         /// <param name="constructor">constructor to run on object</param>
         /// <returns>constructed object</returns>
-        static public object Create<T>(Constructor constructor)
+        static public T Create<T>(Constructor constructor)
         {
             var obj = Activator.CreateInstance<T>();
             obj = Injector.PerformInjections(obj);
@@ -519,7 +519,7 @@ namespace CleaveFramework.Factory
         /// <typeparam name="T">Type of object to create</typeparam>
         /// <param name="data">Instance of SceneObjectsData to insert to</param>
         /// <returns>constructed object</returns>
-        static public object Create<T>(SceneObjectData data)
+        static public T Create<T>(SceneObjectData data)
             where T: class
         {
             var obj = Create<T>();
@@ -534,7 +534,7 @@ namespace CleaveFramework.Factory
         /// <param name="data">Instance of scene data to insert to</param>
         /// <param name="name">Name of object to use in transients library</param>
         /// <returns>constructed object</returns>
-        static public object Create<T>(SceneObjectData data, string name)
+        static public T Create<T>(SceneObjectData data, string name)
             where T: class
         {
             var obj = Create<T>();
@@ -549,7 +549,7 @@ namespace CleaveFramework.Factory
         /// <param name="constructor">custom constructor to use</param>
         /// <param name="data">Instance of scene data</param>
         /// <returns>constructed object</returns>
-        static public object Create<T>(Constructor constructor, SceneObjectData data)
+        static public T Create<T>(Constructor constructor, SceneObjectData data)
             where T : class
         {
             var obj = Create<T>(constructor);
@@ -565,7 +565,7 @@ namespace CleaveFramework.Factory
         /// <param name="data">Instance of scene data</param>
         /// <param name="name">Name to use in transients library</param>
         /// <returns>constructed object</returns>
-        static public object Create<T>(Constructor constructor, SceneObjectData data, string name)
+        static public T Create<T>(Constructor constructor, SceneObjectData data, string name)
             where T : class
         {
             var obj = Create<T>(constructor);
@@ -587,7 +587,7 @@ namespace CleaveFramework.Factory
             CDebug.Assert(data == null, "SceneObjectsData passed to Create() was null.");
             CDebug.Assert(string.IsNullOrEmpty(name), "Name passed to Create() was empty or null");
 
-            data.PushObjectAsTransient(name, (T)obj);
+            data.PushTransient(name, (T)obj);
         }
 
         static private object InvokeConstructor<T>(object obj, Constructor constructor)

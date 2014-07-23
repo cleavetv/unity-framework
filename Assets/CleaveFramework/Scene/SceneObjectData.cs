@@ -96,6 +96,9 @@ namespace CleaveFramework.Scene
             }
 
             IsObjectDataInitialized = true;
+
+            _initializeables.Clear();
+            _configureables.Clear();
         }
 
         /// <summary>
@@ -103,34 +106,39 @@ namespace CleaveFramework.Scene
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
-        private static void ReflectInterfaces<T>(SceneObjectData instance, T obj)
+        private void ReflectInterfaces<T>(T obj)
         {
             if (typeof(IUpdateable).IsAssignableFrom(typeof(T)))
             {
-                instance._updateables.Add((IUpdateable)obj);
+                _updateables.Add((IUpdateable)obj);
             }
             if (typeof(IInitializeable).IsAssignableFrom(typeof(T)))
             {
-                instance._initializeables.Add((IInitializeable)obj);
-                
                 // if the scene was already initialized we need to call initialize on this object which has been added dynamically after construction
-                if (instance.IsObjectDataInitialized)
+                if (IsObjectDataInitialized)
                 {
                     ((IInitializeable)obj).Initialize();
                 }
+                else
+                {
+                    _initializeables.Add((IInitializeable)obj);
+                }
+               
             }
             if (typeof (IConfigureable).IsAssignableFrom(typeof (T)))
             {
-                instance._configureables.Add((IConfigureable)obj);
-
-                if (instance.IsObjectDataInitialized)
+                if (IsObjectDataInitialized)
                 {
                     ((IConfigureable)obj).Configure();
+                }
+                else
+                {
+                    _configureables.Add((IConfigureable)obj);
                 }
             }
             if (typeof (IDestroyable).IsAssignableFrom(typeof (T)))
             {
-                instance._destroyables.Add((IDestroyable)obj);
+                _destroyables.Add((IDestroyable)obj);
             }
         }
 
@@ -154,7 +162,16 @@ namespace CleaveFramework.Scene
             where T: class
         {
             // reflect on the implemented interfaces
-            ReflectInterfaces(this, obj);
+            ReflectInterfaces(obj);
+
+            // destroy the original object if we're overwriting
+            var originalObj = (T) _singletons[typeof (T)];
+            if (originalObj != null)
+            {
+                PopUpdateable(originalObj);
+                PopDestroyable(originalObj);
+            }
+
             _singletons[typeof (T)] = obj;
             return obj;
         }
@@ -188,10 +205,10 @@ namespace CleaveFramework.Scene
         /// <typeparam name="T">object type</typeparam>
         /// <param name="name">object instance name, required for lookup and must be unique per type</param>
         /// <param name="obj">object instance</param>
-        public T PushObjectAsTransient<T>(string name, T obj)
+        private T PushObjectAsTransient<T>(string name, T obj)
             where T: class
         {
-            ReflectInterfaces(this, obj);
+            ReflectInterfaces(obj);
 
             var objType = typeof (T);
             if (!_transients.IsBound(objType))
@@ -204,6 +221,36 @@ namespace CleaveFramework.Scene
 
             _transients[objType][name] = obj;
             return obj;
+        }
+
+        public T PopTransient<T>(string name)
+            where T: class
+        {
+            var objType = typeof (T);
+            CDebug.Assert(!_transients.IsBound(objType));
+
+            var obj = (T) _transients[objType].Clear(name);
+            PopUpdateable(obj);
+            PopDestroyable(obj);
+
+            return obj;
+        }
+
+        private void PopDestroyable<T>(T obj)
+        {
+            if (typeof (IDestroyable).IsAssignableFrom(typeof (T)))
+            {
+                ((IDestroyable)obj).Destroy();
+                _destroyables.Remove((IDestroyable) obj);
+            }
+        }
+
+        private void PopUpdateable<T>(T obj)
+        {
+            if (typeof(IUpdateable).IsAssignableFrom(typeof(T)))
+            {
+                _updateables.Remove((IUpdateable)obj);
+            }
         }
 
         /// <summary>

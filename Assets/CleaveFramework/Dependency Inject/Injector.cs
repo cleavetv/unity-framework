@@ -58,11 +58,28 @@ namespace CleaveFramework.DependencyInjection
 
         private static Binding<Type, InjectTypes> _injectionTypes = new Binding<Type, InjectTypes>();
         private static Binding<Type, object> _singletons = new Binding<Type, object>();
-        private static Binding<Type, Type> _transients = new Binding<Type, Type>(); 
+        private static Binding<Type, Type> _transients = new Binding<Type, Type>();
+        private static Binding<string, object> _templates = new Binding<string, object>(); 
 
         private static Binding<Type, IEnumerable<FieldInfo>>  _fieldsCache = new Binding<Type, IEnumerable<FieldInfo>>();
         private static Binding<Type, IEnumerable<PropertyInfo>> _propertyCache = new Binding<Type, IEnumerable<PropertyInfo>>();
         private static Binding<Type, IEnumerable<MemberInfo>> _memberCache = new Binding<Type, IEnumerable<MemberInfo>>();
+
+        /// <summary>
+        /// Bind a template to an object to be assigned at injection time
+        /// for ex:
+        /// define a template:
+        /// class Foo { ... }
+        /// var foo = new Foo();
+        /// Injector.BindTemplate("fooTemplate", foo);
+        /// [Inject("fooTemplate)] Foo MyFoo; // injector will inject fooTemplate's instance into this object
+        /// </summary>
+        /// <param name="name">name of the template</param>
+        /// <param name="obj">object to inject</param>
+        public static void BindTemplate(string name, object obj)
+        {
+            _templates[name] = obj;
+        }
 
         /// <summary>
         /// Add a Transient type to the Injector and map it to a specific implementation
@@ -143,12 +160,26 @@ namespace CleaveFramework.DependencyInjection
             foreach (var cProp in props)
             {
                 if (!cProp.CanWrite) continue;
-                CDebug.Log("Injector.InjectProperties<" + cProp.PropertyType + "> on " + obj);
-                var instance = Resolve(cProp.PropertyType);
-                cProp.SetValue(obj, instance, null);
 
-//                 var value = cProp.GetValue(obj, null);
-//                 PerformInjections(value);
+                object[] attribs = cProp.GetCustomAttributes(true);
+                foreach (var attrib in attribs)
+                {
+                    var inject = attrib as Inject;
+                    if (inject != null)
+                    {
+                        object instance = null;
+                        if (inject.TemplateName != "")
+                        {
+                            instance = _templates.IsBound(inject.TemplateName) ? _templates[inject.TemplateName] : Resolve(cProp.PropertyType);
+                        }
+                        else
+                        {
+                            instance = Resolve(cProp.PropertyType);
+                        }
+                        CDebug.Log("Injector.InjectProperties<" + cProp.PropertyType + "> on " + obj);
+                        cProp.SetValue(obj, instance, null);
+                    }
+                }
             }
         }
 
@@ -171,12 +202,25 @@ namespace CleaveFramework.DependencyInjection
 
             foreach (var cField in fields)
             {
-                CDebug.Log("Injector.InjectFields<" + cField.FieldType + "> on " + obj);
-                var instance = Resolve(cField.FieldType);
-                cField.SetValue(obj, instance);
-
-//                 var value = cField.GetValue(obj);
-//                 PerformInjections(value);
+                object[] attribs = cField.GetCustomAttributes(true);
+                foreach (var attrib in attribs)
+                {
+                    var inject = attrib as Inject;
+                    if (inject != null)
+                    {
+                        object instance = null;
+                        if (inject.TemplateName != "")
+                        {
+                            instance = _templates.IsBound(inject.TemplateName) ? _templates[inject.TemplateName] : Resolve(cField.FieldType);
+                        }
+                        else
+                        {
+                            instance = Resolve(cField.FieldType);
+                        }
+                        CDebug.Log("Injector.InjectFields<" + cField.FieldType + "> on " + obj);
+                        cField.SetValue(obj, instance);
+                    }
+                }
             }
         }
 
@@ -198,15 +242,27 @@ namespace CleaveFramework.DependencyInjection
             }
             CDebug.Assert(members == null, "Injector.InjectMonoBehaviour()");
 
-            // for some reason MonoBehaviour members need to be addressed as fields.
             foreach (FieldInfo cField in members)
             {
-                CDebug.Log("Injector.InjectMonoBehaviour<" + cField.FieldType + "> on " + obj);
-                var instance = Resolve(cField.FieldType);
-                cField.SetValue(monoObj, instance);
-
-//                 var value = cField.GetValue(monoObj);
-//                 PerformInjections(value);
+                object[] attribs = cField.GetCustomAttributes(true);
+                foreach (var attrib in attribs)
+                {
+                    var inject = attrib as Inject;
+                    if (inject != null)
+                    {
+                        object instance = null;
+                        if (inject.TemplateName != "")
+                        {
+                            instance = _templates.IsBound(inject.TemplateName) ? _templates[inject.TemplateName] : Resolve(cField.FieldType);
+                        }
+                        else
+                        {
+                            instance = Resolve(cField.FieldType);
+                        }
+                        CDebug.Log("Injector.InjectFields<" + cField.FieldType + "> on " + obj);
+                        cField.SetValue(monoObj, instance);
+                    }
+                }
             }
         }
 

@@ -7,6 +7,5 @@ namespace CleaveFramework.SceneViews
         public override void Initialize()
         {
         }
-
     }
 }

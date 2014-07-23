@@ -4,10 +4,6 @@ using SimpleJSON;
 
 namespace CleaveFramework.Core
 {
-
-
-
-
     /// <summary>
     /// wrapper for Unity engine configuration options
     /// </summary>
@@ -27,6 +23,7 @@ namespace CleaveFramework.Core
 
         // Window options
         public bool FullScreen { get; set; }
+        public bool Vsync { get; set; }
         public int Width { get; set; }
         public int Height { get; set; }
 
@@ -35,7 +32,6 @@ namespace CleaveFramework.Core
         public float MusicVolume { get; set; }
         public bool PlaySfx { get; set; }
         public float SfxVolume { get; set; }
-
 
         public Quality Antialias { get; set; }
         public Quality SSAO { get; set; }
@@ -81,6 +77,7 @@ namespace CleaveFramework.Core
         private void CreateDefaultOptions()
         {
             FullScreen = false;
+            Vsync = false;
             Width = 1280;
             Height = 720;
             PlayMusic = true;
@@ -111,6 +108,7 @@ namespace CleaveFramework.Core
         {
             var options = new JSONClass();
             options["FullScreen"].AsBool = FullScreen;
+            options["Vsync"].AsBool = Vsync;
             options["Width"].AsInt = Width;
             options["Height"].AsInt = Height;
             options["PlayMusic"].AsBool = PlayMusic;
@@ -128,6 +126,7 @@ namespace CleaveFramework.Core
         void Load(ref JSONNode node)
         {
             FullScreen = node["FullScreen"].AsBool;
+            Vsync = node["Vsync"].AsBool;
             Width = node["Width"].AsInt;
             Height = node["Height"].AsInt;
             PlayMusic = node["PlayMusic"].AsBool;
