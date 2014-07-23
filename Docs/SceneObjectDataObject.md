@@ -18,14 +18,14 @@ Calling `Update(deltaTime)` on the SceneObjectData instance will invoke the `Upd
 
 Calling `Destroy()` on the SceneObjectData will invoke the `Destroy()` method on all contained objects implementing the `IDestroyable` interface.  It will also clear all the containers and reset the initialization state of the object to false allowing you to re-use it with new object data if you want to.
 
-## SceneDataObject contained object types
+## Example code
 
 For the following examples assume we have access to a SceneObjectData defined like:
 ```csharp
 public SceneObjectData SceneObjects;
 ```
 
-## Removing Objects from the data
+### Removing Objects from the data
 
 Upon removal of the object from the data `Destroy()` will be invoked on the object before it is returned.  
 
