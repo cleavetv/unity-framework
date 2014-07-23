@@ -25,6 +25,32 @@ For the following examples assume we have access to a SceneObjectData defined li
 public SceneObjectData SceneObjects;
 ```
 
+## Removing Objects from the data
+
+Upon removal of the object from the data `Destroy()` will be invoked on the object before it is returned.  
+
+Depending on the type the technique to remove the data varies:
+
+#### Removing Singletons
+
+A singleton can be removed or replaced by simply binding over it with another instance of the same object type or by binding it to `null`.  Obviously no object will be returned here so be sure to cache the reference or destruct it properly before binding over it.  For example:
+
+```csharp
+var oldFoo = SceneObjects.ResolveSingleton<IFooImplType>(); // oldFoo.Destroy() method was invoked now
+FoosFriends.SayGoodbye(oldFoo);
+var newFoo = Factory.Create<DifferentFooImpl>(SceneObjects);
+FoosFriends.SayHello(newFoo);
+```
+
+#### Removing Transients
+
+A transient can be removed by calling `PopTransient<T>(string ...)` on the SceneObjectData.  For example:
+
+```csharp
+// pop an object of type People named "Jeff" out of the data:
+var jeff = SceneObjects.PopTransient<People>("Jeff"); // jeff.Destroy() was invoked now
+```
+
 ### Singleton
 
 A SceneObjects Singleton type is a 1-to-1 mapping of a System.Type to an instance of that type.  
@@ -66,4 +92,6 @@ for(var i = 0; i < 5; i++) {
 	fooList.Add((Foo)SceneObjects.ResolveTransient<Foo>("foo" + i));
 }
 ```
+
+
 
