@@ -18,10 +18,18 @@ We can inject into a C# object like:
 ```
 Note: Injecting into MonoBehaviours is perfectly valid however you must Inject as a Field only.  Attempting to Inject a Property into a MonoBehaviour will compile but throw an exception at runtime.
 
+### Templated Injection
+[Inject] also supports templated values, which is a value or reference type associated to a string instead of a System.Type.  You can define a field or property to be injected with a template like so:
+```csharp
+[Inject("IsFoo")] public bool HasFoo {get; set;}
+```
+
 ## Injection Types
-Injection of two different variable types is supported:  Singleton and Transient.  
+Injection of three different variable types is supported:  Singleton, Transient, and Template.
 
 The difference between a singleton and a transient is when you define a singleton you give it an instance of an object but when you define a transient you give it a type of an object.  The injector will then assign either the instance of the singleton or create a brand new instance of that transient type when it injects, depending on what was requested.  
+
+A Template is an instance of an object bound to a string, not any type, interface, or concrete.  Template injection can be useful if you need to inject default values or objects that may change based on exterior circumstances like a configuration file or application state.
 
 Transient types can define default constructors through the Factory just like any other object which will be run before injection takes place.
 
@@ -41,7 +49,7 @@ Injector.BindSingleton<FooSystem>(myFooSystem);
 ### Transient types:
 To use a transient type we use the Injector to map a type to an implementation.  A type can be a concrete implementation type or an interface.
 
-##### Give the injector a transient type:
+##### Give the Injector a transient type:
 ```csharp
 // if we don't implement any interface we can just give it the type.
 // Any object looking to inject FooSystem will receive a new FooSystem()
@@ -51,14 +59,26 @@ Injector.BindTransient<FooSystem>();
 Injector.BindTransient<IFooSystem, FooSystemImpl>();
 ```
 
+### Template types:
+To use a template type we use the Injector to map a string to an instance or value.  Any value or reference type can be bound to a template.
+
+##### Give the Injector a template:
+```csharp
+Injector.BindTemplate("IsFoo", true);
+```
+
+Note I'm using bool here as a simple example but you can use this to bind any instance.  Attempting to assign into to something that can't be implicitly casted from the target will cause an assertion at runtime.
+
 ##### Define an object that injects a FooSystem:
 ```csharp
 // define our object
 class ObjectA : IInitializable {
     // precede injectable types with the [Inject] attribute
     [Inject] public IFooSystem AFooSystem {get; set;} // Field or Property injection is valid here
+    [Inject("IsFoo")] public bool HasFoo {get; set;}
     void Initialize() {
-        AFooSystem.SomeMethod(); // AFooSystem is resolved here already assuming ObjectA was created by Factory
+        if(HasFoo) // this is true because of templated injection
+            AFooSystem.SomeMethod(); // AFooSystem is resolved here already assuming ObjectA was created by Factory
     }
 }
 ```
@@ -70,7 +90,9 @@ var myA = Factory.Create<ObjectA>(ConstructObjectA);
 object ConstructObjectA(object obj)
 {
     var objA = obj as ObjectA;
-    objA.AFooSystem.SomeMethod(); // AFooSystem is resolved here already and we can use it if we need to
+    if(objA.HasFoo) // This is true because of templated injection
+        objA.AFooSystem.SomeMethod(); // AFooSystem is resolved here already and we can use it if we need to
+        
     return objA;
 }
 ```
