@@ -60,6 +60,8 @@ for(var i = 0; i < 5; i++) {
 ```
 
 #### Resolve a transient
+
+##### By Name:
 ```csharp
 // resolve instances of Foo named Foo0 through Foo4
 List<Foo> fooList = new List<Foo>();
@@ -68,6 +70,11 @@ for(var i = 0; i < 5; i++) {
 }
 ```
 
+##### By Type:
+```csharp
+// return every transient object of type Foo found in the data and map it's name to it's instance
+KeyValuePair<string, object> [] foosArray = SceneObjects.ResolveTransient<Foo>();
+```
 
 ### Removing Objects from the data
 
