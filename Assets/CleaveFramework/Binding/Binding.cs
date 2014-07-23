@@ -118,6 +118,7 @@ namespace CleaveFramework.Binding
         public V Clear(T type)
         {
             var obj = Bindings[type];
+            Bindings[type] = default(V);
             Bindings.Remove(type);
             return obj;
         }

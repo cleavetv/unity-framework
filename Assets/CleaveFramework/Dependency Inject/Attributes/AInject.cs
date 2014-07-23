@@ -20,6 +20,15 @@ namespace CleaveFramework.DependencyInjection
         Inherited = true)]
     class Inject : Attribute
     {
+        public string TemplateName { get; private set; }
 
+        public Inject()
+        {
+            TemplateName = "";
+        }
+        public Inject(string template)
+        {
+            TemplateName = template;
+        }
     }
 }

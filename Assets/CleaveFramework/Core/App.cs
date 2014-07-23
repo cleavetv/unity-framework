@@ -25,6 +25,7 @@ namespace CleaveFramework.Core
         void OnApplyOptions(Command cmd)
         {
             Screen.SetResolution(Options.Width, Options.Height, Options.FullScreen);
+            QualitySettings.vSyncCount = Options.Vsync ? 1 : 0;
             // TODO: apply options as necessary
         }
     }
