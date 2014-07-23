@@ -19,7 +19,7 @@ A Unity3D C# application framework.
  * Automated Dependency Injection Module
    - Supports Field or Property injection into POCOs or MonoBehaviours 
       * Bind interfaces to implementations
-      * Binding of templated value or reference types to parameterized fields
+      * Binding of templated value or reference types to parameterized members
  * Global Application level Executable Command Queuing System
    - Reuse the Command Framework and Executable Command Queue Object in your own implementations with minimal code.
  * Private Command Subscription for Multi-Delegate Callbacks
