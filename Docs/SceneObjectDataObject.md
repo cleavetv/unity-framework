@@ -1,6 +1,6 @@
 # SceneObjectData
 
-The SceneObjectData is a container for objects created at runtime.  The container is what provides the invocation of the framework [Interfaces](Interfaces.md) available so any object you want to have the interface methods automatically invoked on needs to be inside of a SceneObjectData container.  
+The SceneObjectData is a container for objects created at runtime.  The container is what provides the invocation of the framework [Interfaces](Interfaces.md) available so any object you want to have the interface methods automatically invoked on needs to be inside of an initialized, updating, and destroyed SceneObjectData container.  This is done behind the scenes for the `SceneView` instance of SceneObjectData but it's important to note in case you want to reuse this object elsewhere.
 
 ##  `InitializeSceneObjects()`
 
