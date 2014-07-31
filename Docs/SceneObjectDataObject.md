@@ -87,9 +87,9 @@ Depending on the type the technique to remove the data varies:
 A singleton can be removed or replaced by simply binding over it with another instance of the same object type or by binding it to `null`.  Obviously no object will be returned here so be sure to cache the reference or destruct it properly before binding over it.  For example:
 
 ```csharp
-var oldFoo = SceneObjects.ResolveSingleton<IFoo>(); // oldFoo.Destroy() method was invoked now
+var oldFoo = SceneObjects.ResolveSingleton<IFoo>();
 FoosFriends.SayGoodbye(oldFoo);
-var newFoo = SceneObjects.PushSingleton<IFoo>(new DifferentFooImpl());
+var newFoo = SceneObjects.PushSingleton<IFoo>(new DifferentFooImpl()); // oldFoo.Destroy() method was invoked now
 FoosFriends.SayHello(newFoo);
 ```
 
