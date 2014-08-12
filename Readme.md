@@ -1,4 +1,4 @@
-﻿# CleaveFramework v0.2.4
+﻿# CleaveFramework v0.2.5
 
 A Unity3D C# application framework.
 
@@ -6,6 +6,8 @@ A Unity3D C# application framework.
 
  * Unity Scene Management
    - Transitional Loading Scenes
+   - Can automatically create SceneView context object at runtime through common naming convention.
+   - Supports pre-created SceneView context object placed in Scene Hierarchy via UnityEditor
  * POCO Object Management with modular Interface support
    - Global Objects
      * Resolve object instances across your entire application in any scene or class
