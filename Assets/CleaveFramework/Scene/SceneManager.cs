@@ -16,6 +16,8 @@ namespace CleaveFramework.Scene
         /// </summary>
         public static bool IsSceneInitialized { get; private set; }
 
+        private const string SceneViewName = "SceneView";
+
         private static SceneView _cachedSceneView = null;
 
         public SceneManager()
@@ -32,12 +34,11 @@ namespace CleaveFramework.Scene
             var cmd = c as LoadNextSceneCmd;
 
             // load the new scene
-            if (UnityEngine.Application.HasProLicense())
-                // TODO: AsyncOperation level load handler
-                UnityEngine.Application.LoadLevelAsync(cmd.SceneName);
+            if (Application.HasProLicense())
+                Application.LoadLevelAsync(cmd.SceneName);
             else
             {
-                UnityEngine.Application.LoadLevel(cmd.SceneName);
+                Application.LoadLevel(cmd.SceneName);
             }
         }
 
@@ -49,7 +50,7 @@ namespace CleaveFramework.Scene
 
             // enter transition scene
             Framework.PushCommand(new LoadNextSceneCmd(cmd.SceneName), 1);
-            UnityEngine.Application.LoadLevel(Framework.TransitionScene);
+            Application.LoadLevel(Framework.TransitionScene);
         }
 
         static void OnSceneLoaded(Command c)
@@ -68,13 +69,22 @@ namespace CleaveFramework.Scene
         /// </summary>
         public static void CreateSceneView()
         {
-            if (GameObject.Find("SceneView")) return;
+            // we can support a pre-existing sceneview or creating one at runtime if none found
+
+            var viewName = Application.loadedLevelName + SceneViewName;
+            var sceneViewObject = GameObject.Find(SceneViewName);
+            SceneView sceneViewComponent = null;
+            if (sceneViewObject != null)
+            {
+                sceneViewComponent = Factory.Factory.ConstructMonoBehaviour<SceneView>(sceneViewObject) as SceneView;
+            }
+            else
+            {
+                sceneViewObject = new GameObject("SceneView");
+                sceneViewComponent = Factory.Factory.AddComponent<SceneView>(viewName, sceneViewObject) as SceneView;
+            }
 
             IsSceneInitialized = false;
-
-            var viewName = Application.loadedLevelName + "SceneView";
-            var sceneViewObject = new GameObject("SceneView");
-            var sceneViewComponent = Factory.Factory.AddComponent<SceneView>(viewName, sceneViewObject) as SceneView;
             Framework.PushCommand(new SceneLoadedCmd(sceneViewComponent));
         }
 

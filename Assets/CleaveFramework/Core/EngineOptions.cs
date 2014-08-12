@@ -1,5 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using CleaveFramework.Commands;
+using CleaveFramework.DependencyInjection;
+using CleaveFramework.Interfaces;
 using SimpleJSON;
 
 namespace CleaveFramework.Core
@@ -7,7 +10,8 @@ namespace CleaveFramework.Core
     /// <summary>
     /// wrapper for Unity engine configuration options
     /// </summary>
-    public class EngineOptions
+    [Serializable]
+    public class EngineOptions : IInitializeable
     {
         private const string ConfigFile = "engine.ini";
 
@@ -22,34 +26,53 @@ namespace CleaveFramework.Core
         }
 
         // Window options
-        public bool FullScreen { get; set; }
-        public bool Vsync { get; set; }
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public bool FullScreen;
+        public bool Vsync;
+        public int Width;
+        public int Height;
 
         // Audio options
-        public bool PlayMusic { get; set; }
-        public float MusicVolume { get; set; }
-        public bool PlaySfx { get; set; }
-        public float SfxVolume { get; set; }
+        public bool PlayMusic;
+        public float MusicVolume;
+        public bool PlaySfx;
+        public float SfxVolume;
 
-        public Quality Antialias { get; set; }
-        public Quality SSAO { get; set; }
-        public Quality MotionBlur { get; set; }
-        public Quality Shadow { get; set; }
-        public Quality Vignette { get; set; }
+        public Quality Antialias;
+        public Quality SSAO;
+        public Quality MotionBlur;
+        public Quality Shadow;
+        public Quality Vignette;
 
-        private bool _useDiskAccess;
+        [Inject("Framework_UseDiskAccess")] public bool UseDiskAccess;
+
+        public EngineOptions()
+        {
+            
+        }
 
         /// <summary>
-        /// 
+        /// Copy constructor
         /// </summary>
-        /// <param name="diskAccess">If diskAccess is false EngineOptions will initialize to it's default values
-        /// and never write or read itself from the disk (for web platform)</param>
-        public EngineOptions(bool diskAccess)
+        /// <param name="copy"></param>
+        public EngineOptions(EngineOptions copy)
         {
-            _useDiskAccess = diskAccess;
+            this.FullScreen = copy.FullScreen;
+            this.Vsync = copy.Vsync;
+            this.Width = copy.Width;
+            this.Height = copy.Height;
+            this.PlayMusic = copy.PlayMusic;
+            this.MusicVolume = copy.MusicVolume;
+            this.PlaySfx = copy.PlaySfx;
+            this.Antialias = copy.Antialias;
+            this.SSAO = copy.SSAO;
+            this.MotionBlur = copy.MotionBlur;
+            this.Shadow = copy.Shadow;
+            this.Vignette = copy.Vignette;
+            this.UseDiskAccess = copy.UseDiskAccess;
+        }
 
+        public void Initialize()
+        {
             // check for configuration file
             if (!LoadFromConfig())
             {
@@ -65,7 +88,7 @@ namespace CleaveFramework.Core
         /// </summary>
         private bool LoadFromConfig()
         {
-            if (!_useDiskAccess) return false;
+            if (!UseDiskAccess) return false;
 
             if (!File.Exists(ConfigFile)) return false;
             var options = JSONNode.LoadFromFile(ConfigFile);
@@ -93,7 +116,7 @@ namespace CleaveFramework.Core
 
         private void WriteConfig()
         {
-            if (!_useDiskAccess) return;
+            if (!UseDiskAccess) return;
 
             var options = Save();
             options.SaveToFile(ConfigFile);

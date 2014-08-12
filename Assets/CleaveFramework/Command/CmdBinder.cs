@@ -95,7 +95,6 @@ namespace CleaveFramework.Commands
             if (callback == null) return;
             callback.Invoke(cmd);
         }
-
     }
 
 }

@@ -1,4 +1,5 @@
 ﻿using CleaveFramework.Commands;
+using CleaveFramework.DependencyInjection;
 using UnityEngine;
 
 namespace CleaveFramework.Core
@@ -8,17 +9,17 @@ namespace CleaveFramework.Core
     /// </summary>
     public sealed class App
     {
-        public EngineOptions Options { get; private set; }
+        //public EngineOptions Options { get; private set; }
+
+        [Inject] public EngineOptions Options;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="diskAccess">If diskAccess is false EngineOptions will initialize to it's default values
         /// and never write or read itself from the disk (for web platform)</param>
-        public App(bool diskAccess)
+        public App()
         {
-            // initialize UnityEngine from Options
-            Options = new EngineOptions(diskAccess);
             CmdBinder.AddBinding<ApplyOptionsCmd>(OnApplyOptions);
         }
 

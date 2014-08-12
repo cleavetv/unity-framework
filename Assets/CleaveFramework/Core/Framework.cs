@@ -65,14 +65,18 @@ namespace CleaveFramework.Core
 
                 // create framework manager objects
                 _frameworkObjects = new SceneObjectData();
-                _frameworkObjects.InitializeSceneObjects();
-
                 _frameworkObjects.PushObjectAsSingleton(new SceneManager());
+
+                Injector.BindTemplate("Framework_UseDiskAccess", _readWriteSettingsConfiguration);
+                Injector.BindSingleton<EngineOptions>(Factory.Factory.Create<EngineOptions>(_frameworkObjects));
+
                 // give App a getter.  Get options via:
                 // Framework.App.Options.<Option> 
                 // Remember to apply options when necessary
                 // true/false parameter tells App if it can use JSON to write and read default configurations from a HD.
-                App = _frameworkObjects.PushObjectAsSingleton(new App(_readWriteSettingsConfiguration)) as App;
+                App = _frameworkObjects.PushObjectAsSingleton(Factory.Factory.Create<App>());
+
+                _frameworkObjects.InitializeSceneObjects();
 
                 Globals = new SceneObjectData();
                 Globals.InitializeSceneObjects();
