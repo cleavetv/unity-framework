@@ -1,4 +1,4 @@
-﻿# CleaveFramework v0.2.2
+﻿# CleaveFramework v0.2.4
 
 A Unity3D C# application framework.
 
@@ -6,16 +6,20 @@ A Unity3D C# application framework.
 
  * Unity Scene Management
    - Transitional Loading Scenes
- * C# Object Management with modular Interface support
+ * POCO Object Management with modular Interface support
    - Global Objects
      * Resolve object instances across your entire application in any scene or class
    - Scene Objects
      * Resolve scene specific object instances in any class
-   - Automatically Update Objects
-     * Object Manager takes care of updating objects that require it for you.  Stops you from creating general objects specifically to manage other objects.
+   - Reusable object container
+     * Add, remove, or resolve objects of any type at any time.
+     * Automatically initialize, update, and destroy objects.
  * Object Creation Factory supports C# Objects and Unity Component Attachments
    - Attach Constructors to MonoBehaviour Components
  * Automated Dependency Injection Module
+   - Supports Field or Property injection into POCOs or MonoBehaviours 
+      * Bind interfaces to implementations
+      * Binding of templated value or reference types to parameterized members
  * Global Application level Executable Command Queuing System
    - Reuse the Command Framework and Executable Command Queue Object in your own implementations with minimal code.
  * Private Command Subscription for Multi-Delegate Callbacks

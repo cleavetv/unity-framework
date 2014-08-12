@@ -1,6 +1,6 @@
 # SceneObjectData
 
-The SceneObjectData is a container for objects created at runtime.  The container is what provides the invocation of the framework [Interfaces](Interfaces.md) available so any object you want to have the interface methods automatically invoked on needs to be inside of a SceneObjectData container.  
+The SceneObjectData is a container for objects created at runtime.  The container is what provides the invocation of the framework [Interfaces](Interfaces.md) available so any object you want to have the interface methods automatically invoked on needs to be inside of an initialized, updating, and destroyed SceneObjectData container.  This is done behind the scenes for the `SceneView` instance of SceneObjectData but it's important to note in case you want to reuse this object elsewhere.
 
 ##  `InitializeSceneObjects()`
 
@@ -18,12 +18,13 @@ Calling `Update(deltaTime)` on the SceneObjectData instance will invoke the `Upd
 
 Calling `Destroy()` on the SceneObjectData will invoke the `Destroy()` method on all contained objects implementing the `IDestroyable` interface.  It will also clear all the containers and reset the initialization state of the object to false allowing you to re-use it with new object data if you want to.
 
-## SceneDataObject contained object types
+## Example code
 
 For the following examples assume we have access to a SceneObjectData defined like:
 ```csharp
 public SceneObjectData SceneObjects;
 ```
+
 
 ### Singleton
 
@@ -59,6 +60,8 @@ for(var i = 0; i < 5; i++) {
 ```
 
 #### Resolve a transient
+
+##### By Name:
 ```csharp
 // resolve instances of Foo named Foo0 through Foo4
 List<Foo> fooList = new List<Foo>();
@@ -66,4 +69,37 @@ for(var i = 0; i < 5; i++) {
 	fooList.Add((Foo)SceneObjects.ResolveTransient<Foo>("foo" + i));
 }
 ```
+
+##### By Type:
+```csharp
+// return every transient object of type Foo found in the data and map it's name to it's instance
+KeyValuePair<string, object> [] foosArray = SceneObjects.ResolveTransient<Foo>();
+```
+
+### Removing Objects from the data
+
+Upon removal of the object from the data `Destroy()` will be invoked on the object before it is returned.  
+
+Depending on the type the technique to remove the data varies:
+
+#### Removing Singletons
+
+A singleton can be removed or replaced by simply binding over it with another instance of the same object type or by binding it to `null`.  Obviously no object will be returned here so be sure to cache the reference or destruct it properly before binding over it.  For example:
+
+```csharp
+var oldFoo = SceneObjects.ResolveSingleton<IFoo>();
+FoosFriends.SayGoodbye(oldFoo);
+var newFoo = SceneObjects.PushSingleton<IFoo>(new DifferentFooImpl()); // oldFoo.Destroy() method was invoked now
+FoosFriends.SayHello(newFoo);
+```
+
+#### Removing Transients
+
+A transient can be removed by calling `PopTransient<T>(string ...)` on the SceneObjectData.  For example:
+
+```csharp
+// pop an object of type People named "Jeff" out of the data:
+var jeff = SceneObjects.PopTransient<People>("Jeff"); // jeff.Destroy() was invoked now
+```
+
 
